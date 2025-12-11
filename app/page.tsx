@@ -326,24 +326,24 @@ export default function Home() {
       </section>
 
       {/* CTA Section - Bold & Modern */}
-      <section className="py-32 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white relative overflow-hidden">
+      <section className="py-16 px-4 sm:px-6 lg:px-8 bg-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-900/20 to-blue-900/20"></div>
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0di00aC0ydjRoLTR2Mmg0djRoMnYtNGg0di0yaC00em0wLTMwVjBoLTJ2NGgtNHYyaDR2NGgyVjZoNFY0aC00ek02IDM0di00SDR2NEgwdjJoNHY0aDJ2LTRoNHYtMkg2ek02IDRWMEG0djRIMHYyaDR2NGgyVjZoNFY0SDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <h2 className="text-5xl md:text-7xl font-black mb-6">
+          <h2 className="text-3xl md:text-5xl font-black mb-4">
             Ready to dive in?
           </h2>
-          <p className="text-2xl text-slate-300 mb-12">
-            Welcome to our engineering team—together, we’re shaping the future of digital experiences.
+          <p className="text-lg text-slate-300 mb-8">
+            Welcome to our engineering team—together, we're shaping the future of digital experiences.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <a
               href="https://www.contentstack.com/docs"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-10 py-5 bg-white text-slate-900 rounded-2xl font-bold text-lg hover:scale-105 transition-all hover:shadow-2xl"
+              className="px-6 py-3 bg-white text-slate-900 rounded-2xl font-bold text-base hover:scale-105 transition-all hover:shadow-2xl"
             >
               Get Started
             </a>
@@ -351,7 +351,7 @@ export default function Home() {
               href="https://www.contentstack.com/contact-us"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-10 py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold text-lg hover:bg-white/20 transition-all"
+              className="px-6 py-3 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold text-base hover:bg-white/20 transition-all"
             >
               Contact Us
             </a>

@@ -33,7 +33,7 @@ export const products: Product[] = [
         technologies: ["Node.js", "TypeScript", "Express", "MongoDB", "Redis"]
       },
       {
-        category: "Infrastructure",
+        category: "Launch",
         technologies: ["AWS", "Kubernetes", "Docker", "CloudFront"]
       },
       {
@@ -1136,7 +1136,7 @@ export const products: Product[] = [
     slug: "launch",
     shortDescription: "Front-end hosting and deployment platform with edge optimization.",
     fullDescription: "Fully integrated front-end hosting solution with automated deployments, edge optimization, and seamless integration with Contentstack CMS.",
-    category: "Infrastructure",
+    category: "Launch",
     color: "#0984E3",
     videoUrl: "https://www.youtube.com/watch?v=pXvbgVxV38U",
     techStack: [
@@ -1270,6 +1270,150 @@ export const products: Product[] = [
         team: "Data & Insights",
         description: "Customer data and analytics",
         contacts: ["data-insights@contentstack.com"]
+      }
+    ]
+  },
+  {
+    id: "brand-kit",
+    title: "Brand Kit",
+    slug: "brand-kit",
+    shortDescription: "Centralized brand asset management and style guide platform for consistent brand experiences.",
+    fullDescription: "Brand Kit is a comprehensive digital brand management platform that centralizes brand assets, design tokens, guidelines, and resources. It ensures brand consistency across all digital touchpoints by providing teams with easy access to logos, colors, typography, components, and usage guidelines.",
+    category: "Content & Assets",
+    color: "#FF6B9D",
+    videoUrl: "https://www.youtube.com/watch?v=AHrK21gNhE4",
+    academyUrl: "https://www.contentstack.com/academy/brand-management",
+    cicdDiagramUrl: "https://whimsical.com/brand-kit-cicd",
+    observabilityDashboards: [
+      {
+        name: "Brand Kit Analytics",
+        url: "https://grafana.contentstack.com/d/brand-kit-analytics",
+        description: "Asset usage, download metrics, and engagement tracking",
+        type: "grafana"
+      },
+      {
+        name: "Brand Kit Performance",
+        url: "https://datadog.contentstack.com/dashboard/brand-kit",
+        description: "API response times and CDN performance",
+        type: "datadog"
+      }
+    ],
+    techStack: [
+      {
+        category: "Frontend",
+        technologies: ["React", "Next.js", "TypeScript", "Tailwind CSS", "Zustand"]
+      },
+      {
+        category: "Backend",
+        technologies: ["Node.js", "Express", "PostgreSQL", "Redis", "S3"]
+      },
+      {
+        category: "Design System",
+        technologies: ["Design Tokens", "Storybook", "Figma API", "Style Dictionary"]
+      },
+      {
+        category: "Testing",
+        technologies: ["Jest", "Playwright", "Chromatic", "Accessibility Testing"]
+      }
+    ],
+    architectureDiagrams: [
+      {
+        title: "Brand Asset Distribution",
+        description: "Global CDN architecture for brand asset delivery and management",
+        imageUrl: "/architecture/brand-kit-cdn.png",
+        whimsicalUrl: "https://whimsical.com/brand-kit-architecture"
+      },
+      {
+        title: "Design Token Pipeline",
+        description: "Automated token synchronization from Figma to production",
+        imageUrl: "/architecture/brand-kit-tokens.png",
+        whimsicalUrl: "https://whimsical.com/brand-kit-tokens"
+      }
+    ],
+    repositoryUrl: "https://github.com/contentstack/brand-kit",
+    localDevSetup: `
+# Prerequisites
+- Node.js 18+
+- PostgreSQL 14+
+- Redis 7+
+- AWS CLI (for S3 access)
+
+# Setup Steps
+1. Clone the repository: git clone https://github.com/contentstack/brand-kit
+2. Install dependencies: npm install
+3. Copy environment file: cp .env.example .env
+4. Configure AWS credentials for S3
+5. Setup database: npm run db:setup
+6. Seed sample brand data: npm run db:seed
+7. Start development server: npm run dev
+8. Access at http://localhost:3000
+    `,
+    cicdProcess: "GitHub Actions pipeline with automated visual regression testing, design token validation, and multi-region deployments. Includes automatic Figma sync and asset optimization.",
+    gitBranchingStrategy: "Trunk-based development with feature flags. Main branch deploys to production with automated rollback capabilities.",
+    teamMembers: [
+      { 
+        name: "Sarah Chen", 
+        role: "Product Lead", 
+        email: "sarah.chen@contentstack.com",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Sarah"
+      },
+      { 
+        name: "David Park", 
+        role: "Frontend Engineer", 
+        email: "david.park@contentstack.com",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=David"
+      },
+      { 
+        name: "Emma Wilson", 
+        role: "Design Systems Engineer", 
+        email: "emma.wilson@contentstack.com",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Emma"
+      },
+      { 
+        name: "Alex Turner", 
+        role: "QA Engineer", 
+        email: "alex.turner@contentstack.com",
+        avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex"
+      }
+    ],
+    teamPractices: [
+      "Daily standups at 9:30 AM",
+      "Bi-weekly design system reviews",
+      "Cross-functional collaboration with design team",
+      "Accessibility-first development",
+      "Regular brand audit sessions"
+    ],
+    guidelines: [
+      "Follow WCAG 2.1 AA accessibility standards",
+      "Maintain design token documentation",
+      "Version all brand assets properly",
+      "Ensure consistent naming conventions",
+      "Optimize all assets for web delivery"
+    ],
+    testStrategies: [
+      "Visual regression testing with Chromatic",
+      "Accessibility testing with axe-core",
+      "Cross-browser compatibility testing",
+      "Performance testing for asset delivery",
+      "User acceptance testing with design team"
+    ],
+    testingTools: ["Jest", "Playwright", "Chromatic", "Lighthouse", "axe DevTools"],
+    sprintProcess: "2-week sprints with design sync in week 1 and release in week 2. Monthly brand governance reviews.",
+    dependencies: [
+      {
+        team: "DAM Team",
+        description: "Asset storage and retrieval integration",
+        contacts: ["dam-team@contentstack.com"]
+      },
+      {
+        team: "Design Team",
+        description: "Brand guidelines and design tokens",
+        contacts: ["design@contentstack.com"]
+      },
+      {
+        team: "DevOps",
+        description: "CDN configuration and asset pipeline",
+        contacts: ["devops@contentstack.com"]
       }
     ]
   }
