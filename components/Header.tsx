@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 
 export default function Header() {
@@ -12,8 +13,15 @@ export default function Header() {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
+            <Image
+              src="/contentstack-logo.webp"
+              alt="Contentstack Logo"
+              width={32}
+              height={32}
+              className="w-8 h-8"
+            />
             <div className="text-2xl font-bold">
-              <span className="text-[#6C5CE7]">Engineering Hub</span>
+              <span className="text-[#6C5CE7]">Contentstack Engineering Hub</span>
             </div>
           </Link>
 
