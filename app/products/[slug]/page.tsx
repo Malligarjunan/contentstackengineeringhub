@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { products } from "@/data/products";
+import { getProductBySlug, getAllProductSlugs } from "@/lib/contentstack";
 import { getYouTubeEmbedUrl, isYouTubeUrl, isContentstackAcademyUrl } from "@/lib/youtube";
 
 interface ProductPageProps {
@@ -9,15 +9,27 @@ interface ProductPageProps {
   }>;
 }
 
+// Generate static paths for all products
 export async function generateStaticParams() {
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
+  try {
+    const slugs = await getAllProductSlugs();
+    return slugs.map((slug) => ({
+      slug: slug,
+    }));
+  } catch (error) {
+    console.error('Error generating static params:', error);
+    return [];
+  }
 }
+
+// Enable ISR (Incremental Static Regeneration) - revalidate every hour
+export const revalidate = 3600;
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const product = products.find((p) => p.slug === slug);
+  
+  // Fetch product data from Contentstack
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
@@ -630,6 +642,44 @@ export default async function ProductPage({ params }: ProductPageProps) {
                           <p className="text-xs text-slate-500 font-mono">{dep.slackChannel}</p>
                         )}
                       </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Helpful External Links */}
+              {product.helpfulLinks && product.helpfulLinks.length > 0 && (
+                <div className="mt-6 pt-6 border-t border-slate-100">
+                  <h4 className="text-sm font-bold text-slate-600 uppercase tracking-wide mb-3 flex items-center gap-2">
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                    </svg>
+                    Helpful External Links
+                  </h4>
+                  <div className="space-y-2">
+                    {product.helpfulLinks.map((link, index) => (
+                      <a
+                        key={index}
+                        href={link.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group flex items-start gap-3 p-3 bg-gradient-to-r from-slate-50 to-white rounded-xl border border-slate-200 hover:border-purple-300 hover:shadow-md transition-all duration-200"
+                      >
+                        <div className="flex-shrink-0 w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center group-hover:bg-purple-200 transition-colors">
+                          <svg className="w-4 h-4 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                          </svg>
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-slate-900 text-sm mb-0.5 group-hover:text-purple-600 transition-colors">
+                            {link.title}
+                          </p>
+                          {link.description && (
+                            <p className="text-xs text-slate-600 leading-relaxed">{link.description}</p>
+                          )}
+                          <p className="text-xs text-slate-400 mt-1 truncate">{link.url}</p>
+                        </div>
+                      </a>
                     ))}
                   </div>
                 </div>

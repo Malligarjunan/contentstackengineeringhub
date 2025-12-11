@@ -33,6 +33,12 @@ export interface ObservabilityDashboard {
   type: 'grafana' | 'datadog' | 'newrelic' | 'custom';
 }
 
+export interface ExternalLink {
+  title: string;
+  url: string;
+  description?: string;
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -76,6 +82,9 @@ export interface Product {
   
   // Dependencies
   dependencies: ContactInfo[];
+  
+  // Helpful External Links
+  helpfulLinks?: ExternalLink[];
 }
 
 export interface HomePageContent {
