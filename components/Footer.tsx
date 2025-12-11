@@ -157,7 +157,7 @@ export default function Footer() {
               </li>
               <li>
                 <a 
-                  href="https://www.contentstack.com/company/contact" 
+                  href="https://www.contentstack.com/company/contact-us" 
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-gray-400 hover:text-white transition-colors inline-flex items-center gap-2 group"

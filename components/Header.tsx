@@ -13,7 +13,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center space-x-3">
             <div className="text-2xl font-bold">
-              <span className="text-[#6C5CE7]">Contentstack</span>
+              <span className="text-[#6C5CE7]">Engineering Hub</span>
             </div>
           </Link>
 

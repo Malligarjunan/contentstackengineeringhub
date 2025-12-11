@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section - Modern Minimalist */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+      <section className="relative min-h-[50vh] flex items-center justify-center overflow-hidden">
         {/* Animated background gradient */}
         <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0di00aC0ydjRoLTR2Mmg0djRoMnYtNGg0di0yaC00em0wLTMwVjBoLTJ2NGgtNHYyaDR2NGgyVjZoNFY0aC00ek02IDM0di00SDR2NEgwdjJoNHY0aDJ2LTRoNHYtMkg2ek02IDRWMEG0djRIMHYyaDR2NGgyVjZoNFY0SDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-40"></div>
@@ -20,12 +20,12 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-6 inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-6 py-2">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-            <span className="text-white/90 text-sm font-medium">Engineering Hub • Live</span>
+          <div className="mb-3 inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-3 py-1">
+            <div className="w-1.5 h-1.5 bg-green-400 rounded-full animate-pulse"></div>
+            <span className="text-white/90 text-xs font-medium">Engineering Hub • Live</span>
           </div>
 
-          <h1 className="text-6xl md:text-8xl font-black text-white mb-8 tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
             Build Better.
             <br />
             <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
@@ -33,14 +33,14 @@ export default function Home() {
             </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+          <p className="text-base md:text-lg text-slate-300 max-w-2xl mx-auto mb-6 leading-relaxed">
             Your central hub for technical docs, architecture insights, and engineering best practices across all Contentstack products.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+          <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
             <Link
               href="/products"
-              className="group relative px-8 py-4 bg-white text-slate-900 rounded-2xl font-bold text-lg overflow-hidden transition-all hover:scale-105 hover:shadow-2xl"
+              className="group relative px-5 py-2.5 bg-white text-slate-900 rounded-xl font-bold text-sm overflow-hidden transition-all hover:scale-105 hover:shadow-2xl"
             >
               <span className="relative z-10">Explore Products</span>
               <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-blue-400 opacity-0 group-hover:opacity-100 transition-opacity"></div>
@@ -53,7 +53,7 @@ export default function Home() {
               href="https://www.contentstack.com/docs"
               target="_blank"
               rel="noopener noreferrer"
-              className="px-8 py-4 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold text-lg hover:bg-white/20 transition-all hover:scale-105"
+              className="px-5 py-2.5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-xl font-bold text-sm hover:bg-white/20 transition-all hover:scale-105"
             >
               Documentation
             </a>
@@ -275,120 +275,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Products by Category - Modern Card Grid */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-5xl md:text-6xl font-black text-slate-900 mb-4">
-            Our Products
-          </h2>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-            Explore our comprehensive suite of products powering modern digital experiences
-          </p>
-        </div>
-
-        <div className="space-y-12">
-          {categories.slice(0, 3).map((category, idx) => {
-            const categoryProducts = products.filter(p => p.category === category).slice(0, 3);
-            
-            return (
-              <div key={idx}>
-                <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-2xl font-bold text-slate-900">{category}</h3>
-                  <Link href="/products" className="text-purple-600 hover:text-purple-700 font-semibold flex items-center gap-2 group">
-                    View all
-                    <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                    </svg>
-                  </Link>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {categoryProducts.map((product) => (
-                    <Link
-                      key={product.id}
-                      href={`/products/${product.slug}`}
-                      className="group relative bg-white rounded-3xl p-8 shadow-md hover:shadow-2xl transition-all duration-300 border border-slate-100 overflow-hidden"
-                    >
-                      {/* Colored accent bar */}
-                      <div 
-                        className="absolute top-0 left-0 right-0 h-1"
-                        style={{ backgroundColor: product.color }}
-                      ></div>
-
-                      {/* Icon */}
-                      <div 
-                        className="w-16 h-16 rounded-2xl mb-6 flex items-center justify-center"
-                        style={{ backgroundColor: `${product.color}15` }}
-                      >
-                        <div 
-                          className="w-8 h-8 rounded-xl"
-                          style={{ backgroundColor: product.color }}
-                        ></div>
-                      </div>
-
-                      <h4 className="text-xl font-bold text-slate-900 mb-3 group-hover:text-purple-600 transition-colors">
-                        {product.title}
-                      </h4>
-
-                      <p className="text-slate-600 text-sm mb-4 line-clamp-2">
-                        {product.shortDescription}
-                      </p>
-
-                      {/* Tech tags */}
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {product.techStack[0]?.technologies.slice(0, 2).map((tech, i) => (
-                          <span
-                            key={i}
-                            className="text-xs px-3 py-1 bg-slate-100 text-slate-700 rounded-full font-medium"
-                          >
-                            {tech}
-                          </span>
-                        ))}
-                      </div>
-
-                      <div className="flex items-center justify-between text-sm">
-                        <span 
-                          className="font-semibold flex items-center gap-2 group-hover:gap-3 transition-all"
-                          style={{ color: product.color }}
-                        >
-                          Learn more
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </span>
-                        {product.teamMembers.length > 0 && (
-                          <span className="text-slate-400 text-xs">
-                            {product.teamMembers.length} members
-                          </span>
-                        )}
-                      </div>
-
-                      {/* Hover effect */}
-                      <div 
-                        className="absolute inset-0 opacity-0 group-hover:opacity-5 transition-opacity"
-                        style={{ background: `linear-gradient(135deg, ${product.color}, transparent)` }}
-                      ></div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="text-center mt-16">
-          <Link
-            href="/products"
-            className="inline-flex items-center gap-3 px-10 py-5 bg-slate-900 text-white rounded-2xl font-bold text-lg hover:bg-slate-800 transition-all hover:scale-105 hover:shadow-2xl"
-          >
-            View All {products.length} Products
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </Link>
-        </div>
-      </section>
-
+    
       {/* Team & Resources - Modern Grid */}
       <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="grid md:grid-cols-2 gap-8">
@@ -448,7 +335,7 @@ export default function Home() {
             Ready to dive in?
           </h2>
           <p className="text-2xl text-slate-300 mb-12">
-            Welcome to our engineering team building the future of digital experiences.
+            Welcome to our engineering team—together, we’re shaping the future of digital experiences.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -461,7 +348,7 @@ export default function Home() {
               Get Started
             </a>
             <a
-              href="https://www.contentstack.com/contact"
+              href="https://www.contentstack.com/contact-us"
               target="_blank"
               rel="noopener noreferrer"
               className="px-10 py-5 bg-white/10 backdrop-blur-md border-2 border-white/20 text-white rounded-2xl font-bold text-lg hover:bg-white/20 transition-all"
