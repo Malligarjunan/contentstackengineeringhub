@@ -1,13 +1,16 @@
 import ContentstackLivePreview from '@contentstack/live-preview-utils';
 
 // Live Preview configuration
-export const initLivePreview = () => {
+export const initLivePreview = (config: {
+  enabled: boolean;
+  apiKey: string;
+  environment: string;
+  previewToken: string;
+  host: string;
+}) => {
   if (typeof window === 'undefined') return; // Only run on client-side
 
-  const isLivePreviewEnabled = 
-    process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true';
-
-  if (!isLivePreviewEnabled) {
+  if (!config.enabled) {
     console.log('ℹ️  Live Preview is disabled');
     return;
   }
@@ -16,8 +19,8 @@ export const initLivePreview = () => {
     ContentstackLivePreview.init({
       enable: true,
       stackDetails: {
-        apiKey: process.env.CONTENTSTACK_API_KEY || process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY || '',
-        environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
+        apiKey: config.apiKey,
+        environment: config.environment,
       },
       ssr: true, // Enable Server-Side Rendering mode
       editButton: {
@@ -25,10 +28,11 @@ export const initLivePreview = () => {
         position: 'top-right',
       },
       stackSdk: {
+        environment: config.environment,
         live_preview: {
           enable: true,
-          preview_token: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN || '',
-          host: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST || 'api.contentstack.io',
+          preview_token: config.previewToken,
+          host: config.host,
         },
       },
     });
@@ -39,14 +43,14 @@ export const initLivePreview = () => {
   }
 };
 
-// Hook to use in components for live updates
-export const useLivePreview = () => {
-  const isEnabled = 
-    process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true';
-
+// Get Live Preview configuration (server-side only)
+export const getLivePreviewConfig = () => {
   return {
-    isEnabled,
-    ContentstackLivePreview,
+    enabled: process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true',
+    apiKey: process.env.CONTENTSTACK_API_KEY || '',
+    environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
+    previewToken: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN || '',
+    host: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST || 'api.contentstack.io',
   };
 };
 

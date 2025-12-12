@@ -68,7 +68,7 @@ NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
 NEXT_PUBLIC_CONTENTSTACK_REGION=us
 
 # Live Preview variables (ADD THESE)
-NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
+CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
 NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN=cs_your_preview_token
 NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST=api.contentstack.io
 ```
@@ -130,20 +130,20 @@ When Live Preview is active:
 
 **Option A: Enable Live Preview in Production**
 ```env
-NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
+CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
 NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN=your_preview_token
 ```
 
 **Option B: Disable Live Preview in Production** (Recommended)
 ```env
-NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED=false
+CONTENTSTACK_LIVE_PREVIEW_ENABLED=false
 ```
 
 ### For Staging
 
 Enable Live Preview for content team testing:
 ```env
-NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
+CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
 ```
 
 ## How It Works
@@ -191,7 +191,7 @@ Preview updates instantly
 **Common Issues:**
 
 1. **"Live Preview is disabled"**
-   - Set `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED=true`
+   - Set `CONTENTSTACK_LIVE_PREVIEW_ENABLED=true`
    - Restart dev server
 
 2. **"Preview Token invalid"**
@@ -224,7 +224,7 @@ Preview updates instantly
 
 | Variable | Description | Required | Example |
 |----------|-------------|----------|---------|
-| `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED` | Enable/disable Live Preview | Yes | `true` or `false` |
+| `CONTENTSTACK_LIVE_PREVIEW_ENABLED` | Enable/disable Live Preview | Yes | `true` or `false` |
 | `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN` | Preview token from Contentstack | Yes | `cs123abc...` |
 | `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST` | Contentstack API host | No | `api.contentstack.io` |
 

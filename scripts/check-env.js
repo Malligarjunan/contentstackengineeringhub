@@ -15,7 +15,7 @@ const requiredVars = {
 };
 
 const optionalVars = {
-  'NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED': process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED,
+  'CONTENTSTACK_LIVE_PREVIEW_ENABLED': process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED,
   'NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN': process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN,
   'NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST': process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST,
 };
@@ -46,13 +46,13 @@ if (allSet) {
   console.log('You can now test the Contentstack connection:');
   console.log('  node scripts/test-contentstack.js\n');
   
-  const livePreviewEnabled = optionalVars['NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED'] === 'true';
+  const livePreviewEnabled = optionalVars['CONTENTSTACK_LIVE_PREVIEW_ENABLED'] === 'true';
   if (livePreviewEnabled) {
     console.log('📺 Live Preview is ENABLED');
     console.log('See LIVE_PREVIEW_SETUP.md for configuration guide\n');
   } else {
     console.log('ℹ️  Live Preview is DISABLED');
-    console.log('To enable: Set NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED=true');
+    console.log('To enable: Set CONTENTSTACK_LIVE_PREVIEW_ENABLED=true');
     console.log('See LIVE_PREVIEW_SETUP.md for setup guide\n');
   }
 } else {
@@ -65,7 +65,7 @@ if (allSet) {
   console.log('NEXT_PUBLIC_CONTENTSTACK_REGION=us');
   console.log('');
   console.log('Optional - Live Preview:');
-  console.log('NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_ENABLED=true');
+  console.log('CONTENTSTACK_LIVE_PREVIEW_ENABLED=true');
   console.log('NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN=your_live_preview_token');
   console.log('');
   console.log('Get your credentials from:');
