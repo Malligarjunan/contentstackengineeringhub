@@ -69,8 +69,8 @@ NEXT_PUBLIC_CONTENTSTACK_REGION=us
 
 # Live Preview variables (ADD THESE)
 CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
-NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN=cs_your_preview_token
-NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST=api.contentstack.io
+CONTENTSTACK_LIVE_PREVIEW_TOKEN=cs_your_preview_token
+CONTENTSTACK_LIVE_PREVIEW_HOST=api.contentstack.io
 ```
 
 **Important:**
@@ -131,7 +131,7 @@ When Live Preview is active:
 **Option A: Enable Live Preview in Production**
 ```env
 CONTENTSTACK_LIVE_PREVIEW_ENABLED=true
-NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN=your_preview_token
+CONTENTSTACK_LIVE_PREVIEW_TOKEN=your_preview_token
 ```
 
 **Option B: Disable Live Preview in Production** (Recommended)
@@ -195,11 +195,11 @@ Preview updates instantly
    - Restart dev server
 
 2. **"Preview Token invalid"**
-   - Verify `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN` is correct
+   - Verify `CONTENTSTACK_LIVE_PREVIEW_TOKEN` is correct
    - Token should start with `cs...`
 
 3. **"Connection failed"**
-   - Check `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST`
+   - Check `CONTENTSTACK_LIVE_PREVIEW_HOST`
    - Should be `api.contentstack.io` or your region's host
 
 4. **No Edit Buttons Appearing**
@@ -225,8 +225,8 @@ Preview updates instantly
 | Variable | Description | Required | Example |
 |----------|-------------|----------|---------|
 | `CONTENTSTACK_LIVE_PREVIEW_ENABLED` | Enable/disable Live Preview | Yes | `true` or `false` |
-| `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN` | Preview token from Contentstack | Yes | `cs123abc...` |
-| `NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST` | Contentstack API host | No | `api.contentstack.io` |
+| `CONTENTSTACK_LIVE_PREVIEW_TOKEN` | Preview token from Contentstack | Yes | `cs123abc...` |
+| `CONTENTSTACK_LIVE_PREVIEW_HOST` | Contentstack API host | No | `api.contentstack.io` |
 
 ## Files Added
 

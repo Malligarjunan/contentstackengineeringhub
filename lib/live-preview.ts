@@ -49,8 +49,8 @@ export const getLivePreviewConfig = () => {
     enabled: process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true',
     apiKey: process.env.CONTENTSTACK_API_KEY || '',
     environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
-    previewToken: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN || '',
-    host: process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST || 'api.contentstack.io',
+    previewToken: process.env.CONTENTSTACK_LIVE_PREVIEW_TOKEN || '',
+    host: process.env.CONTENTSTACK_LIVE_PREVIEW_HOST || 'api.contentstack.io',
   };
 };
 

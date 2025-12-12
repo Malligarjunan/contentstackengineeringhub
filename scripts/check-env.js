@@ -16,8 +16,8 @@ const requiredVars = {
 
 const optionalVars = {
   'CONTENTSTACK_LIVE_PREVIEW_ENABLED': process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED,
-  'NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN': process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN,
-  'NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST': process.env.NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_HOST,
+  'CONTENTSTACK_LIVE_PREVIEW_TOKEN': process.env.CONTENTSTACK_LIVE_PREVIEW_TOKEN,
+  'CONTENTSTACK_LIVE_PREVIEW_HOST': process.env.CONTENTSTACK_LIVE_PREVIEW_HOST,
 };
 
 let allSet = true;
@@ -66,7 +66,7 @@ if (allSet) {
   console.log('');
   console.log('Optional - Live Preview:');
   console.log('CONTENTSTACK_LIVE_PREVIEW_ENABLED=true');
-  console.log('NEXT_PUBLIC_CONTENTSTACK_LIVE_PREVIEW_TOKEN=your_live_preview_token');
+  console.log('CONTENTSTACK_LIVE_PREVIEW_TOKEN=your_live_preview_token');
   console.log('');
   console.log('Get your credentials from:');
   console.log('Contentstack Dashboard → Settings → Stack/Tokens\n');
