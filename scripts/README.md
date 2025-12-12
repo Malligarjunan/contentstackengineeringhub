@@ -1,0 +1,194 @@
+# Contentstack Setup Scripts
+
+This folder contains scripts to help you set up and manage your Contentstack content types.
+
+## Quick Start
+
+To set up your homepage from scratch:
+
+```bash
+# 1. Create the homepage content type
+npm run create-homepage
+
+# 2. Create and publish the homepage entry
+npm run create-homepage-entry
+
+# 3. Start your app
+npm run dev
+```
+
+## Scripts
+
+### 1. create-homepage-contenttype.js
+
+Creates the Homepage content type in your Contentstack stack.
+
+### 2. create-homepage-entry.js
+
+Creates and publishes the homepage entry with default content.
+
+**Usage:**
+```bash
+npm run create-homepage
+```
+
+**Prerequisites:**
+1. Set up your `.env` file with the following variables:
+   ```
+   CONTENTSTACK_API_KEY=your_api_key
+   CONTENTSTACK_MANAGEMENT_TOKEN=your_management_token
+   ```
+
+2. **Get your Management Token:**
+   - Go to Contentstack Dashboard
+   - Navigate to **Settings > Tokens**
+   - Click **+ New Token**
+   - Give it a name (e.g., "Engineering Hub Setup")
+   - Grant permissions:
+     - Content Types: Read, Create, Update
+     - Entries: Read, Create, Update (optional, for creating entries)
+   - Save the token
+   - Copy the token value and add it to your `.env` file
+
+**What it creates:**
+
+A singleton content type called "Homepage" with the following fields:
+
+1. **Hero Title** (text, mandatory)
+   - Main heading for the homepage
+
+2. **Hero Description** (text, mandatory)
+   - Tagline/description for the hero section
+
+3. **Platform Video URL** (text, optional)
+   - YouTube video URL showcasing the platform
+
+4. **About Contentstack** (text, mandatory)
+   - Overview description of Contentstack
+
+5. **Architecture Diagrams** (group, multiple)
+   - Title
+   - Description
+   - Image URL
+   - Details
+   - Whimsical URL
+
+**After running the script:**
+
+1. Go to your Contentstack Dashboard
+2. Navigate to **Content Models** to see the new Homepage content type
+3. Go to **Entries** > **Homepage**
+4. Create a new entry with your homepage content
+5. Publish the entry
+
+The app will automatically fetch this content from Contentstack when it loads.
+
+---
+
+### 2. create-homepage-entry.js
+
+Creates and publishes a homepage entry with default content based on `data/homepage.ts`.
+
+**Usage:**
+```bash
+npm run create-homepage-entry
+```
+
+**Prerequisites:**
+1. The homepage content type must already exist (run `npm run create-homepage` first)
+2. Your `.env` file must have:
+   ```
+   CONTENTSTACK_API_KEY=your_api_key
+   CONTENTSTACK_MANAGEMENT_TOKEN=your_management_token
+   NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
+   ```
+
+**What it does:**
+
+1. Creates a new homepage entry with:
+   - Hero title and description
+   - Platform video URL
+   - About Contentstack text
+   - 4 architecture diagrams with details
+   
+2. Automatically publishes the entry to your environment
+
+**After running the script:**
+
+✅ Your homepage content is live!
+- Run `npm run dev` to see it in action
+- Edit the entry in Contentstack Dashboard if needed
+- The app will fetch this content automatically
+
+**Note:** Since homepage is a singleton, you can only have one entry. If you run this script again after an entry exists, it will fail. You can either:
+- Delete the existing entry from the dashboard and run again
+- Manually edit the existing entry
+
+---
+
+### 3. test-homepage-fetch.js
+
+Tests fetching homepage content from Contentstack.
+
+**Usage:**
+```bash
+npm run test-homepage
+```
+
+This script:
+- Verifies your Contentstack connection
+- Fetches the homepage entry
+- Displays all the content (hero, about, diagrams)
+- Shows if content is ready to use
+
+**Use this to verify:**
+- Homepage content type exists
+- Homepage entry exists and is published
+- Content is being fetched correctly
+
+---
+
+### 4. test-contentstack.js
+
+Tests your Contentstack connection and product data.
+
+**Usage:**
+```bash
+node scripts/test-contentstack.js
+```
+
+This script verifies that:
+- Your API key and delivery token are configured correctly
+- You can connect to Contentstack
+- You can fetch product entries
+
+## Troubleshooting
+
+### "Authorization failed" error
+- Make sure your Management Token is valid and not expired
+- Verify the token has the correct permissions
+- Check that you're using the token value (not the token name)
+
+### "Content type already exists" error
+- The homepage content type has already been created
+- You can either delete it from the Contentstack dashboard and run again
+- Or manually update it through the dashboard
+
+### "Missing environment variables" error
+- Ensure your `.env` file is in the root of the project
+- Check that the variable names are correct:
+  - `CONTENTSTACK_API_KEY`
+  - `CONTENTSTACK_MANAGEMENT_TOKEN`
+- Restart your terminal or IDE after adding new environment variables
+
+## Region Configuration
+
+By default, scripts use the `us` region. If you're using a different region, update the `region` variable in the script:
+
+```javascript
+const config = {
+  region: 'eu', // or 'azure-na', 'azure-eu'
+  // ...
+};
+```
+

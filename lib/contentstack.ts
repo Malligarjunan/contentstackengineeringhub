@@ -1,20 +1,19 @@
-import Contentstack, { Region } from 'contentstack';
+import contentstack, { Region } from '@contentstack/delivery-sdk';
 import { Product } from '@/types/product';
 import { products as localProducts } from '@/data/products';
 import { homepageContent as localHomepageContent } from '@/data/homepage';
 
 // Lazy initialization of Contentstack Stack
-let Stack: any = null;
+let ContentstackStack: any = null;
 
 function getStack() {
   // Return existing instance if already initialized
-  if (Stack) return Stack;
+  if (ContentstackStack) return ContentstackStack;
 
   // Check if Contentstack is configured
   const isConfigured = 
     process.env.CONTENTSTACK_API_KEY &&
     process.env.CONTENTSTACK_DELIVERY_TOKEN;
-
 
   if (!isConfigured) {
     console.log('⚠️  Contentstack credentials not configured. Using local data.');
@@ -23,14 +22,14 @@ function getStack() {
 
   // Initialize Contentstack SDK
   try {
-    Stack = Contentstack.Stack({
-      api_key: process.env.CONTENTSTACK_API_KEY!,
-      delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN!,
+    ContentstackStack = contentstack.stack({
+      apiKey: process.env.CONTENTSTACK_API_KEY!,
+      deliveryToken: process.env.CONTENTSTACK_DELIVERY_TOKEN!,
       environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
       region: Region.US,
     });
     console.log('✅ Contentstack SDK initialized successfully');
-    return Stack;
+    return ContentstackStack;
   } catch (error) {
     console.error('❌ Error initializing Contentstack:', error);
     return null;
@@ -50,8 +49,7 @@ export async function getAllProducts(): Promise<Product[]> {
   }
 
   try {
-    const Query = stack.ContentType('product').Query();
-    const result = await Query
+    const Query = stack.contentType('product').entry()
       .includeReference([
         'team_members',
         'architecture_diagrams',
@@ -59,21 +57,23 @@ export async function getAllProducts(): Promise<Product[]> {
         'dependencies',
         'observability_dashboards',
         'helpful_links'
-      ])
-      .toJSON()
+      ]);
+    const result = await Query
+      .orderByAscending('title')
+      .includeCount()
       .find();
 
-    if (result && result[0]) {
-      console.log(`✅ Fetched ${result[0].length} products from Contentstack`);
-      return result[0].map(transformProduct);
+    if (result && result.entries) {
+      console.log(`✅ Fetched ${result.entries.length} products from Contentstack (sorted by title)`);
+      return result.entries.map(transformProduct);
     }
 
     console.log('⚠️  No products found in Contentstack, using local data');
-    return localProducts;
+    return [...localProducts].sort((a, b) => a.title.localeCompare(b.title));
   } catch (error) {
     console.error('❌ Error fetching products from Contentstack:', error);
     console.log('Falling back to local data');
-    return localProducts;
+    return [...localProducts].sort((a, b) => a.title.localeCompare(b.title));
   }
 }
 
@@ -90,9 +90,7 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   try {
-    const Query = stack.ContentType('product').Query();
-    const result = await Query
-      .where('slug', slug)
+    const Query = stack.contentType('product').entry()
       .includeReference([
         'team_members',
         'architecture_diagrams',
@@ -101,12 +99,12 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
         'observability_dashboards',
         'helpful_links'
       ])
-      .toJSON()
-      .find();
+      .query({ slug: slug });
+    const result = await Query.find();
 
-    if (result && result[0] && result[0].length > 0) {
+    if (result && result.entries && result.entries.length > 0) {
       console.log(`✅ Fetched product "${slug}" from Contentstack`);
-      return transformProduct(result[0][0]);
+      return transformProduct(result.entries[0]);
     }
 
     console.log(`⚠️  Product "${slug}" not found in Contentstack, using local data`);
@@ -131,15 +129,15 @@ export async function getAllProductSlugs(): Promise<string[]> {
   }
 
   try {
-    const Query = stack.ContentType('product').Query();
+    const Query = stack.contentType('product').entry()
+      .only(['slug', 'title']);
     const result = await Query
-      .only(['slug'])
-      .toJSON()
+      .orderByAscending('title')
       .find();
 
-    if (result && result[0]) {
-      console.log(`✅ Fetched ${result[0].length} product slugs from Contentstack`);
-      return result[0].map((entry: any) => entry.slug);
+    if (result && result.entries) {
+      console.log(`✅ Fetched ${result.entries.length} product slugs from Contentstack (sorted by title)`);
+      return result.entries.map((entry: any) => entry.slug);
     }
 
     console.log('⚠️  No product slugs found in Contentstack, using local data');
@@ -274,14 +272,12 @@ export async function getHomepageContent(): Promise<any> {
   }
 
   try {
-    const Query = stack.ContentType('homepage').Query();
-    const result = await Query
-      .includeReference(['architecture_diagrams'])
-      .toJSON()
-      .find();
+    const Query = stack.contentType('homepage').entry()
+      .includeReference(['architecture_diagrams']);
+    const result = await Query.find();
 
-    if (result && result[0] && result[0].length > 0) {
-      const entry = result[0][0];
+    if (result && result.entries && result.entries.length > 0) {
+      const entry = result.entries[0];
       console.log('✅ Fetched homepage content from Contentstack');
       return {
         heroTitle: entry.hero_title || entry.heroTitle,

@@ -49,15 +49,11 @@ export default async function Home() {
           </div>
 
           <h1 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
-            Contentstack Engineering
-            <br />
-            <span className="bg-gradient-to-r from-purple-400 via-pink-400 to-blue-400 bg-clip-text text-transparent">
-              Knowledge Hub
-            </span>
+            {homepageContent.heroTitle || 'Contentstack Engineering Knowledge Hub'}
           </h1>
 
           <p className="text-base md:text-xl text-slate-300 max-w-3xl mx-auto mb-8 leading-relaxed">
-            Your one-stop resource for <span className="text-white font-semibold">product documentation</span>, <span className="text-white font-semibold">team information</span>, <span className="text-white font-semibold">engineering processes</span>, and <span className="text-white font-semibold">technical guidelines</span> across all Contentstack products.
+            {homepageContent.heroDescription || 'Your central resource for all technical documentation, architecture, and development practices across Contentstack products.'}
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center mb-8">
@@ -97,6 +93,31 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+      {/* About Contentstack Section */}
+      {homepageContent.aboutContentstack && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-block">
+                <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
+                  About Contentstack
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+                What is Contentstack?
+              </h2>
+            </div>
+            <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border-2 border-purple-100 shadow-lg">
+              <div className="prose prose-lg max-w-none">
+                <p className="text-slate-700 leading-relaxed whitespace-pre-line">
+                  {homepageContent.aboutContentstack}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       {/* What You'll Find Here Section - NEW */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
