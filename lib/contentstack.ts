@@ -11,10 +11,10 @@ function getStack() {
   if (Stack) return Stack;
 
   // Check if Contentstack is configured
-  // const isConfigured = 
-  //   process.env.CONTENTSTACK_API_KEY &&
-  //   process.env.CONTENTSTACK_DELIVERY_TOKEN;
-  const isConfigured = false;
+  const isConfigured = 
+    process.env.CONTENTSTACK_API_KEY &&
+    process.env.CONTENTSTACK_DELIVERY_TOKEN;
+
 
   if (!isConfigured) {
     console.log('⚠️  Contentstack credentials not configured. Using local data.');
