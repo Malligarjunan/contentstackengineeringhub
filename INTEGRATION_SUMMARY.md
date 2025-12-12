@@ -68,7 +68,7 @@ This separation ensures:
 #### `.env.example`
 Template for environment variables:
 ```env
-NEXT_PUBLIC_CONTENTSTACK_API_KEY=your_api_key_here
+CONTENTSTACK_API_KEY=your_api_key_here
 CONTENTSTACK_DELIVERY_TOKEN=your_delivery_token_here
 NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
 NEXT_PUBLIC_CONTENTSTACK_REGION=us

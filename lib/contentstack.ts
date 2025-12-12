@@ -5,7 +5,7 @@ import { homepageContent as localHomepageContent } from '@/data/homepage';
 
 // Check if Contentstack is configured
 const isContentstackConfigured = 
-  process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY &&
+  process.env.CONTENTSTACK_API_KEY &&
   process.env.CONTENTSTACK_DELIVERY_TOKEN;
 
 // Initialize Contentstack SDK only if configured
@@ -13,7 +13,7 @@ let Stack: any = null;
 
 if (isContentstackConfigured) {
   Stack = Contentstack.Stack({
-    api_key: process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY!,
+    api_key: process.env.CONTENTSTACK_API_KEY!,
     delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN!,
     environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
     region: (process.env.NEXT_PUBLIC_CONTENTSTACK_REGION as 'us' | 'eu' | 'azure-na' | 'azure-eu' | 'gcp-na') || 'us',

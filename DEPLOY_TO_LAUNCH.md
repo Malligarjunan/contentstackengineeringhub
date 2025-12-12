@@ -13,7 +13,7 @@ Contentstack Dashboard → Launch → Your Project → Settings → Environment 
 
 | Variable Name | Value | Notes |
 |---------------|-------|-------|
-| `NEXT_PUBLIC_CONTENTSTACK_API_KEY` | `blt123abc456def...` | From Settings → Stack |
+| `CONTENTSTACK_API_KEY` | `blt123abc456def...` | From Settings → Stack |
 | `CONTENTSTACK_DELIVERY_TOKEN` | `cs789xyz012ghi...` | From Settings → Tokens |
 | `NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT` | `production` | Your environment name |
 | `NEXT_PUBLIC_CONTENTSTACK_REGION` | `us` | Based on your URL |
@@ -76,7 +76,7 @@ launch login
 launch init
 
 # Add environment variables
-launch env:set NEXT_PUBLIC_CONTENTSTACK_API_KEY="blt123..."
+launch env:set CONTENTSTACK_API_KEY="blt123..."
 launch env:set CONTENTSTACK_DELIVERY_TOKEN="cs789..."
 launch env:set NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT="production"
 launch env:set NEXT_PUBLIC_CONTENTSTACK_REGION="us"
@@ -261,7 +261,7 @@ After deployment succeeds:
 **Copy-paste ready format for Launch:**
 
 ```
-NEXT_PUBLIC_CONTENTSTACK_API_KEY
+CONTENTSTACK_API_KEY
 [paste your API key here - starts with blt]
 
 CONTENTSTACK_DELIVERY_TOKEN

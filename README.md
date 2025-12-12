@@ -63,7 +63,7 @@ A comprehensive internal knowledge hub for developers and QA members at Contents
    
    b. Edit `.env.local` and add your Contentstack credentials:
    ```env
-   NEXT_PUBLIC_CONTENTSTACK_API_KEY=your_api_key
+   CONTENTSTACK_API_KEY=your_api_key
    CONTENTSTACK_DELIVERY_TOKEN=your_delivery_token
    NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
    NEXT_PUBLIC_CONTENTSTACK_REGION=us
@@ -231,7 +231,7 @@ The application can be deployed to any platform that supports Next.js:
 
 | Variable | Description | Required | Default |
 |----------|-------------|----------|---------|
-| `NEXT_PUBLIC_CONTENTSTACK_API_KEY` | Contentstack API Key | No | - |
+| `CONTENTSTACK_API_KEY` | Contentstack API Key | No | - |
 | `CONTENTSTACK_DELIVERY_TOKEN` | Contentstack Delivery Token | No | - |
 | `NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT` | Contentstack Environment | No | `production` |
 | `NEXT_PUBLIC_CONTENTSTACK_REGION` | Contentstack Region | No | `us` |

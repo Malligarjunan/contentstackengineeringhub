@@ -7,7 +7,7 @@
   "dev_command": "npm run dev",
   "node_version": "18",
   "environment_variables": {
-    "NEXT_PUBLIC_CONTENTSTACK_API_KEY": "",
+    "CONTENTSTACK_API_KEY": "",
     "CONTENTSTACK_DELIVERY_TOKEN": "",
     "NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT": "production",
     "NEXT_PUBLIC_CONTENTSTACK_REGION": "us"

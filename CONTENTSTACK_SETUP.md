@@ -27,7 +27,7 @@ This guide will help you set up Contentstack CMS for the Engineering Hub applica
 
 2. Edit `.env.local` and replace the placeholder values:
    ```env
-   NEXT_PUBLIC_CONTENTSTACK_API_KEY=your_actual_api_key
+   CONTENTSTACK_API_KEY=your_actual_api_key
    CONTENTSTACK_DELIVERY_TOKEN=your_actual_delivery_token
    NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
    NEXT_PUBLIC_CONTENTSTACK_REGION=us

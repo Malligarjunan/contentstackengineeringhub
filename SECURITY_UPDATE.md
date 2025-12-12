@@ -1,8 +1,10 @@
-# Security Update: Delivery Token Configuration
+# Security Update: Environment Variables Configuration
 
 ## Change Summary
 
-**Changed:** `NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN` → `CONTENTSTACK_DELIVERY_TOKEN`
+**Changed:** 
+- `NEXT_PUBLIC_CONTENTSTACK_API_KEY` → `CONTENTSTACK_API_KEY`
+- `NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN` → `CONTENTSTACK_DELIVERY_TOKEN`
 
 ## Why This Change?
 
@@ -12,18 +14,20 @@ The `NEXT_PUBLIC_` prefix in Next.js exposes environment variables to the client
 
 ❌ **Before (Not Secure):**
 ```env
+NEXT_PUBLIC_CONTENTSTACK_API_KEY=blt123abc...
 NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN=cs123abc...
 ```
-- Token was embedded in client-side JavaScript bundle
+- Both credentials were embedded in client-side JavaScript bundle
 - Visible in browser dev tools
 - Accessible to anyone viewing the site
-- Potential security risk if token is compromised
+- Potential security risk if credentials are compromised
 
 ✅ **After (Secure):**
 ```env
+CONTENTSTACK_API_KEY=blt123abc...
 CONTENTSTACK_DELIVERY_TOKEN=cs123abc...
 ```
-- Token stays on the server only
+- Both credentials stay on the server only
 - Never exposed to the browser
 - Only accessible during server-side rendering
 - Better security posture
@@ -38,10 +42,11 @@ Our app uses **Next.js Server Components** for data fetching:
 
 ### What Still Needs `NEXT_PUBLIC_`?
 
-Only the **API Key** needs the `NEXT_PUBLIC_` prefix because:
-- Used for client-side SDK initialization (if needed)
-- Less sensitive than delivery token
-- Read-only identifier
+Only **Environment** and **Region** need the `NEXT_PUBLIC_` prefix because:
+- `NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT` - May be needed for client-side logic
+- `NEXT_PUBLIC_CONTENTSTACK_REGION` - May be needed for client-side SDK
+- These are configuration values, not secrets
+- API Key and Delivery Token are now server-side only (more secure)
 
 ## Files Updated
 
@@ -65,32 +70,44 @@ Update your `.env.local` file:
 
 **Old:**
 ```env
+NEXT_PUBLIC_CONTENTSTACK_API_KEY=blt123abc...
 NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN=cs123abc...
+NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
+NEXT_PUBLIC_CONTENTSTACK_REGION=us
 ```
 
 **New:**
 ```env
+CONTENTSTACK_API_KEY=blt123abc...
 CONTENTSTACK_DELIVERY_TOKEN=cs123abc...
+NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
+NEXT_PUBLIC_CONTENTSTACK_REGION=us
 ```
 
 ### For Deployment (Launch/Vercel/etc.)
 
-Update environment variable name in your deployment platform:
+Update environment variable names in your deployment platform:
 
-1. Remove: `NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN`
-2. Add: `CONTENTSTACK_DELIVERY_TOKEN` with the same value
+1. Remove: `NEXT_PUBLIC_CONTENTSTACK_API_KEY`
+2. Remove: `NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN`
+3. Add: `CONTENTSTACK_API_KEY` with the same value
+4. Add: `CONTENTSTACK_DELIVERY_TOKEN` with the same value
 
 **In Launch Dashboard:**
 ```
 Settings → Environment Variables
+→ Delete: NEXT_PUBLIC_CONTENTSTACK_API_KEY
 → Delete: NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN
+→ Add: CONTENTSTACK_API_KEY = [your api key]
 → Add: CONTENTSTACK_DELIVERY_TOKEN = [your token]
 ```
 
 **In Vercel Dashboard:**
 ```
 Project Settings → Environment Variables
+→ Delete: NEXT_PUBLIC_CONTENTSTACK_API_KEY
 → Delete: NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN
+→ Add: CONTENTSTACK_API_KEY = [your api key]
 → Add: CONTENTSTACK_DELIVERY_TOKEN = [your token]
 ```
 
@@ -126,8 +143,8 @@ node scripts/test-contentstack.js
 
 ## Questions?
 
-**Q: Why keep API Key as `NEXT_PUBLIC_`?**
-A: API Key is less sensitive and may be needed for client-side SDK usage.
+**Q: Why remove `NEXT_PUBLIC_` from API Key now?**
+A: Since we're using Server Components for all data fetching, both API Key and Delivery Token are only needed server-side. Keeping them private is more secure.
 
 **Q: Will my app break?**
 A: No, just update the environment variable name in your deployment platform.
