@@ -22,8 +22,8 @@ export async function generateStaticParams() {
   }
 }
 
-// Enable ISR (Incremental Static Regeneration) - revalidate every 5 seconds
-export const revalidate = 5;
+// Enable ISR (Incremental Static Regeneration) - revalidate every 2 seconds
+export const revalidate = 2;
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
