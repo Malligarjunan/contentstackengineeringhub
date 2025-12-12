@@ -27,7 +27,7 @@ function getStack() {
       api_key: process.env.CONTENTSTACK_API_KEY!,
       delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN!,
       environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
-      region: 'us',
+      region: Region.US,
     });
     console.log('✅ Contentstack SDK initialized successfully');
     return Stack;
