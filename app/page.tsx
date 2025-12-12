@@ -1,8 +1,29 @@
 import Link from "next/link";
-import { homepageContent } from "@/data/homepage";
-import { products } from "@/data/products";
+import { getHomepageContent, getAllProducts } from "@/lib/contentstack";
+import { ArchitectureDiagram } from "@/types/product";
 
-export default function Home() {
+// Enable ISR - revalidate every hour
+export const revalidate = 3600;
+
+export default async function Home() {
+  // Fetch homepage content and products from Contentstack
+  let homepageContent;
+  let products;
+
+  try {
+    [homepageContent, products] = await Promise.all([
+      getHomepageContent(),
+      getAllProducts()
+    ]);
+  } catch (error) {
+    console.error('Error fetching homepage data:', error);
+    // Fallback is handled by the contentstack service
+    const { homepageContent: localHomepage } = await import("@/data/homepage");
+    const { products: localProducts } = await import("@/data/products");
+    homepageContent = localHomepage;
+    products = localProducts;
+  }
+
   const categories = Array.from(new Set(products.map(p => p.category)));
 
   return (
@@ -366,7 +387,7 @@ export default function Home() {
 
           {/* Architecture Components Grid */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {homepageContent.architectureDiagrams.slice(0, 4).map((diagram, i) => (
+            {homepageContent.architectureDiagrams.slice(0, 4).map((diagram: ArchitectureDiagram, i: number) => (
               <a
                 key={i}
                 href={diagram.whimsicalUrl || '#'}

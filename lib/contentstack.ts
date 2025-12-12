@@ -11,9 +11,10 @@ function getStack() {
   if (Stack) return Stack;
 
   // Check if Contentstack is configured
-  const isConfigured = 
-    process.env.CONTENTSTACK_API_KEY &&
-    process.env.CONTENTSTACK_DELIVERY_TOKEN;
+  // const isConfigured = 
+  //   process.env.CONTENTSTACK_API_KEY &&
+  //   process.env.CONTENTSTACK_DELIVERY_TOKEN;
+  const isConfigured = false;
 
   if (!isConfigured) {
     console.log('⚠️  Contentstack credentials not configured. Using local data.');
@@ -26,7 +27,7 @@ function getStack() {
       api_key: process.env.CONTENTSTACK_API_KEY!,
       delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN!,
       environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
-      region: Region.US,
+      region: 'us',
     });
     console.log('✅ Contentstack SDK initialized successfully');
     return Stack;
