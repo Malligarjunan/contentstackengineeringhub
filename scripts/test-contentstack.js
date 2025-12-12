@@ -9,7 +9,7 @@ const Contentstack = require('contentstack');
 // Check if environment variables are set
 const config = {
   api_key: process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY,
-  delivery_token: process.env.NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN,
+  delivery_token: process.env.CONTENTSTACK_DELIVERY_TOKEN,
   environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
   region: process.env.NEXT_PUBLIC_CONTENTSTACK_REGION || 'us',
 };

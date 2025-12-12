@@ -73,7 +73,7 @@ Replace with your actual Contentstack credentials:
 
 ```env
 NEXT_PUBLIC_CONTENTSTACK_API_KEY=blt_your_actual_api_key
-NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN=cs_your_actual_delivery_token
+CONTENTSTACK_DELIVERY_TOKEN=cs_your_actual_delivery_token
 NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
 NEXT_PUBLIC_CONTENTSTACK_REGION=us
 ```

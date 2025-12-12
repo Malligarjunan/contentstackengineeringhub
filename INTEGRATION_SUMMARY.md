@@ -69,7 +69,7 @@ This separation ensures:
 Template for environment variables:
 ```env
 NEXT_PUBLIC_CONTENTSTACK_API_KEY=your_api_key_here
-NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN=your_delivery_token_here
+CONTENTSTACK_DELIVERY_TOKEN=your_delivery_token_here
 NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
 NEXT_PUBLIC_CONTENTSTACK_REGION=us
 ```

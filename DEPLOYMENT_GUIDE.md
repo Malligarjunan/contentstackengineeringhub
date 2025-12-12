@@ -55,7 +55,7 @@ Create a file named `launch.json` in the root directory:
 ```env
 # Contentstack Configuration
 NEXT_PUBLIC_CONTENTSTACK_API_KEY=blt_your_api_key
-NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN=cs_your_delivery_token
+CONTENTSTACK_DELIVERY_TOKEN=cs_your_delivery_token
 NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT=production
 NEXT_PUBLIC_CONTENTSTACK_REGION=us
 ```
@@ -70,7 +70,7 @@ NEXT_PUBLIC_CONTENTSTACK_REGION=us
 | Variable Name | Value |
 |---------------|-------|
 | `NEXT_PUBLIC_CONTENTSTACK_API_KEY` | `blt123abc456def` |
-| `NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN` | `cs789xyz012ghi` |
+| `CONTENTSTACK_DELIVERY_TOKEN` | `cs789xyz012ghi` |
 | `NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT` | `production` |
 | `NEXT_PUBLIC_CONTENTSTACK_REGION` | `us` |
 
@@ -171,7 +171,7 @@ npm install -g vercel
    
    ```
    NEXT_PUBLIC_CONTENTSTACK_API_KEY = blt_your_api_key
-   NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN = cs_your_delivery_token
+   CONTENTSTACK_DELIVERY_TOKEN = cs_your_delivery_token
    NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT = production
    NEXT_PUBLIC_CONTENTSTACK_REGION = us
    ```
@@ -227,7 +227,7 @@ In Vercel Dashboard:
 4. **Add Environment Variables**
    ```
    NEXT_PUBLIC_CONTENTSTACK_API_KEY
-   NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN
+   CONTENTSTACK_DELIVERY_TOKEN
    NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT
    NEXT_PUBLIC_CONTENTSTACK_REGION
    ```
@@ -244,7 +244,7 @@ In Vercel Dashboard:
 | Variable | Description | Example | Where to Get |
 |----------|-------------|---------|--------------|
 | `NEXT_PUBLIC_CONTENTSTACK_API_KEY` | Stack API Key | `blt123abc...` | Contentstack → Settings → Stack |
-| `NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN` | Delivery Token | `cs789xyz...` | Contentstack → Settings → Tokens |
+| `CONTENTSTACK_DELIVERY_TOKEN` | Delivery Token | `cs789xyz...` | Contentstack → Settings → Tokens |
 | `NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT` | Environment | `production` | Contentstack → Settings → Environments |
 | `NEXT_PUBLIC_CONTENTSTACK_REGION` | Region | `us` | Based on your Contentstack URL |
 
@@ -296,7 +296,7 @@ const nextConfig: NextConfig = {
   // Environment variables validation (optional)
   env: {
     NEXT_PUBLIC_CONTENTSTACK_API_KEY: process.env.NEXT_PUBLIC_CONTENTSTACK_API_KEY,
-    NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN: process.env.NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN,
+    CONTENTSTACK_DELIVERY_TOKEN: process.env.CONTENTSTACK_DELIVERY_TOKEN,
   },
 };
 
@@ -475,7 +475,7 @@ Consider separate tokens for:
 3. **Add Environment Variables:**
    ```
    NEXT_PUBLIC_CONTENTSTACK_API_KEY = [your-api-key]
-   NEXT_PUBLIC_CONTENTSTACK_DELIVERY_TOKEN = [your-token]
+   CONTENTSTACK_DELIVERY_TOKEN = [your-token]
    NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT = production
    NEXT_PUBLIC_CONTENTSTACK_REGION = us
    ```
