@@ -148,7 +148,32 @@ This script:
 
 ---
 
-### 4. test-contentstack.js
+### 4. test-revalidation.sh
+
+Tests the on-demand revalidation API endpoint.
+
+**Usage:**
+```bash
+# Test localhost
+./scripts/test-revalidation.sh
+
+# Test production
+./scripts/test-revalidation.sh https://your-domain.com
+```
+
+This script:
+- Tests the GET endpoint (health check)
+- Tests POST with homepage revalidation
+- Tests POST with product revalidation
+- Tests unauthorized requests (should fail)
+
+**Prerequisites:**
+- `REVALIDATION_SECRET` must be set in `.env`
+- Next.js app must be running
+
+---
+
+### 5. test-contentstack.js
 
 Tests your Contentstack connection and product data.
 

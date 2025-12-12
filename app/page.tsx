@@ -3,7 +3,7 @@ import { getHomepageContent, getAllProducts } from "@/lib/contentstack";
 import { ArchitectureDiagram } from "@/types/product";
 
 // Enable ISR - revalidate every hour
-export const revalidate = 3600;
+export const revalidate = 5;
 
 export default async function Home() {
   // Fetch homepage content and products from Contentstack
@@ -94,30 +94,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* About Contentstack Section */}
-      {homepageContent.aboutContentstack && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="inline-block">
-                <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
-                  About Contentstack
-                </span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-                What is Contentstack?
-              </h2>
-            </div>
-            <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border-2 border-purple-100 shadow-lg">
-              <div className="prose prose-lg max-w-none">
-                <p className="text-slate-700 leading-relaxed whitespace-pre-line">
-                  {homepageContent.aboutContentstack}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
+    
 
       {/* What You'll Find Here Section - NEW */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -292,41 +269,7 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Platform Overview Video Section */}
-      {homepageContent.platformVideoUrl && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-block">
-              <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
-                Platform Overview
-              </span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-              Understanding Contentstack
-            </h2>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              New to the team? Watch this video to understand the Contentstack platform and architecture
-            </p>
-          </div>
-
-          <div className="max-w-5xl mx-auto">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 p-2">
-              <div className="relative bg-black rounded-2xl overflow-hidden" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src={homepageContent.platformVideoUrl.replace('watch?v=', 'embed/')}
-                  title="Contentstack Platform Overview"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* Architecture Section - Enhanced with Diagram */}
+ {/* Architecture Section - Enhanced with Diagram */}
       <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -452,6 +395,67 @@ export default async function Home() {
           </div>
         </div>
       </section>
+      
+      {/* Platform Overview Video Section */}
+      {homepageContent.platformVideoUrl && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-block">
+              <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
+                Platform Overview
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+              Understanding Contentstack
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              New to the team? Watch this video to understand the Contentstack platform and architecture
+            </p>
+          </div>
+
+          <div className="max-w-5xl mx-auto">
+            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 p-2">
+              <div className="relative bg-black rounded-2xl overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+                <iframe
+                  className="absolute top-0 left-0 w-full h-full"
+                  src={homepageContent.platformVideoUrl.replace('watch?v=', 'embed/')}
+                  title="Contentstack Platform Overview"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+        {/* About Contentstack Section */}
+        {homepageContent.aboutContentstack && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-8">
+              <div className="inline-block">
+                <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
+                  About Contentstack
+                </span>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+                What is Contentstack?
+              </h2>
+            </div>
+            <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border-2 border-purple-100 shadow-lg">
+              <div className="prose prose-lg max-w-none">
+                <p className="text-slate-700 leading-relaxed whitespace-pre-line">
+                  {homepageContent.aboutContentstack}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+     
 
     
       {/* Quick Access Resources */}
