@@ -43,49 +43,58 @@ export default function ProductsClient({ products }: ProductsClientProps) {
 
       {/* Filters Section */}
       <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="flex flex-col lg:flex-row gap-6 items-center">
-          {/* Search */}
-          <div className="flex-1 w-full">
-            <div className="relative">
-              <svg
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                />
-              </svg>
-              <input
-                type="text"
-                placeholder="Search products..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-12 pr-4 py-4 bg-white border-2 border-slate-200 rounded-2xl focus:ring-2 focus:ring-purple-500 focus:border-transparent text-slate-900 font-medium placeholder:text-slate-400"
+        {/* Search Bar - Full Width */}
+        <div className="mb-8">
+          <div className="relative max-w-3xl mx-auto">
+            <svg
+              className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-slate-400"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
-            </div>
-          </div>
-
-          {/* Category Pills */}
-          <div className="flex flex-wrap gap-2 justify-center">
-            {categories.map((category) => (
+            </svg>
+            <input
+              type="text"
+              placeholder="Search products by name or description..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-full pl-16 pr-6 py-5 text-lg bg-white border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-purple-200 focus:border-purple-500 text-slate-900 font-medium placeholder:text-slate-400 shadow-sm hover:shadow-md transition-all"
+            />
+            {searchQuery && (
               <button
-                key={category}
-                onClick={() => setSelectedCategory(category)}
-                className={`px-6 py-3 rounded-2xl font-bold transition-all ${
-                  selectedCategory === category
-                    ? "bg-slate-900 text-white shadow-lg scale-105"
-                    : "bg-white text-slate-700 hover:bg-slate-100 border-2 border-slate-200"
-                }`}
+                onClick={() => setSearchQuery("")}
+                className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                aria-label="Clear search"
               >
-                {category}
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
               </button>
-            ))}
+            )}
           </div>
+        </div>
+
+        {/* Category Pills - Centered */}
+        <div className="flex flex-wrap gap-3 justify-center">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setSelectedCategory(category)}
+              className={`px-6 py-3 rounded-2xl font-bold transition-all ${
+                selectedCategory === category
+                  ? "bg-slate-900 text-white shadow-lg scale-105"
+                  : "bg-white text-slate-700 hover:bg-slate-100 border-2 border-slate-200"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
         </div>
 
         {/* Results count */}
