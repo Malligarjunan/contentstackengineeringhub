@@ -14,7 +14,8 @@ Successfully implemented **Incremental Static Regeneration (ISR)** with **On-Dem
 ### Revalidation API (`/api/revalidate`)
 - ✅ **No authentication** required (as requested)
 - ✅ **No input payload** required (as requested)
-- ✅ Supports both **GET** and **POST** methods
+- ✅ **No parameters** needed - automatically revalidates ALL products
+- ✅ **GET method only** - Simple and straightforward
 
 ## Build Output
 
@@ -37,7 +38,7 @@ Route (app)               Revalidate  Expire
 npm run dev
 
 # In another terminal, test revalidation
-curl http://localhost:3000/api/revalidate?slug=cda
+curl http://localhost:3000/api/revalidate
 ```
 
 ### Run Full Test Suite
@@ -52,21 +53,31 @@ npm run dev
 
 ## API Usage
 
-### Revalidate Single Product
+### Revalidate ALL Products
 ```bash
-GET /api/revalidate?slug=cda
+GET /api/revalidate
 ```
 
-### Revalidate Products Page
+**That's it!** No parameters needed. This single call will:
+1. Fetch all product slugs from Contentstack
+2. Revalidate each product page (`/products/[slug]`)
+3. Revalidate the products listing page (`/products`)
+
+**Example:**
 ```bash
-GET /api/revalidate?path=/products
+curl http://localhost:3000/api/revalidate
 ```
 
-### POST Request
-```bash
-curl -X POST http://localhost:3000/api/revalidate \
-  -H "Content-Type: application/json" \
-  -d '{"slug": "automation"}'
+**Response:**
+```json
+{
+  "revalidated": true,
+  "count": 19,
+  "productCount": 18,
+  "paths": ["/products/agent-os", "/products/automation", ...],
+  "message": "Successfully revalidated 18 product pages and the products listing page",
+  "timestamp": "2025-01-10T12:00:00.000Z"
+}
 ```
 
 ## Contentstack Webhook Setup
@@ -74,12 +85,17 @@ curl -X POST http://localhost:3000/api/revalidate \
 Configure in Contentstack Dashboard:
 
 1. Go to **Settings > Webhooks > + New Webhook**
-2. Set URL: `https://your-domain.com/api/revalidate?slug={{entry.uid}}`
+2. Set URL: `https://your-domain.com/api/revalidate`
 3. Select Content Type: **product**
 4. Select Events: **Publish**, **Unpublish**
 5. Save
 
-Now product pages will revalidate automatically when published!
+Now when ANY product is published, ALL product pages will revalidate automatically!
+
+**Benefits:**
+- ✅ Simple configuration - no variables needed
+- ✅ All products stay in sync
+- ✅ No missed pages
 
 ## How It Works
 
@@ -165,9 +181,10 @@ You'll see:
 
 ✅ **ISR Enabled** - 2-second revalidation for all product pages  
 ✅ **API Created** - `/api/revalidate` with no auth required  
-✅ **No Payload Needed** - Simple GET request with query params  
+✅ **No Parameters Needed** - Simple GET request, no input required  
+✅ **Revalidates Everything** - All 18+ product pages in one call  
 ✅ **18 Pages Pre-generated** - Fast initial load  
-✅ **Webhook Ready** - Works with Contentstack webhooks  
+✅ **Webhook Ready** - Single URL works with Contentstack webhooks  
 ✅ **Well Documented** - Complete guides included  
 ✅ **Fully Tested** - Test script provided  
 

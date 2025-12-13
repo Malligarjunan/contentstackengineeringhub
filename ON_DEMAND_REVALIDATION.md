@@ -2,101 +2,74 @@
 
 ## Overview
 
-This API enables on-demand revalidation of ISR (Incremental Static Regeneration) pages without waiting for the automatic revalidation period. Based on [Next.js ISR documentation](https://nextjs.org/docs/pages/guides/incremental-static-regeneration).
+This API enables on-demand revalidation of ALL ISR (Incremental Static Regeneration) product pages without waiting for the automatic revalidation period. Based on [Next.js ISR documentation](https://nextjs.org/docs/pages/guides/incremental-static-regeneration).
 
 ## API Endpoint
 
 **URL:** `/api/revalidate`
 
-**Methods:** `GET`, `POST`
+**Method:** `GET`
+
+**Parameters:** None required
 
 **Authentication:** None required
 
 ## Usage
 
-### GET Request - Revalidate by Slug
+### Simple GET Request - Revalidate ALL Products
 
-Revalidate a specific product page:
+Simply call the API endpoint without any parameters:
 
 ```bash
-GET /api/revalidate?slug=product-slug
+GET /api/revalidate
 ```
 
-**Examples:**
+**Example:**
 ```bash
-# Revalidate CDA product page
-curl http://localhost:3000/api/revalidate?slug=cda
-
-# Revalidate Automation product page
-curl http://localhost:3000/api/revalidate?slug=automation
+curl http://localhost:3000/api/revalidate
 ```
+
+**What happens:**
+1. Fetches all product slugs from Contentstack
+2. Revalidates each individual product page (`/products/[slug]`)
+3. Revalidates the products listing page (`/products`)
+4. Returns a summary of all revalidated pages
 
 **Response:**
 ```json
 {
   "revalidated": true,
-  "path": "/products/cda",
-  "message": "Successfully revalidated /products/cda",
+  "count": 19,
+  "productCount": 18,
+  "paths": [
+    "/products/agent-os",
+    "/products/automation",
+    "/products/brand-kit",
+    "/products/cda",
+    "/products/cma",
+    "/products/dam",
+    "/products/data-engineering",
+    "/products/growth",
+    "/products/launch",
+    "/products/marketplace",
+    "/products/org-admin",
+    "/products/personalization",
+    "/products/sdk-cli",
+    "/products/search",
+    "/products/studio",
+    "/products/super-admin",
+    "/products/ui",
+    "/products/visual-preview",
+    "/products"
+  ],
+  "message": "Successfully revalidated 18 product pages and the products listing page",
   "timestamp": "2025-01-10T12:00:00.000Z"
 }
-```
-
-### GET Request - Revalidate by Path
-
-Revalidate any page by its path:
-
-```bash
-GET /api/revalidate?path=/path/to/page
-```
-
-**Examples:**
-```bash
-# Revalidate products listing page
-curl http://localhost:3000/api/revalidate?path=/products
-
-# Revalidate homepage
-curl http://localhost:3000/api/revalidate?path=/
-```
-
-**Response:**
-```json
-{
-  "revalidated": true,
-  "path": "/products",
-  "message": "Successfully revalidated /products",
-  "timestamp": "2025-01-10T12:00:00.000Z"
-}
-```
-
-### POST Request - With JSON Body
-
-Send a POST request with JSON body:
-
-```bash
-POST /api/revalidate
-Content-Type: application/json
-
-{
-  "slug": "product-slug"
-}
-```
-
-**Examples:**
-```bash
-# Revalidate by slug
-curl -X POST http://localhost:3000/api/revalidate \
-  -H "Content-Type: application/json" \
-  -d '{"slug": "launch"}'
-
-# Revalidate by path
-curl -X POST http://localhost:3000/api/revalidate \
-  -H "Content-Type: application/json" \
-  -d '{"path": "/products"}'
 ```
 
 ## Testing
 
-Use the provided test script to test all endpoints:
+Use the provided test script to test the endpoint:
 
 ```bash
 # Test on localhost
@@ -111,9 +84,18 @@ Make the script executable first:
 chmod +x scripts/test-revalidate.sh
 ```
 
+Or test manually:
+```bash
+# Start your app
+npm run dev
+
+# In another terminal
+curl http://localhost:3000/api/revalidate
+```
+
 ## Contentstack Webhook Integration
 
-You can configure Contentstack webhooks to automatically trigger revalidation when content is published.
+You can configure Contentstack webhooks to automatically trigger revalidation of ALL product pages when any product content is published.
 
 ### Setup Steps
 
@@ -122,48 +104,26 @@ You can configure Contentstack webhooks to automatically trigger revalidation wh
    - Click **+ New Webhook**
 
 2. **Configure Webhook**
-   - **Name:** Product Page Revalidation
-   - **URL:** `https://your-domain.com/api/revalidate?slug={{entry.uid}}`
+   - **Name:** Revalidate All Product Pages
+   - **URL:** `https://your-domain.com/api/revalidate`
    - **Method:** GET
    - **Content Type:** Select "product" content type
    - **Events:** Select "Publish" and "Unpublish"
 
 3. **Save and Test**
    - Save the webhook
-   - Publish a product entry to test
+   - Publish any product entry to test
    - Check your application logs for revalidation messages
+   - All product pages will be revalidated automatically
 
-### Webhook URL Examples
+### Benefits of This Approach
 
-For product entries (using entry UID as slug):
-```
-https://your-domain.com/api/revalidate?slug={{entry.uid}}
-```
-
-For all products page:
-```
-https://your-domain.com/api/revalidate?path=/products
-```
-
-For homepage:
-```
-https://your-domain.com/api/revalidate?path=/
-```
+✅ **Simple Configuration** - Single webhook URL, no variables needed  
+✅ **Consistent Updates** - All product pages stay in sync  
+✅ **No Missed Pages** - Guaranteed to revalidate every product  
+✅ **Works for Any Product** - Doesn't depend on entry UID matching slug
 
 ## Error Handling
-
-### Missing Parameters
-```json
-{
-  "revalidated": false,
-  "error": "Missing required parameter",
-  "message": "Please provide either 'slug' or 'path' query parameter",
-  "examples": [
-    "/api/revalidate?slug=cda",
-    "/api/revalidate?path=/products"
-  ]
-}
-```
 
 ### Server Error
 ```json
@@ -184,33 +144,30 @@ https://your-domain.com/api/revalidate?path=/
 
 ## Use Cases
 
-### 1. Content Publishing
-Trigger revalidation immediately when content is published in Contentstack:
+### 1. Content Publishing (via Webhook)
+Automatically revalidate all product pages when content is published in Contentstack:
+- Configure webhook in Contentstack (see above)
+- Any product publish/unpublish triggers revalidation of ALL products
+- Ensures consistency across all product pages
+
+### 2. Manual Revalidation
+Manually trigger revalidation when needed:
 ```bash
-curl https://your-domain.com/api/revalidate?slug=cda
+curl https://your-domain.com/api/revalidate
 ```
 
-### 2. Bulk Revalidation
-Revalidate multiple pages after a batch content update:
+### 3. CI/CD Integration
+Add to your deployment pipeline to refresh all product pages:
 ```bash
-#!/bin/bash
-for slug in cda automation launch dam; do
-  curl https://your-domain.com/api/revalidate?slug=$slug
-done
+# After deploying new code, refresh all product pages
+curl https://your-domain.com/api/revalidate
 ```
 
-### 3. Manual Cache Clearing
-Clear cache for a specific page manually:
+### 4. Scheduled Updates
+Create a cron job to periodically refresh product pages:
 ```bash
-curl https://your-domain.com/api/revalidate?path=/products/cda
-```
-
-### 4. CI/CD Integration
-Add to your deployment pipeline:
-```bash
-# After deploying new code
-curl https://your-domain.com/api/revalidate?path=/products
-curl https://your-domain.com/api/revalidate?path=/
+# Add to crontab - revalidate every hour
+0 * * * * curl https://your-domain.com/api/revalidate
 ```
 
 ## Performance Impact
@@ -239,10 +196,14 @@ npm start
 
 **Current Setup:** No authentication required
 
-**For Production:** Consider adding authentication:
+The API has no authentication to keep it simple. Since it only triggers cache revalidation (which happens automatically anyway), there's minimal security risk.
+
+**Optional: Add Authentication for Production**
+
+If you want to add authentication:
 
 ```typescript
-// Add to route.ts
+// Add to route.ts at the start of GET function
 const secret = request.nextUrl.searchParams.get('secret');
 if (secret !== process.env.REVALIDATE_SECRET_TOKEN) {
   return NextResponse.json(
@@ -259,7 +220,12 @@ REVALIDATE_SECRET_TOKEN=your-secret-token
 
 And use:
 ```bash
-curl https://your-domain.com/api/revalidate?slug=cda&secret=your-secret-token
+curl https://your-domain.com/api/revalidate?secret=your-secret-token
+```
+
+Update Contentstack webhook URL:
+```
+https://your-domain.com/api/revalidate?secret=your-secret-token
 ```
 
 ## Troubleshooting
@@ -268,28 +234,32 @@ curl https://your-domain.com/api/revalidate?slug=cda&secret=your-secret-token
 
 1. **Check ISR is enabled** in your page:
    ```typescript
-   export const revalidate = 2; // Must be set
+   export const revalidate = 2; // Must be set in /products/[slug]/page.tsx
    ```
 
-2. **Verify the path** is correct:
+2. **Verify Contentstack connection**:
    ```bash
-   # Use the actual path, not rewritten
-   /products/cda ✅
-   /product-cda  ❌
+   # Make sure you can fetch products
+   npm run test-contentstack
    ```
 
 3. **Check logs** for error messages:
    ```bash
    npm run dev
-   # Look for "Error revalidating" messages
+   # Look for "🔄 Starting revalidation..." and "✅ Successfully revalidated" messages
    ```
 
 4. **Test locally first**:
    ```bash
    npm run build
    npm start
-   curl http://localhost:3000/api/revalidate?slug=cda
+   curl http://localhost:3000/api/revalidate
    ```
+
+5. **Verify all slugs are being fetched**:
+   - The API fetches slugs from `getAllProductSlugs()`
+   - Check that this function returns all your product slugs
+   - Look for the log: "📋 Found X product slugs"
 
 ### Testing ISR Behavior
 
@@ -309,10 +279,13 @@ This logs cache hits/misses in the console.
 
 ## Summary
 
+✅ **Simple API** - Just call `/api/revalidate` with no parameters  
 ✅ **No authentication required** (can be added if needed)  
-✅ **No input payload required** (optional for flexibility)  
-✅ **Supports GET and POST methods**  
-✅ **Works with Contentstack webhooks**  
-✅ **Easy to test with provided script**  
-✅ **Background revalidation for zero downtime**
+✅ **No input needed** - Automatically fetches and revalidates all products  
+✅ **GET method only** - Simple and straightforward  
+✅ **Works with Contentstack webhooks** - Single URL configuration  
+✅ **Revalidates everything** - All 18+ product pages + listing page  
+✅ **Easy to test** - Provided test script included  
+✅ **Background revalidation** - Zero downtime updates  
+✅ **Comprehensive logging** - See what's being revalidated in console
 

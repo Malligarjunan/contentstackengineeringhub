@@ -17,50 +17,24 @@ echo -e "${BLUE}🧪 Testing On-Demand Revalidation API${NC}"
 echo -e "${BLUE}=====================================${NC}\n"
 echo -e "Base URL: ${BASE_URL}\n"
 
-# Test 1: Revalidate specific product by slug
-echo -e "${YELLOW}Test 1: Revalidate specific product (CDA)${NC}"
-curl -s "${BASE_URL}/api/revalidate?slug=cda" | jq '.'
-echo -e "\n"
-
-# Test 2: Revalidate another product
-echo -e "${YELLOW}Test 2: Revalidate another product (Automation)${NC}"
-curl -s "${BASE_URL}/api/revalidate?slug=automation" | jq '.'
-echo -e "\n"
-
-# Test 3: Revalidate by path
-echo -e "${YELLOW}Test 3: Revalidate products listing page${NC}"
-curl -s "${BASE_URL}/api/revalidate?path=/products" | jq '.'
-echo -e "\n"
-
-# Test 4: Revalidate homepage
-echo -e "${YELLOW}Test 4: Revalidate homepage${NC}"
-curl -s "${BASE_URL}/api/revalidate?path=/" | jq '.'
-echo -e "\n"
-
-# Test 5: Error case - missing parameters
-echo -e "${YELLOW}Test 5: Error case - missing parameters${NC}"
+# Test: Revalidate ALL product pages (no parameters)
+echo -e "${YELLOW}Test: Revalidate ALL product pages${NC}"
+echo -e "${BLUE}Calling: GET ${BASE_URL}/api/revalidate${NC}\n"
 curl -s "${BASE_URL}/api/revalidate" | jq '.'
 echo -e "\n"
 
-# Test 6: POST request with JSON body
-echo -e "${YELLOW}Test 6: POST request with JSON body${NC}"
-curl -s -X POST "${BASE_URL}/api/revalidate" \
-  -H "Content-Type: application/json" \
-  -d '{"slug": "launch"}' | jq '.'
-echo -e "\n"
-
-# Test 7: POST request with path
-echo -e "${YELLOW}Test 7: POST request with path${NC}"
-curl -s -X POST "${BASE_URL}/api/revalidate" \
-  -H "Content-Type: application/json" \
-  -d '{"path": "/products"}' | jq '.'
-echo -e "\n"
-
-echo -e "${GREEN}✅ All tests completed!${NC}"
-echo -e "\n${BLUE}Usage examples:${NC}"
-echo -e "  Revalidate specific product: curl ${BASE_URL}/api/revalidate?slug=cda"
-echo -e "  Revalidate all products:     curl ${BASE_URL}/api/revalidate?path=/products"
-echo -e "  Revalidate homepage:         curl ${BASE_URL}/api/revalidate?path=/"
+echo -e "${GREEN}✅ Test completed!${NC}"
+echo -e "\n${BLUE}Usage:${NC}"
+echo -e "  Revalidate ALL products: curl ${BASE_URL}/api/revalidate"
+echo -e "\n${BLUE}What happens:${NC}"
+echo -e "  1. Fetches all product slugs from Contentstack"
+echo -e "  2. Revalidates each product page (/products/[slug])"
+echo -e "  3. Revalidates the products listing page (/products)"
 echo -e "\n${BLUE}Webhook URL for Contentstack:${NC}"
-echo -e "  ${BASE_URL}/api/revalidate?slug={{entry.uid}}"
+echo -e "  ${BASE_URL}/api/revalidate"
+echo -e "\n${BLUE}Configure in Contentstack:${NC}"
+echo -e "  Settings > Webhooks > + New Webhook"
+echo -e "  URL: ${BASE_URL}/api/revalidate"
+echo -e "  Method: GET"
+echo -e "  Events: Publish, Unpublish"
 
