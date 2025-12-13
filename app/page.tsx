@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { getHomepageContent, getAllProducts } from "@/lib/contentstack";
 import { ArchitectureDiagram } from "@/types/product";
+import { getIcon, getColorClasses, getResourceIconBg } from "@/lib/homepage-helpers";
 
 // Force dynamic rendering - fetch fresh content on every request
 export const dynamic = 'force-dynamic';
@@ -41,12 +42,14 @@ export default async function Home() {
         </div>
 
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="mb-4 inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2">
-            <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-            </svg>
-            <span className="text-white/90 text-sm font-semibold">Internal Engineering Resource</span>
-          </div>
+          {homepageContent.heroBadgeText && (
+            <div className="mb-4 inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2">
+              <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              </svg>
+              <span className="text-white/90 text-sm font-semibold">{homepageContent.heroBadgeText}</span>
+            </div>
+          )}
 
           <h1 className="text-3xl md:text-5xl font-black text-white mb-4 tracking-tight">
             {homepageContent.heroTitle || 'Contentstack Engineering Knowledge Hub'}
@@ -96,119 +99,51 @@ export default async function Home() {
 
     
 
-      {/* What You'll Find Here Section - NEW */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-            Everything You Need to Know
-          </h2>
-          <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            Comprehensive information about every Contentstack product, team, and process — all in one place
-          </p>
-        </div>
+      {/* What You'll Find Here Section - From Contentstack */}
+      {homepageContent.featureCards && homepageContent.featureCards.length > 0 && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+              {homepageContent.featuresSectionTitle || 'Everything You Need to Know'}
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              {homepageContent.featuresSectionDescription || 'Comprehensive information about every Contentstack product, team, and process — all in one place'}
+            </p>
+          </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              ),
-              title: "Team Information",
-              description: "Team members, roles, contacts, and organizational structure for every product team",
-              borderColor: "border-purple-100",
-              bgColor: "bg-purple-100",
-              textColor: "text-purple-600"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
-              ),
-              title: "Engineering Processes",
-              description: "CI/CD pipelines, sprint processes, git workflows, and deployment procedures",
-              borderColor: "border-blue-100",
-              bgColor: "bg-blue-100",
-              textColor: "text-blue-600"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-              ),
-              title: "Technical Documentation",
-              description: "Architecture diagrams, tech stack details, API references, and local dev setup",
-              borderColor: "border-green-100",
-              bgColor: "bg-green-100",
-              textColor: "text-green-600"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-                </svg>
-              ),
-              title: "QA & Testing Strategies",
-              description: "Test strategies, automation frameworks, quality guidelines, and testing tools",
-              borderColor: "border-pink-100",
-              bgColor: "bg-pink-100",
-              textColor: "text-pink-600"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
-              ),
-              title: "Best Practices & Guidelines",
-              description: "Team practices, coding standards, documentation guidelines, and conventions",
-              borderColor: "border-orange-100",
-              bgColor: "bg-orange-100",
-              textColor: "text-orange-600"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
-                </svg>
-              ),
-              title: "Team Dependencies",
-              description: "Cross-team dependencies, contact points for DevOps, Platform, and other teams",
-              borderColor: "border-cyan-100",
-              bgColor: "bg-cyan-100",
-              textColor: "text-cyan-600"
-            }
-          ].map((item, i) => (
-            <div
-              key={i}
-              className={`relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 ${item.borderColor} group`}
-            >
-              <div className={`w-12 h-12 rounded-xl ${item.bgColor} flex items-center justify-center mb-4 ${item.textColor} group-hover:scale-110 transition-transform`}>
-                {item.icon}
-              </div>
-              <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
-              <p className="text-slate-600 text-sm leading-relaxed">{item.description}</p>
-            </div>
-          ))}
-        </div>
-      </section>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {homepageContent.featureCards.map((item: any, i: number) => {
+              const colorClasses = getColorClasses(item.color || 'purple');
+              return (
+                <div
+                  key={i}
+                  className={`relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 ${colorClasses.borderColor} group`}
+                >
+                  <div className={`w-12 h-12 rounded-xl ${colorClasses.bgColor} flex items-center justify-center mb-4 ${colorClasses.textColor} group-hover:scale-110 transition-transform`}>
+                    {getIcon(item.iconName || item.icon_name)}
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-slate-600 text-sm leading-relaxed">{item.description}</p>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       {/* Our Products Section - By Category */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto bg-gradient-to-b from-white to-slate-50">
         <div className="text-center mb-12">
           <div className="inline-block">
             <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
-              Product Catalog
+              {homepageContent.productsSectionBadge || 'Product Catalog'}
             </span>
           </div>
           <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-            Browse Products by Category
+            {homepageContent.productsSectionTitle || 'Browse Products by Category'}
           </h2>
           <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            Access detailed information about each product including teams, tech stack, processes, and guidelines
+            {homepageContent.productsSectionDescription || 'Access detailed information about each product including teams, tech stack, processes, and guidelines'}
           </p>
         </div>
 
@@ -269,84 +204,94 @@ export default async function Home() {
         </div>
       </section>
 
- {/* Architecture Section - Enhanced with Diagram */}
+ {/* Architecture Section - From Contentstack */}
       <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <div className="inline-block bg-purple-500/20 border border-purple-500/30 rounded-full px-4 py-2 mb-6">
-              <span className="text-purple-300 text-sm font-semibold">Platform Architecture</span>
+              <span className="text-purple-300 text-sm font-semibold">
+                {homepageContent.architectureSectionBadge || 'Platform Architecture'}
+              </span>
             </div>
             
             <h2 className="text-4xl md:text-5xl font-black mb-6">
-              Built for Scale.
+              {homepageContent.architectureSectionTitle || 'Built for Scale.'}
               <br />
-              <span className="text-purple-400">Designed for Speed.</span>
+              <span className="text-purple-400">
+                {homepageContent.architectureSectionSubtitle || 'Designed for Speed.'}
+              </span>
             </h2>
             
             <p className="text-slate-300 text-lg max-w-3xl mx-auto leading-relaxed">
-              Explore our microservices architecture, cloud-native infrastructure, and the technical decisions that power millions of digital experiences worldwide.
+              {homepageContent.architectureSectionDescription || 'Explore our microservices architecture, cloud-native infrastructure, and the technical decisions that power millions of digital experiences worldwide.'}
             </p>
           </div>
 
           <div className="grid lg:grid-cols-2 gap-12 items-start mb-12">
-            {/* Key Features */}
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">Core Architecture Principles</h3>
-              <ul className="space-y-4">
-                {[
-                  { title: 'Microservices Architecture', desc: 'Independent, scalable services for each product' },
-                  { title: 'Global CDN Distribution', desc: 'Content delivered from edge locations worldwide' },
-                  { title: 'Real-time Data Pipeline', desc: 'Instant data processing and analytics' },
-                  { title: 'Edge Computing Layer', desc: 'Processing at the edge for minimal latency' }
-                ].map((item, i) => (
-                  <li key={i} className="flex items-start gap-3 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
-                    <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0 mt-1">
-                      <svg className="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+            {/* Architecture Principles - From Contentstack */}
+            {homepageContent.architecturePrinciples && homepageContent.architecturePrinciples.length > 0 && (
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-6">
+                  {homepageContent.architecturePrinciplesTitle || 'Core Architecture Principles'}
+                </h3>
+                <ul className="space-y-4">
+                  {homepageContent.architecturePrinciples.map((item: any, i: number) => (
+                    <li key={i} className="flex items-start gap-3 bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                      <div className="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center flex-shrink-0 mt-1">
+                        <svg className="w-5 h-5 text-purple-400" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h4 className="text-white font-semibold mb-1">{item.title}</h4>
+                        <p className="text-slate-400 text-sm">{item.description}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Main Architecture Diagram - From Contentstack */}
+            {homepageContent.mainArchitectureImageUrl && (
+              <div>
+                <h3 className="text-2xl font-bold text-white mb-6">System Overview</h3>
+                <div className="relative bg-white/5 backdrop-blur-sm border-2 border-white/20 rounded-2xl overflow-hidden shadow-2xl group">
+                  <img
+                    src={homepageContent.mainArchitectureImageUrl}
+                    alt={homepageContent.architectureImageTitle || 'Architecture Diagram'}
+                    className="w-full h-auto"
+                  />
+                  
+                  {/* Overlay gradient on hover */}
+                  {(homepageContent.architectureImageTitle || homepageContent.architectureImageDescription) && (
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                      <div>
+                        <h4 className="text-lg font-bold text-white mb-2">
+                          {homepageContent.architectureImageTitle || 'Architecture Diagram'}
+                        </h4>
+                        <p className="text-slate-200 text-sm">
+                          {homepageContent.architectureImageDescription || ''}
+                        </p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {homepageContent.architectureImageDescription && (
+                  <div className="mt-4">
+                    <div className="flex items-start gap-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
+                      <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                       </svg>
+                      <p className="text-slate-300 text-sm leading-relaxed">
+                        {homepageContent.architectureImageDescription}
+                      </p>
                     </div>
-                    <div>
-                      <h4 className="text-white font-semibold mb-1">{item.title}</h4>
-                      <p className="text-slate-400 text-sm">{item.desc}</p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            {/* Main Architecture Diagram */}
-            <div>
-              <h3 className="text-2xl font-bold text-white mb-6">System Overview</h3>
-              <div className="relative bg-white/5 backdrop-blur-sm border-2 border-white/20 rounded-2xl overflow-hidden shadow-2xl group">
-                <img
-                  src="https://images.contentstack.io/v3/assets/blt23180bf2502c7444/bltb686bd66a92b4622/6387093e12a129103e952064/Contentstack-powered_Website_-_Layered_Architecture.jpg"
-                  alt="Contentstack Layered Architecture"
-                  className="w-full h-auto"
-                />
-                
-                {/* Overlay gradient on hover */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                  <div>
-                    <h4 className="text-lg font-bold text-white mb-2">Contentstack Layered Architecture</h4>
-                    <p className="text-slate-200 text-sm">
-                      Multi-tier architecture delivering content at scale globally
-                    </p>
                   </div>
-                </div>
+                )}
               </div>
-
-              <div className="mt-4">
-                <div className="flex items-start gap-3 bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-4">
-                  <svg className="w-5 h-5 text-purple-400 flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
-                  </svg>
-                  <p className="text-slate-300 text-sm leading-relaxed">
-                    This diagram shows the complete Contentstack platform stack including presentation layer, 
-                    edge delivery, CMS core, and infrastructure components.
-                  </p>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
 
           {/* Architecture Components Grid */}
@@ -396,20 +341,20 @@ export default async function Home() {
         </div>
       </section>
       
-      {/* Platform Overview Video Section */}
+      {/* Platform Overview Video Section - From Contentstack */}
       {homepageContent.platformVideoUrl && (
         <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <div className="inline-block">
               <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
-                Platform Overview
+                {homepageContent.videoSectionBadge || 'Platform Overview'}
               </span>
             </div>
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-              Understanding Contentstack
+              {homepageContent.videoSectionTitle || 'Understanding Contentstack'}
             </h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              New to the team? Watch this video to understand the Contentstack platform and architecture
+              {homepageContent.videoSectionDescription || 'New to the team? Watch this video to understand the Contentstack platform and architecture'}
             </p>
           </div>
 
@@ -458,104 +403,59 @@ export default async function Home() {
      
 
     
-      {/* Quick Access Resources */}
-      <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-            Quick Access Resources
-          </h2>
-          <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-            Frequently accessed documentation, tools, and resources for daily work
-          </p>
-        </div>
+      {/* Quick Access Resources - From Contentstack */}
+      {homepageContent.quickAccessResources && homepageContent.quickAccessResources.length > 0 && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+              {homepageContent.resourcesSectionTitle || 'Quick Access Resources'}
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              {homepageContent.resourcesSectionDescription || 'Frequently accessed documentation, tools, and resources for daily work'}
+            </p>
+          </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              ),
-              title: "API Docs",
-              description: "Complete API reference",
-              link: "https://www.contentstack.com/docs",
-              bgGradient: "from-purple-50 to-purple-100",
-              borderColor: "border-purple-200",
-              iconBg: "bg-purple-500"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              ),
-              title: "Architecture",
-              description: "System diagrams",
-              link: "#architecture",
-              bgGradient: "from-blue-50 to-blue-100",
-              borderColor: "border-blue-200",
-              iconBg: "bg-blue-500"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
-                </svg>
-              ),
-              title: "Best Practices",
-              description: "Team guidelines",
-              link: "/products",
-              bgGradient: "from-green-50 to-green-100",
-              borderColor: "border-green-200",
-              iconBg: "bg-green-500"
-            },
-            {
-              icon: (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                </svg>
-              ),
-              title: "Team Contacts",
-              description: "Who to reach out",
-              link: "/products",
-              bgGradient: "from-orange-50 to-orange-100",
-              borderColor: "border-orange-200",
-              iconBg: "bg-orange-500"
-            }
-          ].map((resource, i) => (
-            <a
-              key={i}
-              href={resource.link}
-              className={`relative bg-gradient-to-br ${resource.bgGradient} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 ${resource.borderColor} group`}
-            >
-              <div className={`w-12 h-12 rounded-xl ${resource.iconBg} flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform shadow-lg`}>
-                {resource.icon}
-              </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-1">{resource.title}</h3>
-              <p className="text-slate-600 text-sm">{resource.description}</p>
-            </a>
-          ))}
-        </div>
-      </section>
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {homepageContent.quickAccessResources.map((resource: any, i: number) => {
+              const colorClasses = getColorClasses(resource.color || 'purple');
+              const iconBg = getResourceIconBg(resource.color || 'purple');
+              return (
+                <a
+                  key={i}
+                  href={resource.linkUrl || resource.link_url}
+                  className={`relative bg-gradient-to-br ${colorClasses.bgGradient} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 ${colorClasses.borderColor} group`}
+                >
+                  <div className={`w-12 h-12 rounded-xl ${iconBg} flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform shadow-lg`}>
+                    {getIcon(resource.iconName || resource.icon_name)}
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">{resource.title}</h3>
+                  <p className="text-slate-600 text-sm">{resource.description}</p>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
-      {/* CTA Section - Knowledge Hub Focus */}
+      {/* CTA Section - From Contentstack */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0di00aC0ydjRoLTR2Mmg0djRoMnYtNGg0di0yaC00em0wLTMwVjBoLTJ2NGgtNHYyaDR2NGgyVjZoNFY0aC00ek02IDM0di00SDR2NEgwdjJoNHY0aDJ2LTRoNHYtMkg2ek02IDRWMEG0djRIMHYyaDR2NGgyVjZoNFY0SDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto text-center">
-          <div className="mb-4 inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2">
-            <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
-              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-            </svg>
-            <span className="text-white/90 text-sm font-semibold">For Contentstack Team Members</span>
-          </div>
+          {homepageContent.ctaSectionBadge && (
+            <div className="mb-4 inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-4 py-2">
+              <svg className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              <span className="text-white/90 text-sm font-semibold">{homepageContent.ctaSectionBadge}</span>
+            </div>
+          )}
 
           <h2 className="text-3xl md:text-4xl font-black mb-4">
-            Have Questions or Suggestions?
+            {homepageContent.ctaSectionTitle || 'Have Questions or Suggestions?'}
           </h2>
           <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
-            This knowledge hub is maintained by the engineering team. If you notice outdated information or want to contribute, reach out to your team lead or submit a pull request.
+            {homepageContent.ctaSectionDescription || 'This knowledge hub is maintained by the engineering team. If you notice outdated information or want to contribute, reach out to your team lead or submit a pull request.'}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-3 justify-center">

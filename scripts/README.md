@@ -23,13 +23,49 @@ npm run dev
 
 Creates the Homepage content type in your Contentstack stack.
 
+**Usage:**
+```bash
+npm run create-homepage
+```
+
 ### 2. create-homepage-entry.js
 
 Creates and publishes the homepage entry with default content.
 
 **Usage:**
 ```bash
-npm run create-homepage
+npm run create-homepage-entry
+```
+
+### 3. update-homepage-contenttype.js
+
+Updates the existing homepage content type with enhanced fields for all homepage sections.
+
+This script adds 25 new fields including:
+- Hero section badge text
+- Features section (title, description, feature cards)
+- Products section (badge, title, description)
+- Architecture section (badge, title, subtitle, description, principles, main image)
+- Video section (badge, title, description)
+- Quick access resources section (title, description, resource cards)
+- CTA section (badge, title, description)
+
+**Usage:**
+```bash
+npm run update-homepage-contenttype
+# OR
+node scripts/update-homepage-contenttype.js
+```
+
+### 4. update-homepage-entry.js
+
+Updates the existing homepage entry with content for all the enhanced fields.
+
+**Usage:**
+```bash
+npm run update-homepage-entry
+# OR
+node scripts/update-homepage-entry.js
 ```
 
 **Prerequisites:**

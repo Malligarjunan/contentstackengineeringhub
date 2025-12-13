@@ -9,11 +9,16 @@ interface ProductPageProps {
   }>;
 }
 
-// Force dynamic rendering - fetch fresh content on every request
-export const dynamic = 'force-dynamic';
+// Enable ISR - pages regenerate in the background after this time period
+export const revalidate = 2; // Revalidate every 2 seconds
 
-// Note: generateStaticParams is not used with force-dynamic
-// All pages are rendered on-demand for each request
+// Generate static pages at build time for all products
+export async function generateStaticParams() {
+  const slugs = await getAllProductSlugs();
+  return slugs.map((slug) => ({
+    slug: slug,
+  }));
+}
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
