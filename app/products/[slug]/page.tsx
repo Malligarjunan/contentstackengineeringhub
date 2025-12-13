@@ -41,8 +41,9 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   }
 
   // Wrap content with Live Preview for real-time updates
-  const renderContent = (prod: typeof product) => (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+  return (
+    <LivePreviewProduct>
+      <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section with Product Info */}
       <section className="relative bg-slate-900 text-white pt-12 pb-14 overflow-hidden">
         {/* Background pattern */}
@@ -733,13 +734,7 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
           </div>
         </div>
       </section>
-    </div>
-  );
-
-  // Return wrapped with Live Preview for real-time updates
-  return (
-    <LivePreviewProduct initialProduct={product}>
-      {renderContent}
+      </div>
     </LivePreviewProduct>
   );
 }

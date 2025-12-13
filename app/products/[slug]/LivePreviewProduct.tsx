@@ -1,21 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import ContentstackLivePreview from '@contentstack/live-preview-utils';
-import { Product } from '@/types/product';
 
 interface LivePreviewProductProps {
-  initialProduct: Product;
-  children: (product: Product) => React.ReactNode;
+  children: React.ReactNode;
 }
 
 /**
  * Live Preview wrapper for product pages
  * Enables real-time content updates in Contentstack Live Preview
  */
-export default function LivePreviewProduct({ initialProduct, children }: LivePreviewProductProps) {
-  const [product, setProduct] = useState<Product>(initialProduct);
-
+export default function LivePreviewProduct({ children }: LivePreviewProductProps) {
   useEffect(() => {
     // Check if we're in Live Preview mode
     const urlParams = new URLSearchParams(window.location.search);
@@ -26,7 +22,7 @@ export default function LivePreviewProduct({ initialProduct, children }: LivePre
       return;
     }
 
-    console.log('🔴 Live Preview mode detected for product:', product.slug);
+    console.log('🔴 Live Preview mode detected');
 
     // Set up listener for entry changes
     // This callback is triggered when content is updated in Contentstack
@@ -40,8 +36,8 @@ export default function LivePreviewProduct({ initialProduct, children }: LivePre
     });
 
     console.log('✅ Live Preview listener registered');
-  }, [product.slug]);
+  }, []);
 
-  return <>{children(product)}</>;
+  return <>{children}</>;
 }
 
