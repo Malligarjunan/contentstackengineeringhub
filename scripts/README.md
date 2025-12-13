@@ -19,7 +19,78 @@ npm run dev
 
 ## Scripts
 
-### 1. create-homepage-contenttype.js
+### 1. migrate-images-to-assets.js
+
+**⚠️ IMPORTANT**: This script modifies your content types and entries. Create a backup before running!
+
+Migrates image URLs to Contentstack assets. This script:
+- Converts text URL fields to file/asset fields in content types
+- Uploads images from URLs to Contentstack assets
+- Updates entries to reference the uploaded assets
+
+**Affected Content Types:**
+- Product: `icon`, `cicd_diagram_image`, `architecture_diagrams[].image_url`, `team_members[].avatar`
+- Homepage: `architecture_diagrams[].image_url`
+
+**Usage:**
+```bash
+cd scripts
+node migrate-images-to-assets.js
+```
+
+**Prerequisites:**
+- `CONTENTSTACK_API_KEY` environment variable
+- `CONTENTSTACK_MANAGEMENT_TOKEN` environment variable
+- Create a backup in Contentstack before running
+
+**What it does:**
+1. Updates content type schemas to use file fields instead of text fields
+2. Downloads images from external URLs or finds local images in `public/` directory
+3. Uploads images to Contentstack assets
+4. Updates all entries to reference the uploaded asset UIDs
+5. Provides detailed progress and error reporting
+
+**Output Example:**
+```
+🚀 Starting image migration to Contentstack assets...
+
+📋 Updating product content type...
+   🔄 Converting icon field from text to file...
+   ✅ Product content type updated successfully!
+
+📝 Fetching product entries...
+Found 18 product entries
+
+🔄 Processing: Content Management API (CMA)
+   📸 Processing icon...
+   📥 Downloading: https://example.com/icon.png
+   📤 Uploading to Contentstack: CMA - Icon
+   ✅ Uploaded: CMA - Icon (UID: blt123abc)
+   💾 Saving updated entry...
+   ✅ Entry updated successfully!
+
+✅ Image migration completed successfully!
+📊 Summary: Total assets uploaded: 42
+```
+
+**After Migration:**
+Your frontend code needs to be updated to handle asset objects:
+```typescript
+// Before: product.icon is a string URL
+<img src={product.icon} />
+
+// After: product.icon is an asset object
+<img src={product.icon?.url} />
+```
+
+**Rollback:**
+If you need to rollback, restore from your Contentstack backup.
+
+**See also:** [ASSET_MIGRATION.md](../ASSET_MIGRATION.md) for detailed documentation.
+
+---
+
+### 2. create-homepage-contenttype.js
 
 Creates the Homepage content type in your Contentstack stack.
 
@@ -28,7 +99,7 @@ Creates the Homepage content type in your Contentstack stack.
 npm run create-homepage
 ```
 
-### 2. create-homepage-entry.js
+### 3. create-homepage-entry.js
 
 Creates and publishes the homepage entry with default content.
 
@@ -37,7 +108,7 @@ Creates and publishes the homepage entry with default content.
 npm run create-homepage-entry
 ```
 
-### 3. update-homepage-contenttype.js
+### 4. update-homepage-contenttype.js
 
 Updates the existing homepage content type with enhanced fields for all homepage sections.
 
@@ -57,7 +128,7 @@ npm run update-homepage-contenttype
 node scripts/update-homepage-contenttype.js
 ```
 
-### 4. update-homepage-entry.js
+### 5. update-homepage-entry.js
 
 Updates the existing homepage entry with content for all the enhanced fields.
 
@@ -121,7 +192,7 @@ The app will automatically fetch this content from Contentstack when it loads.
 
 ---
 
-### 2. create-homepage-entry.js
+### 6. create-homepage-entry.js (Detailed)
 
 Creates and publishes a homepage entry with default content based on `data/homepage.ts`.
 
