@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getProductBySlug, getAllProductSlugs } from "@/lib/contentstack";
 import { getYouTubeEmbedUrl, isYouTubeUrl, isContentstackAcademyUrl } from "@/lib/youtube";
 import LivePreviewProduct from "./LivePreviewProduct";
+import TextWithCopy from "./TextWithCopy";
 
 interface ProductPageProps {
   params: Promise<{
@@ -39,6 +40,13 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   if (!product) {
     notFound();
   }
+  
+  // Debug logging for intro field
+  console.log(`🔍 Product "${product.title}" intro field check:`, {
+    hasIntro: !!product.intro,
+    introLength: product.intro?.length || 0,
+    introPreview: product.intro?.substring(0, 200) || 'N/A'
+  });
 
   // Wrap content with Live Preview for real-time updates
   return (
@@ -115,9 +123,34 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
       {/* Main Content */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        {/* Product Introduction - Full Width */}
+        {product.intro && product.intro.length > 0 && (
+          <div className="bg-gradient-to-br from-indigo-50 via-white to-purple-50 rounded-3xl p-8 shadow-lg border border-indigo-100 mb-8">
+            <div className="flex items-center gap-3 mb-6">
+              <div className="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center">
+                <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <div>
+                <h2 className="text-2xl font-black text-slate-900">Introduction</h2>
+                <p className="text-slate-600 text-sm">Get started with {product.title}</p>
+              </div>
+            </div>
+
+            {/* Rich text content - Using Tailwind Typography for proper HTML RTE styling */}
+            <div 
+              className="prose prose-lg prose-slate max-w-none prose-headings:font-black prose-h3:text-xl prose-h3:text-indigo-900 prose-h4:text-lg prose-h4:text-indigo-800 prose-p:text-slate-700 prose-p:leading-relaxed prose-a:text-indigo-600 prose-a:no-underline hover:prose-a:underline prose-strong:text-slate-900 prose-ul:list-disc prose-ul:pl-6 prose-ol:list-decimal prose-ol:pl-6 prose-li:text-slate-700 prose-code:text-indigo-600 prose-code:bg-indigo-50 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-slate-800 prose-blockquote:border-indigo-500 prose-img:rounded-lg"
+              dangerouslySetInnerHTML={{ __html: product.intro }}
+            />
+          </div>
+        )}
+
+        {/* Two Column Layout Below Introduction */}
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Main Column */}
           <div className="lg:col-span-2 space-y-8">
+
             {/* Product Overview Video */}
             {product.videoUrl && (
               <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 shadow-2xl border border-slate-700 overflow-hidden">
@@ -266,6 +299,99 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
               </div>
             )}
 
+            {/* Architecture Diagrams - Full Width Display */}
+            {product.architectureDiagrams && product.architectureDiagrams.length > 0 && (
+              <div className="bg-white rounded-3xl p-8 shadow-lg border border-slate-100">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z" />
+                    </svg>
+                  </div>
+                  <h2 className="text-2xl font-black text-slate-900">Architecture Diagrams</h2>
+                </div>
+
+                <div className="space-y-6">
+                  {product.architectureDiagrams.map((diagram, index) => (
+                    <div 
+                      key={index}
+                      className="group relative bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 border-2 border-slate-200 hover:border-blue-400 transition-all duration-300 hover:shadow-xl"
+                    >
+                      <div className="mb-4">
+                        {/* Diagram Title */}
+                        <h3 className="text-lg font-bold text-slate-900 mb-2 group-hover:text-blue-600 transition-colors">
+                          {diagram.title}
+                        </h3>
+
+                        {/* Diagram Description */}
+                        <p className="text-sm text-slate-600 mb-3 leading-relaxed">
+                          {diagram.description}
+                        </p>
+                      </div>
+
+                      {/* Diagram Image - Full Width */}
+                      {diagram.imageUrl && (
+                        <div className="relative rounded-xl overflow-hidden bg-white border border-slate-200 mb-4 hover:shadow-lg transition-all">
+                          <img
+                            src={diagram.imageUrl}
+                            alt={diagram.title}
+                            className="w-full h-auto object-contain max-h-[600px]"
+                          />
+                          {/* Overlay on hover */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-center pb-4">
+                            <div className="text-white text-sm font-semibold flex items-center gap-2">
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
+                              </svg>
+                              Click to enlarge
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Details if available */}
+                      {diagram.details && (
+                        <p className="text-xs text-slate-500 mb-4 italic border-l-2 border-blue-300 pl-3">
+                          {diagram.details}
+                        </p>
+                      )}
+
+                      {/* Action Buttons */}
+                      <div className="flex flex-wrap gap-2">
+                        {diagram.imageUrl && (
+                          <a
+                            href={diagram.imageUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg text-sm font-semibold hover:bg-blue-600 transition-all"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                            </svg>
+                            View Full Size
+                          </a>
+                        )}
+                        {diagram.whimsicalUrl && (
+                          <a
+                            href={diagram.whimsicalUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-lg text-sm font-semibold hover:bg-purple-600 transition-all"
+                          >
+                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                            </svg>
+                            Edit in Whimsical
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Tech Stack */}
             <div className="bg-white rounded-3xl p-8 shadow-lg border border-slate-100">
               <div className="flex items-center gap-3 mb-6">
@@ -384,12 +510,24 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
               {/* CI/CD Diagram */}
               {product.cicdDiagramImage && (
-                <div className="relative rounded-2xl overflow-hidden bg-white border-2 border-slate-200 mb-4">
-                  <img
-                    src={product.cicdDiagramImage}
-                    alt="CI/CD Pipeline Diagram"
-                    className="w-full h-auto object-contain"
-                  />
+                <div className="mb-6">
+                  <div className="relative rounded-2xl overflow-hidden bg-white border-2 border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                    <img
+                      src={product.cicdDiagramImage}
+                      alt="CI/CD Pipeline Diagram"
+                      className="w-full h-auto object-contain"
+                    />
+                  </div>
+                  <p className="text-xs text-slate-500 mt-2 text-center">CI/CD Pipeline Diagram</p>
+                </div>
+              )}
+
+              {!product.cicdDiagramImage && (
+                <div className="mb-6 p-6 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl text-center">
+                  <svg className="w-12 h-12 mx-auto text-slate-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                  <p className="text-sm text-slate-500">No diagram available</p>
                 </div>
               )}
 
@@ -398,13 +536,13 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
                   href={product.cicdDiagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-xl font-semibold hover:bg-blue-600 transition-colors"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl font-semibold hover:from-blue-600 hover:to-blue-700 shadow-md hover:shadow-lg transition-all"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  View Interactive Diagram on Whimsical
+                  View Interactive Diagram
                 </a>
               )}
             </div>
@@ -543,32 +681,66 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wide mb-3">
-                    Practices
-                  </h3>
-                  <ul className="space-y-2">
-                    {product.teamPractices.map((practice, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm">
-                        <span className="text-purple-500 flex-shrink-0 mt-1">▸</span>
-                        <span className="text-slate-700">{practice}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Team Practices */}
+                <div className="bg-gradient-to-br from-purple-50 to-white p-6 rounded-2xl border border-purple-100">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-purple-500 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">
+                      Team Practices
+                    </h3>
+                  </div>
+                  {product.teamPractices && product.teamPractices.length > 0 ? (
+                    <ul className="space-y-3">
+                      {product.teamPractices.map((practice, index) => (
+                        <li key={index} className="flex items-start gap-3 group">
+                          <span className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-purple-200 transition-colors">
+                            <span className="text-purple-600 font-bold text-xs">{index + 1}</span>
+                          </span>
+                          <TextWithCopy 
+                            text={practice} 
+                            className="text-sm text-slate-700 leading-relaxed break-words"
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-slate-500 italic">No team practices defined</p>
+                  )}
                 </div>
 
-                <div>
-                  <h3 className="text-sm font-bold text-slate-600 uppercase tracking-wide mb-3">
-                    Guidelines
-                  </h3>
-                  <ul className="space-y-2">
-                    {product.guidelines.map((guideline, index) => (
-                      <li key={index} className="flex items-start gap-2 text-sm">
-                        <span className="text-purple-500 flex-shrink-0 mt-1">▸</span>
-                        <span className="text-slate-700">{guideline}</span>
-                      </li>
-                    ))}
-                  </ul>
+                {/* Guidelines */}
+                <div className="bg-gradient-to-br from-blue-50 to-white p-6 rounded-2xl border border-blue-100">
+                  <div className="flex items-center gap-2 mb-4">
+                    <div className="w-8 h-8 rounded-lg bg-blue-500 flex items-center justify-center">
+                      <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900">
+                      Guidelines
+                    </h3>
+                  </div>
+                  {product.guidelines && product.guidelines.length > 0 ? (
+                    <ul className="space-y-3">
+                      {product.guidelines.map((guideline, index) => (
+                        <li key={index} className="flex items-start gap-3 group">
+                          <span className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5 group-hover:bg-blue-200 transition-colors">
+                            <span className="text-blue-600 font-bold text-xs">{index + 1}</span>
+                          </span>
+                          <TextWithCopy 
+                            text={guideline} 
+                            className="text-sm text-slate-700 leading-relaxed break-words"
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-slate-500 italic">No guidelines defined</p>
+                  )}
                 </div>
               </div>
             </div>
@@ -661,10 +833,18 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
 
               {/* Sprint Process */}
               <div className="mt-6 pt-6 border-t border-slate-100">
-                <h4 className="text-sm font-bold text-slate-600 uppercase tracking-wide mb-2">
-                  Sprint Process
-                </h4>
-                <p className="text-sm text-slate-700 leading-relaxed">{product.sprintProcess}</p>
+                <div className="flex items-center gap-2 mb-3">
+                  <svg className="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <h4 className="text-sm font-bold text-slate-600 uppercase tracking-wide">
+                    Sprint Process
+                  </h4>
+                </div>
+                <TextWithCopy 
+                  text={product.sprintProcess} 
+                  className="text-sm text-slate-700 leading-relaxed break-words"
+                />
               </div>
 
               {/* Dependencies */}

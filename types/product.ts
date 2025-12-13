@@ -51,6 +51,7 @@ export interface Product {
   slug: string;
   shortDescription: string;
   fullDescription: string;
+  intro?: string; // Rich text introduction for product detail page
   category: string;
   icon?: string;
   color: string; // For theming each product card

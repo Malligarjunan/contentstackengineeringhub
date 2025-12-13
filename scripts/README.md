@@ -288,7 +288,86 @@ This script verifies that:
   - `CONTENTSTACK_MANAGEMENT_TOKEN`
 - Restart your terminal or IDE after adding new environment variables
 
-### 5. update-product-contenttype-repositories.js
+### 5. add-intro-field-to-product.js
+
+Adds a Rich Text Editor (RTE) field called `intro` to the product content type.
+
+**What it does:**
+- Adds a new RTE field named `intro` to the product schema
+- Places the field after `full_description` for logical organization
+- Enables rich formatting (headings, bold, italics, lists, links, etc.)
+- Optional field - can be left empty for products that don't need an intro
+
+**Usage:**
+```bash
+npm run add-product-intro
+# OR
+node scripts/add-intro-field-to-product.js
+```
+
+**Prerequisites:**
+- `CONTENTSTACK_API_KEY` in .env.local
+- `CONTENTSTACK_MANAGEMENT_TOKEN` in .env.local
+
+**After running:**
+1. Run `npm run update-product-entries-intro` to populate all entries
+2. Edit intro content in Contentstack UI for customization
+3. Product detail pages will display the intro above video and team sections
+
+**Field Details:**
+- **Field Name**: Introduction
+- **Field UID**: `intro`
+- **Type**: Rich Text Editor (Advanced)
+- **Mandatory**: No
+- **Purpose**: Provides a rich-formatted introduction for product detail pages
+
+---
+
+### 6. update-product-entries-intro.js
+
+Populates the `intro` field for all existing product entries with default content.
+
+**What it does:**
+- Fetches all product entries
+- Generates a default rich text intro for each product
+- Updates entries (skips those that already have intro content)
+- Provides detailed progress reporting
+
+**Usage:**
+```bash
+npm run update-product-entries-intro
+# OR
+node scripts/update-product-entries-intro.js
+```
+
+**Prerequisites:**
+- `CONTENTSTACK_API_KEY` in .env.local
+- `CONTENTSTACK_MANAGEMENT_TOKEN` in .env.local
+- Intro field must exist (run `npm run add-product-intro` first)
+
+**Default Intro Format:**
+```html
+<h3>Welcome to [Product Name]</h3>
+<p>[Product Description]</p>
+<p>Explore the comprehensive documentation, architecture, and team information below to get started with this product.</p>
+```
+
+**After running:**
+- Review and customize intro content in Contentstack UI
+- Publish updated entries
+- Product detail pages will automatically display the intro section
+
+**Example Output:**
+```
+📊 Update Summary:
+✅ Successfully updated: 15 entries
+⏭️  Skipped (already has intro): 3 entries
+❌ Errors: 0 entries
+```
+
+---
+
+### 7. update-product-contenttype-repositories.js
 
 Updates the product content type to replace the single `repository_url` field with a `repositories` group field.
 

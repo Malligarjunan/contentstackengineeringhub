@@ -66,24 +66,26 @@ export async function getAllProducts(): Promise<Product[]> {
   }
 
   try {
-    const Query = stack.contentType('product').entry()
-      .includeReference([
-        'icon',                        // File field - product icon
-        'cicd_diagram_image',          // File field - CI/CD diagram
-        'architecture_diagrams.image_url',  // File field inside group
-        'team_members.avatar',         // File field inside group
-        'team_members',
-        'architecture_diagrams',
-        'tech_stack',
-        'dependencies',
-        'observability_dashboards',
-        'helpful_links'
-      ]);
-    const result = await Query
+    // Include all references - call includeReference multiple times
+    const Entries = stack.contentType('product').entry();
+    
+    // Include top-level references
+    Entries.includeReference('icon');
+    Entries.includeReference('cicd_diagram_image');
+    Entries.includeReference('team_members');
+    Entries.includeReference('architecture_diagrams');
+    Entries.includeReference('tech_stack');
+    Entries.includeReference('dependencies');
+    Entries.includeReference('observability_dashboards');
+    Entries.includeReference('helpful_links');
+    
+    // Include embedded items for RTE fields (like intro)
+    Entries.includeEmbeddedItems();
+    
+    const result = await Entries
       .orderByAscending('title')
       .includeCount()
       .find();
-
     if (result && result.entries) {
       console.log(`✅ Fetched ${result.entries.length} products from Contentstack (sorted by title)`);
       return result.entries.map(transformProduct);
@@ -111,25 +113,30 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   try {
-    const Query = stack.contentType('product').entry()
-      .includeReference([
-        'icon',                        // File field - product icon
-        'cicd_diagram_image',          // File field - CI/CD diagram
-        'architecture_diagrams.image_url',  // File field inside group
-        'team_members.avatar',         // File field inside group
-        'team_members',
-        'architecture_diagrams',
-        'tech_stack',
-        'dependencies',
-        'observability_dashboards',
-        'helpful_links'
-      ])
-      .query({ slug: slug });
+    // Include all references - call includeReference multiple times for nested fields
+    const Entries = stack.contentType('product').entry();
+    
+    // Include top-level references
+    Entries.includeReference('icon');
+    Entries.includeReference('cicd_diagram_image');
+    Entries.includeReference('team_members');
+    Entries.includeReference('architecture_diagrams');
+    Entries.includeReference('tech_stack');
+    Entries.includeReference('dependencies');
+    Entries.includeReference('observability_dashboards');
+    Entries.includeReference('helpful_links');
+    
+    // Include embedded items for RTE fields (like intro)
+    Entries.includeEmbeddedItems();
+    
+    const Query = Entries.query({ slug: slug });
     const result = await Query.find();
 
     if (result && result.entries && result.entries.length > 0) {
       console.log(`✅ Fetched product "${slug}" from Contentstack`);
-      return transformProduct(result.entries[0]);
+      const product = transformProduct(result.entries[0]);
+      console.log(`📝 Intro field present: ${!!product.intro}, Length: ${product.intro?.length || 0}`);
+      return product;
     }
 
     console.log(`⚠️  Product "${slug}" not found in Contentstack, using local data`);
@@ -175,16 +182,177 @@ export async function getAllProductSlugs(): Promise<string[]> {
 }
 
 /**
+ * Convert JSON RTE format to HTML
+ * Handles Contentstack's JSON RTE structure and converts it to HTML
+ */
+function convertJsonRteToHtml(jsonRte: any): string {
+  if (!jsonRte) return '';
+  
+  // Handle array of nodes
+  if (Array.isArray(jsonRte)) {
+    return jsonRte.map(node => convertNodeToHtml(node)).join('');
+  }
+  
+  // Handle object with children
+  if (jsonRte.children && Array.isArray(jsonRte.children)) {
+    return jsonRte.children.map((node: any) => convertNodeToHtml(node)).join('');
+  }
+  
+  // Handle single node
+  return convertNodeToHtml(jsonRte);
+}
+
+/**
+ * Convert a single JSON RTE node to HTML
+ */
+function convertNodeToHtml(node: any): string {
+  if (!node) return '';
+  
+  // Handle text nodes
+  if (node.text !== undefined) {
+    let text = node.text;
+    
+    // Apply text formatting
+    if (node.bold) text = `<strong>${text}</strong>`;
+    if (node.italic) text = `<em>${text}</em>`;
+    if (node.underline) text = `<u>${text}</u>`;
+    if (node.strikethrough) text = `<s>${text}</s>`;
+    if (node.code) text = `<code>${text}</code>`;
+    if (node.superscript) text = `<sup>${text}</sup>`;
+    if (node.subscript) text = `<sub>${text}</sub>`;
+    
+    return text;
+  }
+  
+  // Handle element nodes with children
+  const children = node.children ? node.children.map((child: any) => convertNodeToHtml(child)).join('') : '';
+  
+  switch (node.type) {
+    case 'p':
+    case 'paragraph':
+      return `<p>${children}</p>`;
+    case 'h1':
+      return `<h1>${children}</h1>`;
+    case 'h2':
+      return `<h2>${children}</h2>`;
+    case 'h3':
+      return `<h3>${children}</h3>`;
+    case 'h4':
+      return `<h4>${children}</h4>`;
+    case 'h5':
+      return `<h5>${children}</h5>`;
+    case 'h6':
+      return `<h6>${children}</h6>`;
+    case 'ul':
+    case 'unordered-list':
+      return `<ul>${children}</ul>`;
+    case 'ol':
+    case 'ordered-list':
+      return `<ol>${children}</ol>`;
+    case 'li':
+    case 'list-item':
+      return `<li>${children}</li>`;
+    case 'a':
+    case 'link':
+      const href = node.attrs?.url || node.attrs?.href || '#';
+      const target = node.attrs?.target || '_self';
+      return `<a href="${href}" target="${target}">${children}</a>`;
+    case 'img':
+    case 'image':
+      const src = node.attrs?.url || node.attrs?.src || '';
+      const alt = node.attrs?.alt || '';
+      return `<img src="${src}" alt="${alt}" />`;
+    case 'blockquote':
+      return `<blockquote>${children}</blockquote>`;
+    case 'code-block':
+      return `<pre><code>${children}</code></pre>`;
+    case 'hr':
+    case 'horizontal-rule':
+      return '<hr />';
+    case 'br':
+    case 'break':
+      return '<br />';
+    case 'table':
+      return `<table>${children}</table>`;
+    case 'table-row':
+    case 'tr':
+      return `<tr>${children}</tr>`;
+    case 'table-cell':
+    case 'td':
+      return `<td>${children}</td>`;
+    case 'table-header':
+    case 'th':
+      return `<th>${children}</th>`;
+    default:
+      // For unknown types, just return children or empty string
+      return children || '';
+  }
+}
+
+/**
  * Transform Contentstack entry to Product type
  * Maps Contentstack field names to our Product interface
  */
 function transformProduct(entry: any): Product {
+  // Handle intro/introduction field - it's an RTE field that might be stored as HTML string
+  // or as a rich text JSON object
+  // Support both 'intro' and 'introduction' field UIDs for compatibility
+  let introContent = '';
+  const introField = entry.introduction || entry.intro; // Check 'introduction' first, then 'intro'
+  const fieldName = entry.introduction ? 'introduction' : 'intro';
+  
+  if (introField) {
+    console.log(`🔍 ${fieldName} field type for "${entry.title}":`, typeof introField);
+    
+    if (typeof introField === 'string') {
+      // Direct HTML string
+      introContent = introField;
+      console.log(`✅ Product "${entry.title}" ${fieldName} field is HTML string (${introContent.length} chars)`);
+    } else if (typeof introField === 'object') {
+      // Check different object formats
+      if (introField.html) {
+        // Object with html property
+        introContent = introField.html;
+        console.log(`✅ Product "${entry.title}" ${fieldName} field has .html property (${introContent.length} chars)`);
+      } else if (introField.children || Array.isArray(introField)) {
+        // JSON RTE format - attempt basic conversion
+        console.log(`⚠️  ${fieldName} field is in JSON RTE format, attempting basic conversion`);
+        try {
+          // Basic JSON RTE to HTML conversion
+          introContent = convertJsonRteToHtml(introField);
+          if (introContent) {
+            console.log(`✅ Converted JSON RTE to HTML (${introContent.length} chars)`);
+          }
+        } catch (error) {
+          console.error('❌ Error converting JSON RTE:', error);
+          introContent = '';
+        }
+      } else {
+        // Unknown object format - log it
+        console.log(`⚠️  ${fieldName} field object format:`, Object.keys(introField));
+        // Try to stringify and use as-is if it looks like HTML
+        const stringified = JSON.stringify(introField);
+        if (stringified.includes('<') && stringified.includes('>')) {
+          introContent = stringified;
+        }
+      }
+    }
+  }
+  
+  // Final log
+  if (introContent && introContent.length > 0) {
+    console.log(`✅ Product "${entry.title}" ${fieldName} field ready: ${introContent.substring(0, 100)}...`);
+  } else {
+    console.log(`⚠️  Product "${entry.title}" has no intro/introduction field or conversion failed`);
+  }
+  
   return {
     id: entry.uid || entry._id,
     title: entry.title,
     slug: entry.slug,
     shortDescription: entry.short_description || entry.shortDescription || '',
     fullDescription: entry.full_description || entry.fullDescription || '',
+    intro: introContent,
     category: entry.category,
     // Handle both asset object (after migration) and string URL (before migration)
     icon: entry.icon?.url || entry.icon,
@@ -310,12 +478,11 @@ export async function getHomepageContent(): Promise<any> {
   }
 
   try {
-    const Query = stack.contentType('homepage').entry()
-      .includeReference([
-        'architecture_diagrams',
-        'architecture_diagrams.image_url'  // File field inside group
-      ]);
-    const result = await Query.find();
+    // Include references
+    const Entries = stack.contentType('homepage').entry();
+    Entries.includeReference('architecture_diagrams');
+    
+    const result = await Entries.find();
 
     if (result && result.entries && result.entries.length > 0) {
       const entry = result.entries[0];

@@ -14,6 +14,9 @@
     "update-homepage-contenttype": "node scripts/update-homepage-contenttype.js",
     "update-homepage-entry": "node scripts/update-homepage-entry.js",
     "update-product-repositories": "node scripts/update-product-contenttype-repositories.js",
+    "add-product-intro": "node scripts/add-intro-field-to-product.js",
+    "update-product-entries-intro": "node scripts/update-product-entries-intro.js",
+    "check-token": "node scripts/check-management-token.js",
     "test-homepage": "node scripts/test-homepage-fetch.js"
   },
   "dependencies": {
@@ -31,6 +34,7 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@tailwindcss/typography": "^0.5.19",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

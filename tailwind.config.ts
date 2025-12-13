@@ -19,8 +19,30 @@ export default {
           orange: '#E17055',
         }
       },
+      typography: {
+        DEFAULT: {
+          css: {
+            maxWidth: 'none',
+            color: '#334155',
+            a: {
+              color: '#6366f1',
+              '&:hover': {
+                color: '#4f46e5',
+              },
+            },
+            h3: {
+              color: '#4338ca',
+            },
+            strong: {
+              color: '#1e293b',
+            },
+          },
+        },
+      },
     },
   },
-  plugins: [],
+  plugins: [
+    require('@tailwindcss/typography'),
+  ],
 } satisfies Config;
 
