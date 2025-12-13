@@ -2,8 +2,8 @@ import { getAllProducts } from "@/lib/contentstack";
 import ProductsClient from "./ProductsClient";
 import { Product } from "@/types/product";
 
-// Enable ISR - revalidate every 1 second
-export const revalidate = 1;
+// Force dynamic rendering - fetch fresh content on every request
+export const dynamic = 'force-dynamic';
 
 export default async function ProductsPage() {
   // Fetch products from Contentstack

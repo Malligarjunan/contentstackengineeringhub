@@ -2,8 +2,8 @@ import Link from "next/link";
 import { getHomepageContent, getAllProducts } from "@/lib/contentstack";
 import { ArchitectureDiagram } from "@/types/product";
 
-// Enable ISR - revalidate every hour
-export const revalidate = 5;
+// Force dynamic rendering - fetch fresh content on every request
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   // Fetch homepage content and products from Contentstack

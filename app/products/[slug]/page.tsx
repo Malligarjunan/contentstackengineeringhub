@@ -9,21 +9,11 @@ interface ProductPageProps {
   }>;
 }
 
-// Generate static paths for all products
-export async function generateStaticParams() {
-  try {
-    const slugs = await getAllProductSlugs();
-    return slugs.map((slug) => ({
-      slug: slug,
-    }));
-  } catch (error) {
-    console.error('Error generating static params:', error);
-    return [];
-  }
-}
+// Force dynamic rendering - fetch fresh content on every request
+export const dynamic = 'force-dynamic';
 
-// Enable ISR (Incremental Static Regeneration) - revalidate every 1 second
-export const revalidate = 1;
+// Note: generateStaticParams is not used with force-dynamic
+// All pages are rendered on-demand for each request
 
 export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
