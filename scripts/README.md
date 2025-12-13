@@ -217,6 +217,53 @@ This script verifies that:
   - `CONTENTSTACK_MANAGEMENT_TOKEN`
 - Restart your terminal or IDE after adding new environment variables
 
+### 5. test-revalidate.sh
+
+Tests the on-demand revalidation API for ISR pages.
+
+**Usage:**
+```bash
+# Test on localhost
+./scripts/test-revalidate.sh
+
+# Test on production
+./scripts/test-revalidate.sh https://your-domain.com
+```
+
+This script tests:
+- ✅ Revalidating specific product pages by slug
+- ✅ Revalidating pages by path
+- ✅ GET and POST request methods
+- ✅ Error handling for missing parameters
+
+**Prerequisites:**
+- Application must be running (`npm run dev` or `npm start`)
+- ISR must be enabled for product pages
+- `jq` command-line tool for JSON formatting (optional but recommended)
+
+**Install jq (optional):**
+```bash
+# macOS
+brew install jq
+
+# Ubuntu/Debian
+sudo apt-get install jq
+```
+
+**Example output:**
+```json
+{
+  "revalidated": true,
+  "path": "/products/cda",
+  "message": "Successfully revalidated /products/cda",
+  "timestamp": "2025-01-10T12:00:00.000Z"
+}
+```
+
+See `ON_DEMAND_REVALIDATION.md` for complete API documentation.
+
+---
+
 ## Region Configuration
 
 By default, scripts use the `us` region. If you're using a different region, update the `region` variable in the script:
