@@ -126,15 +126,25 @@ export default function ProductsClient({ products }: ProductsClientProps) {
                   <span className="text-xs font-bold px-3 py-1 rounded-full bg-slate-100 text-slate-700">
                     {product.category}
                   </span>
-                  <div 
-                    className="w-12 h-12 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform"
-                    style={{ backgroundColor: `${product.color}15` }}
-                  >
+                  {product.icon ? (
+                    <div className="w-12 h-12 rounded-2xl overflow-hidden group-hover:scale-110 transition-transform border-2 border-slate-200">
+                      <img
+                        src={product.icon}
+                        alt={`${product.title} icon`}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  ) : (
                     <div 
-                      className="w-6 h-6 rounded-lg"
-                      style={{ backgroundColor: product.color }}
-                    ></div>
-                  </div>
+                      className="w-12 h-12 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform"
+                      style={{ backgroundColor: `${product.color}15` }}
+                    >
+                      <div 
+                        className="w-6 h-6 rounded-lg"
+                        style={{ backgroundColor: product.color }}
+                      ></div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Title */}

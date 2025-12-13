@@ -68,6 +68,10 @@ export async function getAllProducts(): Promise<Product[]> {
   try {
     const Query = stack.contentType('product').entry()
       .includeReference([
+        'icon',                        // File field - product icon
+        'cicd_diagram_image',          // File field - CI/CD diagram
+        'architecture_diagrams.image_url',  // File field inside group
+        'team_members.avatar',         // File field inside group
         'team_members',
         'architecture_diagrams',
         'tech_stack',
@@ -109,6 +113,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   try {
     const Query = stack.contentType('product').entry()
       .includeReference([
+        'icon',                        // File field - product icon
+        'cicd_diagram_image',          // File field - CI/CD diagram
+        'architecture_diagrams.image_url',  // File field inside group
+        'team_members.avatar',         // File field inside group
         'team_members',
         'architecture_diagrams',
         'tech_stack',
@@ -178,7 +186,8 @@ function transformProduct(entry: any): Product {
     shortDescription: entry.short_description || entry.shortDescription || '',
     fullDescription: entry.full_description || entry.fullDescription || '',
     category: entry.category,
-    icon: entry.icon,
+    // Handle both asset object (after migration) and string URL (before migration)
+    icon: entry.icon?.url || entry.icon,
     color: entry.color || '#6C5CE7',
 
     // Media & Learning
@@ -196,7 +205,8 @@ function transformProduct(entry: any): Product {
     localDevSetup: entry.local_dev_setup || entry.localDevSetup || '',
     cicdProcess: entry.cicd_process || entry.cicdProcess || '',
     cicdDiagramUrl: entry.cicd_diagram_url || entry.cicdDiagramUrl,
-    cicdDiagramImage: entry.cicd_diagram_image || entry.cicdDiagramImage,
+    // Handle both asset object (after migration) and string URL (before migration)
+    cicdDiagramImage: entry.cicd_diagram_image?.url || entry.cicd_diagram_image,
     gitBranchingStrategy: entry.git_branching_strategy || entry.gitBranchingStrategy || '',
 
     // Observability
@@ -235,7 +245,8 @@ function transformArchitectureDiagrams(diagrams: any[]): any[] {
   return diagrams.map((diagram: any) => ({
     title: diagram.title,
     description: diagram.description,
-    imageUrl: diagram.image_url || diagram.imageUrl || diagram.image?.url || '',
+    // Handle both asset object (after migration) and string URL (before migration)
+    imageUrl: diagram.image_url?.url || diagram.image_url || diagram.imageUrl || diagram.image?.url || '',
     details: diagram.details,
     whimsicalUrl: diagram.whimsical_url || diagram.whimsicalUrl,
   }));
@@ -264,7 +275,8 @@ function transformTeamMembers(members: any[]): any[] {
     name: member.name,
     role: member.role,
     email: member.email,
-    avatar: member.avatar || member.avatar_url || member.avatarUrl,
+    // Handle both asset object (after migration) and string URL (before migration)
+    avatar: member.avatar?.url || member.avatar || member.avatar_url || member.avatarUrl,
   }));
 }
 
@@ -299,7 +311,10 @@ export async function getHomepageContent(): Promise<any> {
 
   try {
     const Query = stack.contentType('homepage').entry()
-      .includeReference(['architecture_diagrams']);
+      .includeReference([
+        'architecture_diagrams',
+        'architecture_diagrams.image_url'  // File field inside group
+      ]);
     const result = await Query.find();
 
     if (result && result.entries && result.entries.length > 0) {
