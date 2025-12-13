@@ -2,11 +2,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { getProductBySlug, getAllProductSlugs } from "@/lib/contentstack";
 import { getYouTubeEmbedUrl, isYouTubeUrl, isContentstackAcademyUrl } from "@/lib/youtube";
+import LivePreviewProduct from "./LivePreviewProduct";
 
 interface ProductPageProps {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 // Enable ISR - pages regenerate in the background after this time period
@@ -20,17 +22,26 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params, searchParams }: ProductPageProps) {
   const { slug } = await params;
+  const search = await searchParams;
   
-  // Fetch product data from Contentstack
+  // Check if we're in Live Preview mode
+  const isLivePreview = search.live_preview !== undefined;
+  
+  if (isLivePreview) {
+    console.log('🔴 Live Preview mode active for product:', slug);
+  }
+  
+  // Fetch product data from Contentstack (will use preview token if configured)
   const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();
   }
 
-  return (
+  // Wrap content with Live Preview for real-time updates
+  const renderContent = (prod: typeof product) => (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section with Product Info */}
       <section className="relative bg-slate-900 text-white pt-12 pb-14 overflow-hidden">
@@ -684,5 +695,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </div>
       </section>
     </div>
+  );
+
+  // Return wrapped with Live Preview for real-time updates
+  return (
+    <LivePreviewProduct initialProduct={product}>
+      {renderContent}
+    </LivePreviewProduct>
   );
 }

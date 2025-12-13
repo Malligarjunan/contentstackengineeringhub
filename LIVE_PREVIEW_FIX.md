@@ -54,9 +54,23 @@ if (livePreviewEnabled && livePreviewToken) {
 ContentstackStack = contentstack.stack(stackConfig);
 ```
 
-### 2. Created Product Live Preview Component
+### 2. Created Product Live Preview Components
 
-Created `components/ProductLivePreview.tsx` to handle real-time updates on product pages using `ContentstackLivePreview.onEntryChange()`.
+**Created `components/ProductLivePreview.tsx`** - Global Live Preview setup (not used directly on pages)
+
+**Created `app/products/[slug]/LivePreviewProduct.tsx`** - Page-specific Live Preview wrapper:
+- Detects Live Preview mode from query parameters
+- Listens for content changes via `ContentstackLivePreview.onLiveEdit()`
+- Handles entry updates with `ContentstackLivePreview.onEntryChange()`
+- Triggers page reload for SSR-compatible updates
+
+### 3. Updated Product Page
+
+**Modified `app/products/[slug]/page.tsx`**:
+- Added `searchParams` to detect Live Preview mode
+- Wrapped content with `LivePreviewProduct` component
+- Reduced ISR revalidate from 30s to 2s for faster updates
+- Added console logging for Live Preview detection
 
 ## Required Environment Variables
 
