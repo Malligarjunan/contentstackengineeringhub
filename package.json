@@ -11,6 +11,7 @@
     "create-homepage-entry": "node scripts/create-homepage-entry.js",
     "update-homepage-contenttype": "node scripts/update-homepage-contenttype.js",
     "update-homepage-entry": "node scripts/update-homepage-entry.js",
+    "update-product-repositories": "node scripts/update-product-contenttype-repositories.js",
     "test-homepage": "node scripts/test-homepage-fetch.js"
   },
   "dependencies": {

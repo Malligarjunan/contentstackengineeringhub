@@ -217,7 +217,38 @@ This script verifies that:
   - `CONTENTSTACK_MANAGEMENT_TOKEN`
 - Restart your terminal or IDE after adding new environment variables
 
-### 5. test-revalidate.sh
+### 5. update-product-contenttype-repositories.js
+
+Updates the product content type to replace the single `repository_url` field with a `repositories` group field.
+
+**What it does:**
+- Removes the old `repository_url` field
+- Adds a new `repositories` group field (multiple) with:
+  - `repo_name` (text, required) - Name of the repository
+  - `repo_description` (text, optional) - Brief description
+  - `repo_url` (text, required) - Full URL to the repository
+
+This allows each product to have multiple code repositories (main repo, docs, examples, etc.) with proper descriptions.
+
+**Usage:**
+```bash
+npm run update-product-repositories
+# OR
+node scripts/update-product-contenttype-repositories.js
+```
+
+**Prerequisites:**
+- `CONTENTSTACK_API_KEY` in .env
+- `CONTENTSTACK_MANAGEMENT_TOKEN` in .env
+
+**After running:**
+- Update product entries to add repository information
+- Product details page will display all repositories
+- Each repository shows name, description, and link
+
+---
+
+### 6. test-revalidate.sh
 
 Tests the on-demand revalidation API for ISR pages.
 

@@ -39,6 +39,12 @@ export interface ExternalLink {
   description?: string;
 }
 
+export interface Repository {
+  repoName: string;
+  repoDescription?: string;
+  repoUrl: string;
+}
+
 export interface Product {
   id: string;
   title: string;
@@ -58,7 +64,7 @@ export interface Product {
   architectureDiagrams: ArchitectureDiagram[];
   
   // Development
-  repositoryUrl?: string;
+  repositories?: Repository[];
   localDevSetup: string;
   cicdProcess: string;
   cicdDiagramUrl?: string; // Whimsical or diagram tool link

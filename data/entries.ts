@@ -48,7 +48,13 @@ export const products: Product[] = [
         imageUrl: "/architecture/cma-flow.png"
       }
     ],
-    repositoryUrl: "https://github.com/contentstack/cma",
+    repositories: [
+      {
+        repoName: "Content Management API",
+        repoDescription: "Main backend repository for the Content Management API",
+        repoUrl: "https://github.com/contentstack/cma"
+      }
+    ],
     localDevSetup: `
 # Prerequisites
 - Node.js 18+
@@ -195,7 +201,13 @@ export const products: Product[] = [
         imageUrl: "/architecture/cda-architecture.png"
       }
     ],
-    repositoryUrl: "https://github.com/contentstack/cda",
+    repositories: [
+      {
+        repoName: "Content Delivery API",
+        repoDescription: "Main repository for the Content Delivery API",
+        repoUrl: "https://github.com/contentstack/cda"
+      }
+    ],
     localDevSetup: `
 # Prerequisites
 - Node.js 18+
@@ -1416,7 +1428,13 @@ export const products: Product[] = [
         whimsicalUrl: "https://whimsical.com/brand-kit-tokens"
       }
     ],
-    repositoryUrl: "https://github.com/contentstack/brand-kit",
+    repositories: [
+      {
+        repoName: "Brand Kit",
+        repoDescription: "Repository for Brand Kit assets and components",
+        repoUrl: "https://github.com/contentstack/brand-kit"
+      }
+    ],
     localDevSetup: `
 # Prerequisites
 - Node.js 18+

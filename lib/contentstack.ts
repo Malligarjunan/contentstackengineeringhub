@@ -192,7 +192,7 @@ function transformProduct(entry: any): Product {
     ),
 
     // Development
-    repositoryUrl: entry.repository_url || entry.repositoryUrl,
+    repositories: transformRepositories(entry.repositories || []),
     localDevSetup: entry.local_dev_setup || entry.localDevSetup || '',
     cicdProcess: entry.cicd_process || entry.cicdProcess || '',
     cicdDiagramUrl: entry.cicd_diagram_url || entry.cicdDiagramUrl,
@@ -238,6 +238,15 @@ function transformArchitectureDiagrams(diagrams: any[]): any[] {
     imageUrl: diagram.image_url || diagram.imageUrl || diagram.image?.url || '',
     details: diagram.details,
     whimsicalUrl: diagram.whimsical_url || diagram.whimsicalUrl,
+  }));
+}
+
+function transformRepositories(repositories: any[]): any[] {
+  if (!Array.isArray(repositories)) return [];
+  return repositories.map((repo: any) => ({
+    repoName: repo.repo_name || repo.repoName || '',
+    repoDescription: repo.repo_description || repo.repoDescription || '',
+    repoUrl: repo.repo_url || repo.repoUrl || '',
   }));
 }
 
