@@ -20,14 +20,31 @@ function getStack() {
     return null;
   }
 
+  // Check if Live Preview is enabled
+  const livePreviewEnabled = process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true';
+  const livePreviewToken = process.env.CONTENTSTACK_LIVE_PREVIEW_TOKEN || '';
+  const livePreviewHost = process.env.CONTENTSTACK_LIVE_PREVIEW_HOST || 'api.contentstack.io';
+
   // Initialize Contentstack SDK
   try {
-    ContentstackStack = contentstack.stack({
+    const stackConfig: any = {
       apiKey: process.env.CONTENTSTACK_API_KEY!,
       deliveryToken: process.env.CONTENTSTACK_DELIVERY_TOKEN!,
       environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
       region: Region.US,
-    });
+    };
+
+    // Add Live Preview configuration if enabled
+    if (livePreviewEnabled && livePreviewToken) {
+      stackConfig.live_preview = {
+        enable: true,
+        preview_token: livePreviewToken,
+        host: livePreviewHost,
+      };
+      console.log('✅ Live Preview enabled for Contentstack SDK');
+    }
+
+    ContentstackStack = contentstack.stack(stackConfig);
     console.log('✅ Contentstack SDK initialized successfully');
     return ContentstackStack;
   } catch (error) {
