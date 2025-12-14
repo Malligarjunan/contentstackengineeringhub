@@ -482,6 +482,8 @@ export async function getHomepageContent(): Promise<any> {
     const Entries = stack.contentType('homepage').entry();
     Entries.includeReference('architecture_diagrams');
     Entries.includeReference('release_process.diagram'); // Include the file field
+    Entries.includeReference('tech_stack'); // Include tech stack group field
+    Entries.includeReference('tech_stack.technologies.logo'); // Include logo files
     Entries.includeEmbeddedItems(); // For RTE fields
     
     const result = await Entries.find();
@@ -529,6 +531,9 @@ export async function getHomepageContent(): Promise<any> {
         cta_section_title: entry.cta_section_title,
         cta_section_description: entry.cta_section_description,
         release_process: release_process,
+        tech_stack: entry.tech_stack || localHomepageContent.tech_stack,
+        tech_stack_section_title: entry.tech_stack_section_title || localHomepageContent.tech_stack_section_title,
+        tech_stack_section_description: entry.tech_stack_section_description || localHomepageContent.tech_stack_section_description,
       };
     }
 

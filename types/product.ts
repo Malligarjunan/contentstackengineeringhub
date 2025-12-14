@@ -100,6 +100,20 @@ export interface ReleaseProcess {
   description?: string; // HTML/RTE content describing the release process
 }
 
+export interface TechStackItem {
+  name: string; // Technology name (e.g., AWS, MongoDB, React)
+  description: string; // Brief explanation of how/why it's used
+  logo?: string; // URL or path to the logo image
+}
+
+export interface TechStackCategory {
+  category: string; // Category name (e.g., Cloud & Monitoring, Database)
+  description: string; // Brief description of this category
+  icon?: string; // Icon name for the category
+  color?: string; // Color theme for the category
+  technologies: TechStackItem[]; // List of technologies in this category
+}
+
 export interface HomePageContent {
   // Hero Section
   hero_badge_text?: string;
@@ -144,5 +158,10 @@ export interface HomePageContent {
   
   // Release Process
   release_process?: ReleaseProcess; // Group field containing diagram, code, and description
+  
+  // Tech Stack Section
+  tech_stack?: TechStackCategory[];
+  tech_stack_section_title?: string;
+  tech_stack_section_description?: string;
 }
 

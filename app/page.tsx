@@ -270,10 +270,18 @@ export default async function Home() {
                         >
                           <div className="flex items-start gap-4">
                             {/* Tech Logo/Icon */}
-                            <div className="flex-shrink-0 w-14 h-14 rounded-lg bg-white shadow-sm flex items-center justify-center group-hover/tech:scale-110 transition-transform">
-                              <span className="text-2xl font-black text-slate-700">
-                                {tech.name.substring(0, 2).toUpperCase()}
-                              </span>
+                            <div className="flex-shrink-0 w-14 h-14 rounded-lg bg-white shadow-sm flex items-center justify-center group-hover/tech:scale-110 transition-transform p-2">
+                              {tech.logo?.url || tech.logo ? (
+                                <img 
+                                  src={tech.logo?.url || tech.logo} 
+                                  alt={`${tech.name} logo`}
+                                  className="w-full h-full object-contain"
+                                />
+                              ) : (
+                                <span className="text-2xl font-black text-slate-700">
+                                  {tech.name.substring(0, 2).toUpperCase()}
+                                </span>
+                              )}
                             </div>
                             
                             {/* Tech Info */}
