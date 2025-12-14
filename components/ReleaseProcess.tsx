@@ -27,7 +27,7 @@ export default function ReleaseProcess({ diagram, description }: ReleaseProcessP
             Release Process
           </div>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4">
-            How We Ship Quality Code
+            How we ship quality  code
           </h2>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
             Our rigorous release process ensures every deployment meets the highest standards for quality, security, and performance.

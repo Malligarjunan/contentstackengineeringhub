@@ -114,11 +114,6 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-white to-slate-50 -z-10"></div>
         
         <div className="text-center mb-16">
-          <div className="inline-block mb-4">
-            <span className="text-sm font-bold text-purple-600 uppercase tracking-wider bg-purple-50 px-4 py-2 rounded-full border border-purple-100">
-              {homepageContent.products_section_badge || 'Product Catalog'}
-            </span>
-          </div>
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
             {homepageContent.products_section_title || 'Browse Products by Category'}
           </h2>
@@ -188,12 +183,6 @@ export default async function Home() {
           <div className="max-w-7xl mx-auto relative z-10">
             {/* Section Header */}
             <div className="text-center mb-16">
-              <div className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-500 to-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold mb-6 shadow-lg hover:shadow-xl transition-shadow">
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                </svg>
-                Technology Stack
-              </div>
               <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">
                 {homepageContent.tech_stack_section_title || 'Tech Stack'}
               </h2>
