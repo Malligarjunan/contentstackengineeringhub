@@ -17,7 +17,10 @@
     "add-product-intro": "node scripts/add-intro-field-to-product.js",
     "update-product-entries-intro": "node scripts/update-product-entries-intro.js",
     "check-token": "node scripts/check-management-token.js",
-    "test-homepage": "node scripts/test-homepage-fetch.js"
+    "test-homepage": "node scripts/test-homepage-fetch.js",
+    "verify-techstack": "node scripts/verify-techstack.js",
+    "add-techstack-field": "node scripts/add-techstack-field-to-homepage.js",
+    "update-homepage-entry-techstack": "node scripts/update-homepage-entry-techstack.js"
   },
   "dependencies": {
     "@contentstack/delivery-sdk": "^4.10.3",

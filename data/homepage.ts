@@ -109,5 +109,146 @@ Contentstack provides everything you need to reimagine what's possible in digita
 </ul>
 
 <p>This process ensures that every release meets our high standards for quality, security, and performance.</p>`
-  }
+  },
+  tech_stack_section_title: "Tech Stack",
+  tech_stack_section_description: "The technologies and tools that power Contentstack's platform",
+  tech_stack: [
+    {
+      category: "Cloud & Monitoring",
+      description: "Cloud infrastructure and monitoring solutions",
+      icon: "cloud",
+      color: "blue",
+      technologies: [
+        {
+          name: "AWS",
+          description: "Primary cloud infrastructure provider for hosting and services",
+          logo: "/logos/aws.svg"
+        },
+        {
+          name: "GCP",
+          description: "Google Cloud Platform for specific workloads and services",
+          logo: "/logos/gcp.svg"
+        },
+        {
+          name: "Azure",
+          description: "Microsoft Azure for hybrid cloud solutions",
+          logo: "/logos/azure.svg"
+        },
+        {
+          name: "Fastly",
+          description: "Edge cloud platform for content delivery",
+          logo: "/logos/fastly.svg"
+        },
+        {
+          name: "Observe",
+          description: "Observability platform for system monitoring",
+          logo: "/logos/observe.svg"
+        },
+        {
+          name: "Cloudwatch",
+          description: "AWS monitoring and observability service",
+          logo: "/logos/cloudwatch.svg"
+        }
+      ]
+    },
+    {
+      category: "Database",
+      description: "Data storage and management solutions",
+      icon: "database",
+      color: "green",
+      technologies: [
+        {
+          name: "MongoDB",
+          description: "Primary NoSQL database for flexible data storage",
+          logo: "/logos/mongodb.svg"
+        },
+        {
+          name: "Atlas Vector",
+          description: "Vector search capabilities for AI and ML applications",
+          logo: "/logos/atlas-vector.svg"
+        },
+        {
+          name: "Redis",
+          description: "In-memory data store for caching and session management",
+          logo: "/logos/redis.svg"
+        },
+        {
+          name: "Druid",
+          description: "Real-time analytics database for large-scale data",
+          logo: "/logos/druid.svg"
+        },
+        {
+          name: "Elasticsearch Cloud",
+          description: "Search and analytics engine for full-text search",
+          logo: "/logos/elasticsearch.svg"
+        }
+      ]
+    },
+    {
+      category: "Development",
+      description: "Frontend and backend development technologies",
+      icon: "code",
+      color: "purple",
+      technologies: [
+        {
+          name: "React",
+          description: "Frontend library for building user interfaces",
+          logo: "/logos/react.svg"
+        },
+        {
+          name: "Node.js",
+          description: "JavaScript runtime for backend services",
+          logo: "/logos/nodejs.svg"
+        },
+        {
+          name: "Go",
+          description: "Backend language for high-performance services",
+          logo: "/logos/go.svg"
+        },
+        {
+          name: "Python",
+          description: "Backend language for data processing and automation",
+          logo: "/logos/python.svg"
+        },
+        {
+          name: "OPA",
+          description: "Open Policy Agent for policy-based access control",
+          logo: "/logos/opa.svg"
+        }
+      ]
+    },
+    {
+      category: "Testing",
+      description: "Testing tools and frameworks for quality assurance",
+      icon: "test",
+      color: "orange",
+      technologies: [
+        {
+          name: "Runscope",
+          description: "API monitoring and testing tool",
+          logo: "/logos/runscope.svg"
+        },
+        {
+          name: "Selenium",
+          description: "Browser automation for end-to-end testing",
+          logo: "/logos/selenium.svg"
+        },
+        {
+          name: "Playwright",
+          description: "Modern browser automation framework",
+          logo: "/logos/playwright.svg"
+        },
+        {
+          name: "Postman",
+          description: "API development and testing platform",
+          logo: "/logos/postman.svg"
+        },
+        {
+          name: "Rest Assured",
+          description: "Java library for REST API testing",
+          logo: "/logos/rest-assured.svg"
+        }
+      ]
+    }
+  ]
 };
