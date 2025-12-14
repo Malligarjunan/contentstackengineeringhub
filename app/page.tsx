@@ -109,9 +109,8 @@ export default async function Home() {
 
 
       {/* Our Products Section - By Category */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto relative">
-        {/* Background decoration */}
-        <div className="absolute inset-0 bg-gradient-to-b from-slate-50 via-white to-slate-50 -z-10"></div>
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-blue-50 via-indigo-50/30 to-purple-50/20 border-y border-indigo-100/50 relative">
+        <div className="max-w-7xl mx-auto">
         
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
@@ -178,15 +177,16 @@ export default async function Home() {
             );
           })}
         </div>
+        </div>
       </section>
 
       {/* Tech Stack Section */}
       {homepageContent.tech_stack && homepageContent.tech_stack.length > 0 && (
-        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-white via-slate-50 to-white relative overflow-hidden">
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-violet-50/40 via-purple-50/30 to-fuchsia-50/20 border-y border-purple-100/50 relative overflow-hidden">
           {/* Background decoration */}
-          <div className="absolute inset-0 opacity-20">
+          <div className="absolute inset-0 opacity-10">
             <div className="absolute top-20 right-10 w-96 h-96 bg-purple-200 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-20 left-10 w-96 h-96 bg-blue-200 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-20 left-10 w-96 h-96 bg-violet-200 rounded-full blur-3xl"></div>
           </div>
           
           <div className="max-w-7xl mx-auto relative z-10">
@@ -304,7 +304,7 @@ export default async function Home() {
       )}
 
       {/* Architecture Section - From Contentstack */}
-      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-50 via-indigo-50/30 to-white relative overflow-hidden">
+      <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-cyan-50/40 via-sky-50/30 to-blue-50/30 border-y border-blue-100/50 relative overflow-hidden">
         {/* Background decoration */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute top-20 left-10 w-72 h-72 bg-indigo-200 rounded-full blur-3xl"></div>
@@ -417,8 +417,8 @@ export default async function Home() {
                   Dive deep into our system architecture with detailed diagrams and documentation
                 </p>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                {homepageContent.architecture_diagrams.slice(0, 4).map((diagram: ArchitectureDiagram, i: number) => (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {homepageContent.architecture_diagrams.map((diagram: ArchitectureDiagram, i: number) => (
                   <a
                     key={i}
                     href={diagram.whimsicalUrl || '#'}
@@ -492,7 +492,8 @@ export default async function Home() {
 
  {/* Quick Access Resources - From Contentstack */}
  {homepageContent.quick_access_resources && homepageContent.quick_access_resources.length > 0 && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-emerald-50/30 via-teal-50/20 to-cyan-50/30 border-y border-teal-100/50">
+          <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
               {homepageContent.resources_section_title || 'Quick Access Resources'}
@@ -521,12 +522,14 @@ export default async function Home() {
               );
             })}
           </div>
+          </div>
         </section>
       )}
       
       {/* What You'll Find Here Section - From Contentstack */}
       {homepageContent.feature_cards && homepageContent.feature_cards.length > 0 && (
-        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-rose-50/30 via-pink-50/20 to-fuchsia-50/30 border-y border-pink-100/50">
+          <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <div className="inline-block mb-4">
               <span className="text-sm font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-4 py-2 rounded-full border border-indigo-100">
@@ -570,12 +573,14 @@ export default async function Home() {
               );
             })}
           </div>
+          </div>
         </section>
       )}
 
       {/* Platform Overview & About Contentstack - Side by Side */}
       {(homepageContent.platform_video_url || homepageContent.about_contentstack) && (
-        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <section className="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-amber-50/20 via-orange-50/20 to-yellow-50/30 border-y border-amber-100/50">
+          <div className="max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
               Contentstack Intro
@@ -639,10 +644,9 @@ export default async function Home() {
               </div>
             )}
           </div>
+          </div>
         </section>
       )}
-      
-     
 
       {/* CTA Section - From Contentstack */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
