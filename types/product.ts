@@ -101,11 +101,48 @@ export interface ReleaseProcess {
 }
 
 export interface HomePageContent {
-  heroTitle: string;
-  heroDescription: string;
-  platformVideoUrl?: string;
-  aboutContentstack: string;
-  architectureDiagrams: ArchitectureDiagram[];
-  releaseProcess?: ReleaseProcess; // Group field containing diagram, code, and description
+  // Hero Section
+  hero_badge_text?: string;
+  hero_title: string;
+  hero_description: string;
+  
+  // Feature Cards
+  feature_cards?: any[];
+  features_section_title?: string;
+  features_section_description?: string;
+  
+  // Products Section
+  products_section_badge?: string;
+  products_section_title?: string;
+  products_section_description?: string;
+  
+  // Platform Overview & About
+  platform_video_url?: string;
+  about_contentstack: string;
+  
+  // Architecture Section
+  architecture_section_badge?: string;
+  architecture_section_title?: string;
+  architecture_section_subtitle?: string;
+  architecture_section_description?: string;
+  architecture_principles?: any[];
+  architecture_principles_title?: string;
+  main_architecture_image_url?: string;
+  architecture_image_title?: string;
+  architecture_image_description?: string;
+  architecture_diagrams: ArchitectureDiagram[];
+  
+  // Quick Access Resources
+  quick_access_resources?: any[];
+  resources_section_title?: string;
+  resources_section_description?: string;
+  
+  // CTA Section
+  cta_section_badge?: string;
+  cta_section_title?: string;
+  cta_section_description?: string;
+  
+  // Release Process
+  release_process?: ReleaseProcess; // Group field containing diagram, code, and description
 }
 

@@ -1,11 +1,17 @@
 import { HomePageContent } from "@/types/product";
 
 export const homepageContent: HomePageContent = {
-  heroTitle: "Contentstack Engineering Hub",
-  heroDescription: "Your central resource for all technical documentation, architecture, and development practices across Contentstack products.",
-  platformVideoUrl: "https://www.youtube.com/watch?v=AHrK21gNhE4",
-  aboutContentstack: `
-Contentstack is the world's best digital experience platform, combining the power of a headless CMS 
+  hero_badge_text: "Internal Engineering Resource",
+  hero_title: "Contentstack Engineering Hub",
+  hero_description: "Your central resource for all technical documentation, architecture, and development practices across Contentstack products.",
+  features_section_title: "Everything You Need to Know",
+  features_section_description: "Comprehensive information about every Contentstack product, team, and process — all in one place",
+  feature_cards: [],
+  products_section_badge: "Product Catalog",
+  products_section_title: "Browse Products by Category",
+  products_section_description: "Access detailed information about each product including teams, tech stack, processes, and guidelines",
+  platform_video_url: "https://www.youtube.com/watch?v=AHrK21gNhE4",
+  about_contentstack: `Contentstack is the world's best digital experience platform, combining the power of a headless CMS 
 with real-time customer analytics to deliver adaptive, personalized content across all channels.
 
 Our platform empowers developers and IT teams to build scalable, modern applications with an API-first, 
@@ -13,9 +19,17 @@ cloud-based architecture. With Contentstack Edge, you get flexibility, speed, an
 highly personalized digital experiences that adapt to your users in real-time.
 
 From content management to intelligent agents, from powerful analytics to effortless front-end hosting, 
-Contentstack provides everything you need to reimagine what's possible in digital experience delivery.
-  `,
-  architectureDiagrams: [
+Contentstack provides everything you need to reimagine what's possible in digital experience delivery.`,
+  architecture_section_badge: "Platform Architecture",
+  architecture_section_title: "Built for Scale.",
+  architecture_section_subtitle: "Designed for Speed.",
+  architecture_section_description: "Explore our microservices architecture, cloud-native infrastructure, and the technical decisions that power millions of digital experiences worldwide.",
+  architecture_principles: [],
+  architecture_principles_title: "Core Architecture Principles",
+  main_architecture_image_url: "",
+  architecture_image_title: "Architecture Diagram",
+  architecture_image_description: "Multi-tier architecture delivering content at scale globally",
+  architecture_diagrams: [
     {
       title: "Contentstack Platform Architecture",
       description: "High-level overview of the Contentstack platform components and their interactions",
@@ -45,7 +59,13 @@ Contentstack provides everything you need to reimagine what's possible in digita
       whimsicalUrl: "https://whimsical.com/contentstack-security-architecture"
     }
   ],
-  releaseProcess: {
+  quick_access_resources: [],
+  resources_section_title: "Quick Access Resources",
+  resources_section_description: "Frequently accessed documentation, tools, and resources for daily work",
+  cta_section_badge: "For Contentstack Team Members",
+  cta_section_title: "Have Questions or Suggestions?",
+  cta_section_description: "This knowledge hub is maintained by the engineering team. If you notice outdated information or want to contribute, reach out to your team lead.",
+  release_process: {
     diagram: "/diagrams/release-process.png",
     code: `graph LR
     A[Development] --> B{Code Review}
@@ -91,4 +111,3 @@ Contentstack provides everything you need to reimagine what's possible in digita
 <p>This process ensures that every release meets our high standards for quality, security, and performance.</p>`
   }
 };
-

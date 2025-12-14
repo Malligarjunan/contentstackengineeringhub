@@ -481,32 +481,54 @@ export async function getHomepageContent(): Promise<any> {
     // Include references
     const Entries = stack.contentType('homepage').entry();
     Entries.includeReference('architecture_diagrams');
+    Entries.includeReference('release_process.diagram'); // Include the file field
+    Entries.includeEmbeddedItems(); // For RTE fields
     
     const result = await Entries.find();
 
     if (result && result.entries && result.entries.length > 0) {
       const entry = result.entries[0];
       console.log('✅ Fetched homepage content from Contentstack');
-      
       // Transform release process group field
-      let releaseProcess = null;
+      let release_process = null;
       if (entry.release_process) {
-        releaseProcess = {
+        release_process = {
           diagram: entry.release_process.diagram?.url || entry.release_process.diagram,
           code: entry.release_process.code,
           description: entry.release_process.description
         };
       }
       
+      // Return all fields in snake_case to match the Contentstack payload structure
       return {
-        heroTitle: entry.hero_title || entry.heroTitle,
-        heroDescription: entry.hero_description || entry.heroDescription,
-        platformVideoUrl: entry.platform_video_url || entry.platformVideoUrl,
-        aboutContentstack: entry.about_contentstack || entry.aboutContentstack,
-        architectureDiagrams: transformArchitectureDiagrams(
-          entry.architecture_diagrams || entry.architectureDiagrams || []
-        ),
-        releaseProcess: releaseProcess,
+        hero_badge_text: entry.hero_badge_text,
+        hero_title: entry.hero_title,
+        hero_description: entry.hero_description,
+        feature_cards: entry.feature_cards,
+        features_section_title: entry.features_section_title,
+        features_section_description: entry.features_section_description,
+        products_section_badge: entry.products_section_badge,
+        products_section_title: entry.products_section_title,
+        products_section_description: entry.products_section_description,
+        platform_video_url: entry.platform_video_url,
+        about_contentstack: entry.about_contentstack,
+        architecture_section_badge: entry.architecture_section_badge,
+        architecture_section_title: entry.architecture_section_title,
+        architecture_section_subtitle: entry.architecture_section_subtitle,
+        architecture_section_description: entry.architecture_section_description,
+        architecture_principles: entry.architecture_principles,
+        architecture_principles_title: entry.architecture_principles_title,
+        main_architecture_image_url: entry.main_architecture_image_url,
+        architecture_image_title: entry.architecture_image_title,
+        architecture_image_description: entry.architecture_image_description,
+        architecture_diagrams: transformArchitectureDiagrams(entry.architecture_diagrams || []),
+        quick_access_resources: entry.quick_access_resources,
+        resources_section_title: entry.resources_section_title,
+        resources_section_description: entry.resources_section_description,
+        cta_section_badge: entry.cta_section_badge,
+        cta_section_title: entry.cta_section_title,
+        cta_section_description: entry.cta_section_description,
+        release_process: release_process,
       };
     }
 
