@@ -122,9 +122,9 @@ export default async function Home() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category, i) => {
-            const categoryProducts = products.filter(p => p.category === category);
+        {/* All Products Grid */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {products.map((product, i) => {
             const categoryColors = [
               'from-purple-500 to-pink-500',
               'from-blue-500 to-cyan-500',
@@ -133,38 +133,47 @@ export default async function Home() {
               'from-indigo-500 to-purple-500',
               'from-pink-500 to-rose-500',
             ];
-            const colorClass = categoryColors[i % categoryColors.length];
+            const categoryIndex = categories.indexOf(product.category);
+            const colorClass = categoryColors[categoryIndex % categoryColors.length];
 
             return (
               <Link
-                key={category}
-                href={`/products?category=${encodeURIComponent(category)}`}
-                className="group relative bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border-2 border-slate-100 hover:border-slate-200 overflow-hidden"
+                key={product.id}
+                href={`/products/${product.slug}`}
+                className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-slate-100 hover:border-slate-200 overflow-hidden"
               >
-                {/* Animated gradient background */}
-                <div className={`absolute top-0 right-0 w-40 h-40 bg-gradient-to-br ${colorClass} opacity-10 rounded-full blur-3xl group-hover:opacity-20 group-hover:scale-150 transition-all duration-700`}></div>
+                {/* Gradient accent */}
+                <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${colorClass} opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition-opacity duration-300`}></div>
                 
                 <div className="relative z-10">
-                  <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${colorClass} flex items-center justify-center mb-6 text-white font-black text-3xl shadow-lg group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                    {categoryProducts.length}
+                  {/* Category Badge */}
+                  <div className="mb-3">
+                    <span className={`inline-block px-3 py-1 text-xs font-bold rounded-full bg-gradient-to-r ${colorClass} text-white`}>
+                      {product.category}
+                    </span>
                   </div>
-                  <h3 className="text-2xl font-black text-slate-900 mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:${colorClass} transition-all duration-300">
-                    {category}
-                  </h3>
-                  <p className="text-slate-600 mb-6 leading-relaxed">
-                    {categoryProducts.length} {categoryProducts.length === 1 ? 'product' : 'products'} with complete documentation and team information
+
+                  {/* Product Title */}
+                  <h4 className="text-lg font-black text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">
+                    {product.title}
+                  </h4>
+
+                  {/* Product Description */}
+                  <p className="text-slate-600 text-sm leading-relaxed line-clamp-3 mb-4">
+                    {product.shortDescription}
                   </p>
                   
-                  <div className="flex items-center gap-2 text-indigo-600 font-bold group-hover:gap-3 transition-all duration-300">
-                    <span>View products</span>
-                    <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  {/* View Details Link */}
+                  <div className="flex items-center gap-2 text-indigo-600 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span>View details</span>
+                    <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M13 7l5 5m0 0l-5 5m5-5H6" />
                     </svg>
                   </div>
                 </div>
-                
-                {/* Corner accent */}
-                <div className={`absolute bottom-0 left-0 w-24 h-24 bg-gradient-to-tr ${colorClass} opacity-5 rounded-tr-full transition-all duration-500 group-hover:w-32 group-hover:h-32`}></div>
+
+                {/* Corner decoration */}
+                <div className={`absolute bottom-0 right-0 w-16 h-16 bg-gradient-to-tl ${colorClass} opacity-5 rounded-tl-full transition-all duration-500 group-hover:w-20 group-hover:h-20`}></div>
               </Link>
             );
           })}
@@ -481,6 +490,40 @@ export default async function Home() {
         />
       )}
 
+ {/* Quick Access Resources - From Contentstack */}
+ {homepageContent.quick_access_resources && homepageContent.quick_access_resources.length > 0 && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+              {homepageContent.resources_section_title || 'Quick Access Resources'}
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              {homepageContent.resources_section_description || 'Frequently accessed documentation, tools, and resources for daily work'}
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {homepageContent.quick_access_resources.map((resource: any, i: number) => {
+              const colorClasses = getColorClasses(resource.color || 'purple');
+              const iconBg = getResourceIconBg(resource.color || 'purple');
+              return (
+                <a
+                  key={i}
+                  href={resource.linkUrl || resource.link_url}
+                  className={`relative bg-gradient-to-br ${colorClasses.bgGradient} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 ${colorClasses.borderColor} group`}
+                >
+                  <div className={`w-12 h-12 rounded-xl ${iconBg} flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform shadow-lg`}>
+                    {getIcon(resource.iconName || resource.icon_name)}
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-1">{resource.title}</h3>
+                  <p className="text-slate-600 text-sm">{resource.description}</p>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )}
+      
       {/* What You'll Find Here Section - From Contentstack */}
       {homepageContent.feature_cards && homepageContent.feature_cards.length > 0 && (
         <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
@@ -529,9 +572,6 @@ export default async function Home() {
           </div>
         </section>
       )}
-
-
-      
 
       {/* Platform Overview & About Contentstack - Side by Side */}
       {(homepageContent.platform_video_url || homepageContent.about_contentstack) && (
@@ -602,39 +642,7 @@ export default async function Home() {
         </section>
       )}
       
-      {/* Quick Access Resources - From Contentstack */}
-      {homepageContent.quick_access_resources && homepageContent.quick_access_resources.length > 0 && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-              {homepageContent.resources_section_title || 'Quick Access Resources'}
-            </h2>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              {homepageContent.resources_section_description || 'Frequently accessed documentation, tools, and resources for daily work'}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {homepageContent.quick_access_resources.map((resource: any, i: number) => {
-              const colorClasses = getColorClasses(resource.color || 'purple');
-              const iconBg = getResourceIconBg(resource.color || 'purple');
-              return (
-                <a
-                  key={i}
-                  href={resource.linkUrl || resource.link_url}
-                  className={`relative bg-gradient-to-br ${colorClasses.bgGradient} rounded-2xl p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-1 border-2 ${colorClasses.borderColor} group`}
-                >
-                  <div className={`w-12 h-12 rounded-xl ${iconBg} flex items-center justify-center mb-4 text-white group-hover:scale-110 transition-transform shadow-lg`}>
-                    {getIcon(resource.iconName || resource.icon_name)}
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-1">{resource.title}</h3>
-                  <p className="text-slate-600 text-sm">{resource.description}</p>
-                </a>
-              );
-            })}
-          </div>
-        </section>
-      )}
+     
 
       {/* CTA Section - From Contentstack */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
