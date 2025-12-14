@@ -94,11 +94,18 @@ export interface Product {
   helpfulLinks?: ExternalLink[];
 }
 
+export interface ReleaseProcess {
+  diagram?: string; // URL to the release process diagram image
+  code?: string; // Mermaid diagram code
+  description?: string; // HTML/RTE content describing the release process
+}
+
 export interface HomePageContent {
   heroTitle: string;
   heroDescription: string;
   platformVideoUrl?: string;
   aboutContentstack: string;
   architectureDiagrams: ArchitectureDiagram[];
+  releaseProcess?: ReleaseProcess; // Group field containing diagram, code, and description
 }
 

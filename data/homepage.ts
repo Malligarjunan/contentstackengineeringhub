@@ -44,6 +44,51 @@ Contentstack provides everything you need to reimagine what's possible in digita
       details: "Includes API authentication, role-based access control, data encryption at rest and in transit, and SOC 2 compliance.",
       whimsicalUrl: "https://whimsical.com/contentstack-security-architecture"
     }
-  ]
+  ],
+  releaseProcess: {
+    diagram: "/diagrams/release-process.png",
+    code: `graph LR
+    A[Development] --> B{Code Review}
+    B -->|Approved| C[Merge to Main]
+    B -->|Changes Required| A
+    C --> D[CI Pipeline]
+    D --> E{Tests Pass?}
+    E -->|Yes| F[Build Artifacts]
+    E -->|No| A
+    F --> G[Deploy to Staging]
+    G --> H[QA Testing]
+    H --> I{QA Approved?}
+    I -->|Yes| J[Deploy to Production]
+    I -->|No| A
+    J --> K[Monitor & Verify]
+    K --> L{Issues?}
+    L -->|Yes| M[Rollback]
+    L -->|No| N[Release Complete]
+    M --> A`,
+    description: `<h3>Our Release Process</h3>
+<p>At Contentstack, we follow a <strong>rigorous release process</strong> designed to ensure quality, reliability, and smooth deployments across all our products. Our process emphasizes automation, testing, and continuous improvement.</p>
+
+<h4>Key Stages</h4>
+<ul>
+<li><strong>Development & Code Review:</strong> All code changes go through peer review using GitHub Pull Requests. We require at least two approvals from team members before merging.</li>
+<li><strong>Automated CI/CD Pipeline:</strong> Upon merge to main, our CI pipeline automatically runs comprehensive test suites including unit tests, integration tests, and security scans.</li>
+<li><strong>Staging Deployment:</strong> Successful builds are automatically deployed to our staging environment that mirrors production.</li>
+<li><strong>QA & Validation:</strong> Our QA team performs thorough testing including functional, regression, and performance tests.</li>
+<li><strong>Production Deployment:</strong> After QA approval, releases are deployed to production using blue-green deployment strategy to ensure zero downtime.</li>
+<li><strong>Monitoring & Verification:</strong> Post-deployment, we actively monitor key metrics, logs, and alerts. Our on-call team is ready to respond to any issues.</li>
+</ul>
+
+<h4>Best Practices</h4>
+<p>We follow these best practices to maintain high quality releases:</p>
+<ul>
+<li>Feature flags for gradual rollouts</li>
+<li>Automated rollback mechanisms</li>
+<li>Comprehensive logging and monitoring</li>
+<li>Regular release retrospectives</li>
+<li>Documentation updates with every release</li>
+</ul>
+
+<p>This process ensures that every release meets our high standards for quality, security, and performance.</p>`
+  }
 };
 

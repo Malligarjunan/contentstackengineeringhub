@@ -2,6 +2,7 @@ import Link from "next/link";
 import { getHomepageContent, getAllProducts } from "@/lib/contentstack";
 import { ArchitectureDiagram } from "@/types/product";
 import { getIcon, getColorClasses, getResourceIconBg } from "@/lib/homepage-helpers";
+import ReleaseProcess from "@/components/ReleaseProcess";
 
 // Force dynamic rendering - fetch fresh content on every request
 export const dynamic = 'force-dynamic';
@@ -204,7 +205,84 @@ export default async function Home() {
         </div>
       </section>
 
- {/* Architecture Section - From Contentstack */}
+        {/* Release Process Section */}
+        {homepageContent.releaseProcess && (
+        <ReleaseProcess 
+          diagram={homepageContent.releaseProcess.diagram}
+          description={homepageContent.releaseProcess.description}
+        />
+      )}
+
+      {/* Platform Overview & About Contentstack - Side by Side */}
+      {(homepageContent.platformVideoUrl || homepageContent.aboutContentstack) && (
+        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="inline-block">
+              <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
+                Platform Overview
+              </span>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
+              Understanding Contentstack
+            </h2>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Learn about our platform through video and comprehensive documentation
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Platform Overview Video */}
+            {homepageContent.platformVideoUrl && (
+              <div className="bg-white rounded-3xl p-8 shadow-xl border border-slate-200">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-red-500 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.861-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z"/>
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-black text-slate-900">Platform Video</h3>
+                </div>
+                <div className="relative rounded-2xl overflow-hidden shadow-lg bg-slate-900">
+                  <div className="relative bg-black overflow-hidden" style={{ paddingBottom: '56.25%' }}>
+                    <iframe
+                      className="absolute top-0 left-0 w-full h-full"
+                      src={homepageContent.platformVideoUrl.replace('watch?v=', 'embed/')}
+                      title="Contentstack Platform Overview"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </div>
+                <p className="text-sm text-slate-500 mt-4 text-center">
+                  Watch this video to understand the Contentstack platform
+                </p>
+              </div>
+            )}
+
+            {/* About Contentstack */}
+            {homepageContent.aboutContentstack && (
+              <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-3xl p-8 shadow-xl border border-purple-200">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-10 h-10 rounded-xl bg-purple-500 flex items-center justify-center">
+                    <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <h3 className="text-2xl font-black text-slate-900">What is Contentstack?</h3>
+                </div>
+                <div className="prose prose-lg max-w-none overflow-auto h-[400px] pr-2">
+                  <p className="text-slate-700 leading-relaxed whitespace-pre-line">
+                    {homepageContent.aboutContentstack}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+        </section>
+      )}
+      
+      {/* Architecture Section - From Contentstack */}
       <section className="py-20 bg-gradient-to-br from-slate-900 to-slate-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
@@ -358,68 +436,6 @@ export default async function Home() {
         </div>
       </section>
       
-      {/* Platform Overview Video Section - From Contentstack */}
-      {homepageContent.platformVideoUrl && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="text-center mb-12">
-            <div className="inline-block">
-              <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
-                {homepageContent.videoSectionBadge || 'Platform Overview'}
-              </span>
-            </div>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-              {homepageContent.videoSectionTitle || 'Understanding Contentstack'}
-            </h2>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              {homepageContent.videoSectionDescription || 'New to the team? Watch this video to understand the Contentstack platform and architecture'}
-            </p>
-          </div>
-
-          <div className="max-w-5xl mx-auto">
-            <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 p-2">
-              <div className="relative bg-black rounded-2xl overflow-hidden" style={{ paddingBottom: '56.25%' }}>
-                <iframe
-                  className="absolute top-0 left-0 w-full h-full"
-                  src={homepageContent.platformVideoUrl.replace('watch?v=', 'embed/')}
-                  title="Contentstack Platform Overview"
-                  frameBorder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-        {/* About Contentstack Section */}
-        {homepageContent.aboutContentstack && (
-        <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-8">
-              <div className="inline-block">
-                <span className="text-sm font-semibold text-[#6C5CE7] uppercase tracking-wider bg-purple-100 px-4 py-2 rounded-full mb-4 inline-block">
-                  About Contentstack
-                </span>
-              </div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4">
-                What is Contentstack?
-              </h2>
-            </div>
-            <div className="bg-gradient-to-br from-purple-50 to-blue-50 rounded-2xl p-8 border-2 border-purple-100 shadow-lg">
-              <div className="prose prose-lg max-w-none">
-                <p className="text-slate-700 leading-relaxed whitespace-pre-line">
-                  {homepageContent.aboutContentstack}
-                </p>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-     
-
-    
       {/* Quick Access Resources - From Contentstack */}
       {homepageContent.quickAccessResources && homepageContent.quickAccessResources.length > 0 && (
         <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">

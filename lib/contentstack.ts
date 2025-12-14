@@ -487,6 +487,17 @@ export async function getHomepageContent(): Promise<any> {
     if (result && result.entries && result.entries.length > 0) {
       const entry = result.entries[0];
       console.log('✅ Fetched homepage content from Contentstack');
+      
+      // Transform release process group field
+      let releaseProcess = null;
+      if (entry.release_process) {
+        releaseProcess = {
+          diagram: entry.release_process.diagram?.url || entry.release_process.diagram,
+          code: entry.release_process.code,
+          description: entry.release_process.description
+        };
+      }
+      
       return {
         heroTitle: entry.hero_title || entry.heroTitle,
         heroDescription: entry.hero_description || entry.heroDescription,
@@ -495,6 +506,7 @@ export async function getHomepageContent(): Promise<any> {
         architectureDiagrams: transformArchitectureDiagrams(
           entry.architecture_diagrams || entry.architectureDiagrams || []
         ),
+        releaseProcess: releaseProcess,
       };
     }
 
