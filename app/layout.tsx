@@ -5,6 +5,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import LivePreviewProvider from "@/components/LivePreviewProvider";
+import { PersonalizeProvider } from "@/components/context/PersonalizeContext";
 import { getLivePreviewConfig } from "@/lib/live-preview";
 
 const inter = Inter({
@@ -43,12 +44,14 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased bg-gray-50`}>
-        <LivePreviewProvider config={livePreviewConfig} />
-        <Header />
-        <main className="min-h-screen">
-          {children}
-        </main>
-        <Footer />
+        <PersonalizeProvider>
+          <LivePreviewProvider config={livePreviewConfig} />
+          <Header />
+          <main className="min-h-screen">
+            {children}
+          </main>
+          <Footer />
+        </PersonalizeProvider>
       </body>
     </html>
   );

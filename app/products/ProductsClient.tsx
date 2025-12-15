@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { Product } from "@/types/product";
 
@@ -11,6 +11,17 @@ interface ProductsClientProps {
 export default function ProductsClient({ products }: ProductsClientProps) {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const productsGridRef = useRef<HTMLElement>(null);
+
+  // Scroll to products section when category or search changes
+  useEffect(() => {
+    if ((selectedCategory !== "All" || searchQuery !== "") && productsGridRef.current) {
+      productsGridRef.current.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'center' 
+      });
+    }
+  }, [selectedCategory, searchQuery]);
 
   const categories = ["All", ...Array.from(new Set(products.map(p => p.category)))];
 
@@ -106,7 +117,7 @@ export default function ProductsClient({ products }: ProductsClientProps) {
       </section>
 
       {/* Products Grid */}
-      <section className="pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+      <section ref={productsGridRef} className="pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         {filteredProducts.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredProducts.map((product) => (
