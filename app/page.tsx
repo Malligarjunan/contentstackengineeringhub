@@ -5,17 +5,19 @@ import { getIcon, getColorClasses, getResourceIconBg } from "@/lib/homepage-help
 import ReleaseProcess from "@/components/ReleaseProcess";
 
 // Force dynamic rendering - fetch fresh content on every request
-export const dynamic = 'force-dynamic';
+// Enable ISR for homepage - revalidate every 60 seconds
+export const revalidate = 60;
 
 export default async function Home() {
   // Fetch homepage content and products from Contentstack
+  // Using lightweight products fetch for homepage cards
   let homepageContent;
   let products;
 
   try {
     [homepageContent, products] = await Promise.all([
       getHomepageContent(),
-      getAllProducts()
+      getAllProducts() // Lightweight version for homepage
     ]);
   } catch (error) {
     console.error('Error fetching homepage data:', error);

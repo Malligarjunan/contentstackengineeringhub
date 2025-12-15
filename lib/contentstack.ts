@@ -54,10 +54,61 @@ function getStack() {
 }
 
 /**
- * Fetch all products from Contentstack
- * Falls back to local data if Contentstack is not configured
+ * Fetch products for listing pages (homepage, products list)
+ * This is a lightweight version that only includes essential fields for cards
+ * Optimized for ISR - separate cache from detailed product pages
  */
 export async function getAllProducts(): Promise<Product[]> {
+  const stack = getStack();
+  
+  // Fallback to local data if Contentstack is not configured
+  if (!stack) {
+    return localProducts;
+  }
+
+  try {
+    // Only include minimal references needed for product cards
+    const Entries = stack.contentType('product').entry();
+    
+    // Include only what's needed for product cards/grid display
+    Entries.includeReference('icon');
+    Entries.includeReference('team_members'); // For team count
+    
+    const result = await Entries
+      .only([
+        'title',
+        'slug',
+        'short_description',
+        'category',
+        'icon',
+        'color',
+        'tech_stack', // For preview tags
+        'team_members'
+      ])
+      .orderByAscending('title')
+      .includeCount()
+      .find();
+      
+    if (result && result.entries) {
+      console.log(`✅ Fetched ${result.entries.length} products (lightweight) from Contentstack`);
+      return result.entries.map(transformProduct);
+    }
+
+    console.log('⚠️  No products found in Contentstack, using local data');
+    return [...localProducts].sort((a, b) => a.title.localeCompare(b.title));
+  } catch (error) {
+    console.error('❌ Error fetching products from Contentstack:', error);
+    console.log('Falling back to local data');
+    return [...localProducts].sort((a, b) => a.title.localeCompare(b.title));
+  }
+}
+
+/**
+ * Fetch all products with full details
+ * Use this for the products listing page (/products)
+ * Separate from homepage to avoid cache conflicts
+ */
+export async function getAllProductsDetailed(): Promise<Product[]> {
   const stack = getStack();
   
   // Fallback to local data if Contentstack is not configured
@@ -86,8 +137,9 @@ export async function getAllProducts(): Promise<Product[]> {
       .orderByAscending('title')
       .includeCount()
       .find();
+      
     if (result && result.entries) {
-      console.log(`✅ Fetched ${result.entries.length} products from Contentstack (sorted by title)`);
+      console.log(`✅ Fetched ${result.entries.length} products (detailed) from Contentstack`);
       return result.entries.map(transformProduct);
     }
 
@@ -101,10 +153,11 @@ export async function getAllProducts(): Promise<Product[]> {
 }
 
 /**
- * Fetch a single product by slug
+ * Fetch a single product by slug with full details
+ * This is specifically for product detail pages with separate caching
  * Falls back to local data if Contentstack is not configured
  */
-export async function getProductBySlug(slug: string): Promise<Product | null> {
+export async function getProductBySlug(slug: string, bypassCache: boolean = false): Promise<Product | null> {
   const stack = getStack();
   
   // Fallback to local data if Contentstack is not configured
@@ -113,10 +166,11 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
   }
 
   try {
-    // Include all references - call includeReference multiple times for nested fields
+    // Create a fresh query instance for each product detail fetch
+    // This ensures ISR works independently from getAllProducts()
     const Entries = stack.contentType('product').entry();
     
-    // Include top-level references
+    // Include ALL references for detail page - comprehensive data
     Entries.includeReference('icon');
     Entries.includeReference('cicd_diagram_image');
     Entries.includeReference('team_members');
@@ -126,6 +180,10 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     Entries.includeReference('observability_dashboards');
     Entries.includeReference('helpful_links');
     
+    // Include nested references for repositories
+    Entries.includeReference('repositories');
+    Entries.includeReference('repositories.tech_stack');
+    
     // Include embedded items for RTE fields (like intro)
     Entries.includeEmbeddedItems();
     
@@ -133,16 +191,17 @@ export async function getProductBySlug(slug: string): Promise<Product | null> {
     const result = await Query.find();
 
     if (result && result.entries && result.entries.length > 0) {
-      console.log(`✅ Fetched product "${slug}" from Contentstack`);
+      const timestamp = new Date().toISOString();
+      console.log(`✅ [ISR] Fetched product detail "${slug}" from Contentstack at ${timestamp}`);
       const product = transformProduct(result.entries[0]);
-      console.log(`📝 Intro field present: ${!!product.intro}, Length: ${product.intro?.length || 0}`);
+      console.log(`📝 Product detail includes: intro=${!!product.intro}, repos=${product.repositories?.length || 0}, diagrams=${product.architectureDiagrams?.length || 0}`);
       return product;
     }
 
     console.log(`⚠️  Product "${slug}" not found in Contentstack, using local data`);
     return localProducts.find(p => p.slug === slug) || null;
   } catch (error) {
-    console.error(`❌ Error fetching product with slug "${slug}":`, error);
+    console.error(`❌ Error fetching product detail with slug "${slug}":`, error);
     console.log('Falling back to local data');
     return localProducts.find(p => p.slug === slug) || null;
   }

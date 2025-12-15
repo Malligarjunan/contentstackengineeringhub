@@ -1,15 +1,17 @@
-import { getAllProducts } from "@/lib/contentstack";
+import { getAllProductsDetailed } from "@/lib/contentstack";
 import ProductsClient from "./ProductsClient";
 import { Product } from "@/types/product";
 
-// Force dynamic rendering - fetch fresh content on every request
-export const dynamic = 'force-dynamic';
+// Enable ISR for the products listing page
+export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function ProductsPage() {
-  // Fetch products from Contentstack
+  // Fetch products with full details from Contentstack
+  // Using separate function from homepage to avoid cache conflicts
   let products: Product[];
   try {
-    products = await getAllProducts();
+    products = await getAllProductsDetailed();
+    console.log(`📋 Products page: Loaded ${products.length} products with full details`);
   } catch (error) {
     console.error('Error fetching products:', error);
     products = [];
