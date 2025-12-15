@@ -38,6 +38,7 @@ export default function LyticsProductTracker({ product }: LyticsProductTrackerPr
             page_url: window.location.href,
             page_path: window.location.pathname,
             timestamp: new Date().toISOString(),
+            pageview: 1
           });
 
           console.log('📊 Lytics: Product visit tracked', {
