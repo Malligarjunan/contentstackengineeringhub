@@ -4,6 +4,7 @@ import { getProductBySlug, getAllProductSlugs } from "@/lib/contentstack";
 import { getYouTubeEmbedUrl, isYouTubeUrl, isContentstackAcademyUrl } from "@/lib/youtube";
 import LivePreviewProduct from "./LivePreviewProduct";
 import TextWithCopy from "./TextWithCopy";
+import LyticsProductTracker from "@/components/LyticsProductTracker";
 
 interface ProductPageProps {
   params: Promise<{
@@ -51,6 +52,17 @@ export default async function ProductPage({ params, searchParams }: ProductPageP
   // Wrap content with Live Preview for real-time updates
   return (
     <LivePreviewProduct>
+      {/* Lytics Product Visit Tracking */}
+      <LyticsProductTracker 
+        product={{
+          id: product.id,
+          title: product.title,
+          slug: product.slug,
+          category: product.category,
+          shortDescription: product.shortDescription,
+        }}
+      />
+      
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section with Product Info */}
       <section className="relative bg-slate-900 text-white pt-12 pb-14 overflow-hidden">
