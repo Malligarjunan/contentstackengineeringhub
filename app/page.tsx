@@ -5,8 +5,8 @@ import { getIcon, getColorClasses, getResourceIconBg } from "@/lib/homepage-help
 import ReleaseProcess from "@/components/ReleaseProcess";
 
 // Force dynamic rendering - fetch fresh content on every request
-// Enable ISR for homepage - revalidate every 60 seconds
-export const revalidate = 60;
+// Force dynamic rendering - always fetch fresh content
+export const dynamic = 'force-dynamic';
 
 export default async function Home() {
   // Fetch homepage content and products from Contentstack
