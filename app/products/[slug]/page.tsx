@@ -14,7 +14,7 @@ interface ProductPageProps {
 }
 
 // Enable ISR - pages regenerate in the background after this time period
-export const revalidate = 20; // Revalidate every 20 seconds
+export const revalidate = 120; // Revalidate every 20 seconds
 
 // Generate static pages at build time for all products
 export async function generateStaticParams() {
