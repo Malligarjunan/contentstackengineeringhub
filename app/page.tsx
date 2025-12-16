@@ -3,6 +3,8 @@ import { getHomepageContent, getAllProducts } from "@/lib/contentstack";
 import { ArchitectureDiagram } from "@/types/product";
 import { getIcon, getColorClasses, getResourceIconBg } from "@/lib/homepage-helpers";
 import ReleaseProcess from "@/components/ReleaseProcess";
+import PersonalizeImpression from "@/components/PersonalizeImpression";
+import PersonalizedCTA from "@/components/PersonalizedCTA";
 
 // Force dynamic rendering - fetch fresh content on every request
 // Force dynamic rendering - always fetch fresh content
@@ -650,8 +652,14 @@ export default async function Home() {
         </section>
       )}
 
-      {/* CTA Section - From Contentstack */}
+      {/* CTA Section - From Contentstack with Personalize */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 text-white relative overflow-hidden">
+        {/* Track impression for homepage CTA experience */}
+        <PersonalizeImpression 
+          experienceShortUid="homepage_cta"
+          experienceName="Homepage CTA Section"
+        />
+        
         <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wMyI+PHBhdGggZD0iTTM2IDM0di00aC0ydjRoLTR2Mmg0djRoMnYtNGg0di0yaC00em0wLTMwVjBoLTJ2NGgtNHYyaDR2NGgyVjZoNFY0aC00ek02IDM0di00SDR2NEgwdjJoNHY0aDJ2LTRoNHYtMkg2ek02IDRWMEG0djRIMHYyaDR2NGgyVjZoNFY0SDZ6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-20"></div>
         
         <div className="relative z-10 max-w-4xl mx-auto text-center">
@@ -664,24 +672,16 @@ export default async function Home() {
             </div>
           )}
 
-          <h2 className="text-3xl md:text-4xl font-black mb-4">
-            {homepageContent.cta_section_title || 'Have Questions or Suggestions?'}
-          </h2>
-          <p className="text-lg text-slate-300 mb-8 max-w-2xl mx-auto">
-            {homepageContent.cta_section_description || 'This knowledge hub is maintained by the engineering team. If you notice outdated information or want to contribute, reach out to your team lead.'}
-          </p>
-          
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link
-              href="/products"
-              className="px-6 py-3 bg-white text-slate-900 rounded-xl font-bold text-base hover:scale-105 transition-all hover:shadow-2xl inline-flex items-center justify-center gap-2"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-              Search Products
-            </Link>
-          </div>
+          {/* Use PersonalizedCTA component with event tracking */}
+          <PersonalizedCTA
+            title={homepageContent.cta_section_title || 'Have Questions or Suggestions?'}
+            description={homepageContent.cta_section_description || 'This knowledge hub is maintained by the engineering team. If you notice outdated information or want to contribute, reach out to your team lead.'}
+            primaryButtonText="Search Products"
+            primaryButtonUrl="/products"
+            secondaryButtonText="View Documentation"
+            secondaryButtonUrl="/products"
+            eventKey="homepage_cta"
+          />
         </div>
       </section>
     </div>
