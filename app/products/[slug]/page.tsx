@@ -5,6 +5,7 @@ import { getYouTubeEmbedUrl, isYouTubeUrl, isContentstackAcademyUrl } from "@/li
 import LivePreviewProduct from "./LivePreviewProduct";
 import TextWithCopy from "./TextWithCopy";
 import LyticsProductTracker from "@/components/LyticsProductTracker";
+import LyticsDebugPanel from "@/components/LyticsDebugPanel";
 
 interface ProductPageProps {
   params: Promise<{
@@ -57,6 +58,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
           shortDescription: product.shortDescription,
         }}
       />
+      
+      {/* Lytics Debug Panel - Only visible in development */}
+      <LyticsDebugPanel />
       
       <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
       {/* Hero Section with Product Info */}
