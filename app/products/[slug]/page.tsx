@@ -10,7 +10,6 @@ interface ProductPageProps {
   params: Promise<{
     slug: string;
   }>;
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 // Enable ISR - pages regenerate in the background after this time period
@@ -27,18 +26,11 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProductPage({ params, searchParams }: ProductPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const search = await searchParams;
   
-  // Check if we're in Live Preview mode
-  const isLivePreview = search.live_preview !== undefined;
-  
-  if (isLivePreview) {
-    console.log('🔴 Live Preview mode active for product:', slug);
-  }
-  
-  // Fetch product data from Contentstack (will use preview token if configured)
+  // Fetch product data from Contentstack
+  // Live Preview mode is handled by LivePreviewProduct client component
   const product = await getProductBySlug(slug);
 
   if (!product) {
