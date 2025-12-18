@@ -543,6 +543,9 @@ export async function getHomepageContent(): Promise<any> {
     Entries.includeReference('release_process.diagram'); // Include the file field
     Entries.includeReference('tech_stack'); // Include tech stack group field
     Entries.includeReference('tech_stack.technologies.logo'); // Include logo files
+    Entries.includeReference('products'); // Include product references
+    Entries.includeReference('products.icon'); // Include product icons
+    Entries.includeReference('products.team_members'); // Include team members for product cards
     Entries.includeEmbeddedItems(); // For RTE fields
     
     const result = await Entries.find();
@@ -550,6 +553,11 @@ export async function getHomepageContent(): Promise<any> {
     if (result && result.entries && result.entries.length > 0) {
       const entry = result.entries[0];
       console.log('✅ Fetched homepage content from Contentstack');
+      
+      // Debug: Log all fields in the entry
+      console.log('📋 Homepage entry fields:', Object.keys(entry));
+      console.log('🔍 products field:', entry.products);
+      
       // Transform release process group field
       let release_process = null;
       if (entry.release_process) {
@@ -558,6 +566,18 @@ export async function getHomepageContent(): Promise<any> {
           code: entry.release_process.code,
           description: entry.release_process.description
         };
+      }
+      
+      // Transform product references if they exist
+      let products = null;
+      if (entry.products && Array.isArray(entry.products)) {
+        console.log(`✅ Found ${entry.products.length} product references in homepage entry`);
+        products = entry.products.map((product: any) => transformProduct(product));
+      } else {
+        console.log('ℹ️  No product references found in homepage entry, will show all products');
+        if (entry.products) {
+          console.log('⚠️  products exists but is not an array:', typeof entry.products);
+        }
       }
       
       // Return all fields in snake_case to match the Contentstack payload structure
@@ -571,6 +591,7 @@ export async function getHomepageContent(): Promise<any> {
         products_section_badge: entry.products_section_badge,
         products_section_title: entry.products_section_title,
         products_section_description: entry.products_section_description,
+        products: products,
         platform_video_url: entry.platform_video_url,
         about_contentstack: entry.about_contentstack,
         architecture_section_badge: entry.architecture_section_badge,

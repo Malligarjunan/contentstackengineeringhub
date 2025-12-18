@@ -398,7 +398,54 @@ node scripts/update-product-contenttype-repositories.js
 
 ---
 
-### 6. test-revalidate.sh
+### 8. add-product-references-to-homepage.js
+
+Adds a `products` field to the homepage content type, allowing you to select specific products to display on the homepage.
+
+**What it does:**
+- Adds a new reference field called `products` to the homepage content type
+- Configures it to reference multiple products
+- Allows editors to curate which products appear on the homepage
+- Falls back to showing all products if no references are selected
+
+**Usage:**
+```bash
+npm run add-product-references
+# OR
+node scripts/add-product-references-to-homepage.js
+```
+
+**Prerequisites:**
+- `CONTENTSTACK_API_KEY` in .env.local
+- `CONTENTSTACK_MANAGEMENT_TOKEN` in .env.local
+- Homepage content type must exist
+
+**After running:**
+1. Go to Contentstack Dashboard > Content Models > homepage
+2. You'll see the new "Product References" field
+3. Edit your homepage entry
+4. Select specific products to display (or leave empty to show all)
+5. Save and publish the entry
+
+**Field Details:**
+- **Field Name**: Product References
+- **Field UID**: `products`
+- **Type**: Reference (Multiple)
+- **References**: product content type
+- **Mandatory**: No
+- **Purpose**: Curate which products appear on the homepage
+
+**Benefits:**
+- Display only featured or important products
+- Control the order of products on homepage
+- Easy to update without code changes
+- Automatic fallback to all products if empty
+
+See `products_SETUP.md` for detailed documentation.
+
+---
+
+### 9. test-revalidate.sh
 
 Tests the on-demand revalidation API for ISR pages.
 

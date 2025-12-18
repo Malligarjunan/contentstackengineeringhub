@@ -5,6 +5,8 @@ A comprehensive internal knowledge hub for developers and QA members at Contents
 ## Features
 
 - 🏠 **Homepage** - Introduction to Contentstack with platform architecture diagrams
+  - **Curated Products** - Display specific products via product references (NEW!)
+  - Automatic fallback to all products if no references selected
 - 📦 **Products Listing** - Browse all Contentstack products with search and category filtering
 - 🔍 **Product Details** - Comprehensive information for each product:
   - About the product
@@ -137,6 +139,31 @@ When Contentstack is configured via environment variables, the application autom
 See [CONTENTSTACK_SETUP.md](./CONTENTSTACK_SETUP.md) for detailed CMS setup instructions.
 
 ## Key Features Explained
+
+### Homepage Product References (NEW!)
+
+Display curated products on the homepage instead of showing all products:
+
+**Quick Setup:**
+```bash
+# 1. Add the field to homepage content type
+npm run add-product-references
+
+# 2. Select products in Contentstack dashboard
+# 3. Save and publish
+```
+
+**How it works:**
+- Select specific products to display on homepage
+- Automatic fallback to all products if none selected
+- Easy to update without code changes
+- Single query with nested references for optimal performance
+
+**Documentation:**
+- 📖 [Quick Start Guide](./QUICK_START_products.md)
+- 📋 [Detailed Setup](./products_SETUP.md)
+- 🏗️ [Implementation Details](./HOMEPAGE_products.md)
+- 📊 [Flow Diagrams](./docs/product-references-flow.md)
 
 ### Incremental Static Regeneration (ISR)
 

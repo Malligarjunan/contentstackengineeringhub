@@ -11,15 +11,14 @@ import PersonalizedCTA from "@/components/PersonalizedCTA";
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  // Fetch homepage content and products from Contentstack
-  // Using lightweight products fetch for homepage cards
+  // Fetch homepage content from Contentstack
   let homepageContent;
-  let products;
+  let allProducts;
 
   try {
-    [homepageContent, products] = await Promise.all([
+    [homepageContent, allProducts] = await Promise.all([
       getHomepageContent(),
-      getAllProducts() // Lightweight version for homepage
+      getAllProducts() // Fallback if no product references
     ]);
   } catch (error) {
     console.error('Error fetching homepage data:', error);
@@ -27,10 +26,17 @@ export default async function Home() {
     const { homepageContent: localHomepage } = await import("@/data/homepage");
     const { products: localProducts } = await import("@/data/products");
     homepageContent = localHomepage;
-    products = localProducts;
+    allProducts = localProducts;
   }
 
-  const categories = Array.from(new Set(products.map(p => p.category)));
+  // Use referenced products if available, otherwise show all products
+  const products = homepageContent.products && homepageContent.products.length > 0
+    ? homepageContent.products
+    : allProducts;
+
+  console.log(`📄 Homepage displaying ${products.length} products (${homepageContent.products ? 'from references' : 'all products'})`);
+
+  const categories = Array.from(new Set(products.map((p: { category: string }) => p.category)));
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-50">
@@ -88,7 +94,7 @@ export default async function Home() {
                   <path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zM17 6a3 3 0 11-6 0 3 3 0 016 0zM12.93 17c.046-.327.07-.66.07-1a6.97 6.97 0 00-1.5-4.33A5 5 0 0119 16v1h-6.07zM6 11a5 5 0 015 5v1H1v-1a5 5 0 015-5z" />
                 </svg>
               </div>
-              <span className="font-semibold"><strong className="text-white text-xl">{products.length}</strong> Products</span>
+              <span className="font-semibold"><strong className="text-white text-xl">{allProducts.length}</strong> Products</span>
             </div>
             <div className="flex items-center gap-3 text-slate-200 bg-white/10 backdrop-blur-sm rounded-full px-6 py-3 border border-white/20 hover:bg-white/15 transition-all duration-300">
               <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center">
@@ -127,7 +133,7 @@ export default async function Home() {
 
         {/* All Products Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {products.map((product, i) => {
+          {products.map((product: any, i: number) => {
             const categoryColors = [
               'from-purple-500 to-pink-500',
               'from-blue-500 to-cyan-500',

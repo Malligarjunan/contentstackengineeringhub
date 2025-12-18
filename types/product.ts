@@ -129,6 +129,7 @@ export interface HomePageContent {
   products_section_badge?: string;
   products_section_title?: string;
   products_section_description?: string;
+  products?: Product[]; // Referenced products to display on homepage
   
   // Platform Overview & About
   platform_video_url?: string;

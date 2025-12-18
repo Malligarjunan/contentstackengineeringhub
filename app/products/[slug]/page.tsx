@@ -14,7 +14,7 @@ interface ProductPageProps {
 }
 
 // Enable ISR - pages regenerate in the background after this time period
-export const revalidate = 120; // Revalidate every 120 seconds (2 minutes)
+export const revalidate = 10; // Revalidate every 10 seconds 
 
 // Ensure this page uses dynamic params and isn't statically optimized away
 export const dynamicParams = true;
