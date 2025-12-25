@@ -58,7 +58,7 @@ export const initLivePreview = (config: {
 export const getLivePreviewConfig = () => {
   return {
     enabled: true,
-    apiKey: process.env.CONTENTSTACK_API_KEY || '',
+    apiKey: 'bltf8cdf3fabab37ee8',
     environment: 'production',
     previewToken: 'cs516552086bfe0fd02f80ea88',
     host:  'rest-preview.contentstack.com',
