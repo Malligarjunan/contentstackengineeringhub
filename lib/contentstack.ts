@@ -581,7 +581,12 @@ export async function getHomepageContent(): Promise<any> {
       }
       
       // Return all fields in snake_case to match the Contentstack payload structure
+      // Include $ object for Live Preview edit tags
       return {
+        $: entry.$, // Live Preview edit tags
+        _metadata: entry._metadata, // Entry metadata
+        uid: entry.uid, // Entry UID
+        locale: entry.locale, // Entry locale
         hero_badge_text: entry.hero_badge_text,
         hero_title: entry.hero_title,
         hero_description: entry.hero_description,

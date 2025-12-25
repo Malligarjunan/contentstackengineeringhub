@@ -115,6 +115,12 @@ export interface TechStackCategory {
 }
 
 export interface HomePageContent {
+  // Live Preview fields
+  $?: any; // Edit tags for Live Preview
+  _metadata?: any; // Entry metadata
+  uid?: string; // Entry UID
+  locale?: string; // Entry locale
+  
   // Hero Section
   hero_badge_text?: string;
   hero_title: string;

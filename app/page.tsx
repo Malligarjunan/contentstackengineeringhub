@@ -63,11 +63,17 @@ export default async function Home() {
             </div>
           )}
 
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight leading-tight animate-fade-in-up">
+          <h1 
+            className="text-4xl md:text-6xl lg:text-7xl font-black text-white mb-6 tracking-tight leading-tight animate-fade-in-up"
+            {...(homepageContent.$?.hero_title || {})}
+          >
             {homepageContent.hero_title || 'Contentstack Engineering Knowledge Hub'}
           </h1>
 
-          <p className="text-lg md:text-2xl text-slate-200 max-w-4xl mx-auto mb-10 leading-relaxed font-medium animate-fade-in-up animation-delay-200">
+          <p 
+            className="text-lg md:text-2xl text-slate-200 max-w-4xl mx-auto mb-10 leading-relaxed font-medium animate-fade-in-up animation-delay-200"
+            {...(homepageContent.$?.hero_description || {})}
+          >
             {homepageContent.hero_description || 'Your central resource for all technical documentation, architecture, and development practices across Contentstack products.'}
           </p>
 
@@ -123,16 +129,26 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto">
         
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight">
+          <h2 
+            className="text-4xl md:text-5xl font-black text-slate-900 mb-6 leading-tight"
+            {...(homepageContent.$?.products_section_title || {})}
+          >
             {homepageContent.products_section_title || 'Browse Products by Category'}
           </h2>
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+          <p 
+            className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
+            {...(homepageContent.$?.products_section_description || {})}
+          >
             {homepageContent.products_section_description || 'Access detailed information about each product including teams, tech stack, processes, and guidelines'}
           </p>
         </div>
 
-        {/* All Products Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {/* All Products Grid - With Live Preview support for Visual Builder */}
+        <div 
+          className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+          {...(homepageContent.$?.products || {})}
+          data-add-direction="horizontal"
+        >
           {products.map((product: any, i: number) => {
             const categoryColors = [
               'from-purple-500 to-pink-500',
@@ -150,6 +166,7 @@ export default async function Home() {
                 key={product.id}
                 href={`/products/${product.slug}`}
                 className="group relative bg-white rounded-2xl p-6 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 border-slate-100 hover:border-slate-200 overflow-hidden"
+                {...(homepageContent.$?.[`products__${i}`] || {})}
               >
                 {/* Gradient accent */}
                 <div className={`absolute top-0 right-0 w-24 h-24 bg-gradient-to-br ${colorClass} opacity-5 rounded-full blur-2xl group-hover:opacity-10 transition-opacity duration-300`}></div>
@@ -200,15 +217,21 @@ export default async function Home() {
           </div>
           
           <div className="max-w-7xl mx-auto relative z-10">
-            {/* Section Header */}
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">
-                {homepageContent.tech_stack_section_title || 'Tech Stack'}
-              </h2>
-              <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
-                {homepageContent.tech_stack_section_description || 'The technologies and tools that power Contentstack\'s platform'}
-              </p>
-            </div>
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <h2 
+              className="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight"
+              {...(homepageContent.$?.tech_stack_section_title || {})}
+            >
+              {homepageContent.tech_stack_section_title || 'Tech Stack'}
+            </h2>
+            <p 
+              className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
+              {...(homepageContent.$?.tech_stack_section_description || {})}
+            >
+              {homepageContent.tech_stack_section_description || 'The technologies and tools that power Contentstack\'s platform'}
+            </p>
+          </div>
 
             {/* Tech Stack Grid */}
             <div className="grid md:grid-cols-2 gap-8">
@@ -324,24 +347,36 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto relative z-10">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold mb-6 shadow-lg hover:shadow-xl transition-shadow">
+            <div 
+              className="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-blue-600 text-white px-6 py-2.5 rounded-full text-sm font-bold mb-6 shadow-lg hover:shadow-xl transition-shadow"
+              {...(homepageContent.$?.architecture_section_badge || {})}
+            >
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
               </svg>
               {homepageContent.architecture_section_badge || 'Platform Architecture'}
             </div>
-            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">
+            <h2 
+              className="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight"
+              {...(homepageContent.$?.architecture_section_title || {})}
+            >
               {homepageContent.architecture_section_title || 'Built for Scale.'}
               {homepageContent.architecture_section_subtitle && (
                 <>
                   <br />
-                  <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent">
+                  <span 
+                    className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent"
+                    {...(homepageContent.$?.architecture_section_subtitle || {})}
+                  >
                     {homepageContent.architecture_section_subtitle}
                   </span>
                 </>
               )}
             </h2>
-            <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            <p 
+              className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed"
+              {...(homepageContent.$?.architecture_section_description || {})}
+            >
               {homepageContent.architecture_section_description || 'Explore our microservices architecture, cloud-native infrastructure, and the technical decisions that power millions of digital experiences worldwide.'}
             </p>
           </div>
