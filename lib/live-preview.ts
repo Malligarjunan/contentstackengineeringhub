@@ -21,12 +21,18 @@ export const initLivePreview = (config: {
       stackDetails: {
         apiKey: config.apiKey,
         environment: config.environment,
+        branch: 'main'
       },
       ssr: true, // Enable Server-Side Rendering mode
+      mode: 'builder',
       editButton: {
         enable: true, // Show edit button on hoverable elements
-        position: 'top-right',
+        includeByQueryParameter: true,
+        position: "bottom",
       },
+      editInVisualBuilderButton: {
+        enable: false
+        },
       stackSdk: {
         environment: config.environment,
         live_preview: {
@@ -34,6 +40,11 @@ export const initLivePreview = (config: {
           preview_token: config.previewToken,
           host: config.host,
         },
+        clientUrlParams: {
+          protocol: typeof window !== 'undefined' ? window.location.protocol.replace(':', '') as 'http' | 'https' : 'https',
+          host: typeof window !== 'undefined' ? window.location.hostname : 'localhost',
+          port: typeof window !== 'undefined' ? parseInt(window.location.port) || (window.location.protocol === 'https:' ? 443 : 80) : 3000,
+        }
       },
     });
 
