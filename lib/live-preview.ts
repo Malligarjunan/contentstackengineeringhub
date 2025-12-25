@@ -40,12 +40,12 @@ export const initLivePreview = (config: {
           preview_token: config.previewToken,
           host: config.host,
         },
-        clientUrlParams: {
-          protocol: typeof window !== 'undefined' ? window.location.protocol.replace(':', '') as 'http' | 'https' : 'https',
-          host: typeof window !== 'undefined' ? window.location.hostname : 'localhost',
-          port: typeof window !== 'undefined' ? parseInt(window.location.port) || (window.location.protocol === 'https:' ? 443 : 80) : 3000,
-        }
       },
+      clientUrlParams: {
+        protocol: typeof window !== 'undefined' ? window.location.protocol.replace(':', '') as 'http' | 'https' : 'https',
+        host: typeof window !== 'undefined' ? window.location.hostname : 'localhost',
+        port: typeof window !== 'undefined' ? parseInt(window.location.port) || (window.location.protocol === 'https:' ? 443 : 80) : 3000,
+      }
     });
 
     console.log('✅ Live Preview initialized successfully');
@@ -60,7 +60,7 @@ export const getLivePreviewConfig = () => {
     enabled: process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true',
     apiKey: process.env.CONTENTSTACK_API_KEY || '',
     environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
-    previewToken: process.env.CONTENTSTACK_LIVE_PREVIEW_TOKEN || '',
+    previewToken: 'cs516552086bfe0fd02f80ea88',
     host: process.env.CONTENTSTACK_LIVE_PREVIEW_HOST || 'api.contentstack.io',
   };
 };
