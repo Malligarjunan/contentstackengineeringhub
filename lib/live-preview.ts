@@ -57,11 +57,11 @@ export const initLivePreview = (config: {
 // Get Live Preview configuration (server-side only)
 export const getLivePreviewConfig = () => {
   return {
-    enabled: process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true',
+    enabled: true,
     apiKey: process.env.CONTENTSTACK_API_KEY || '',
-    environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
+    environment: 'production',
     previewToken: 'cs516552086bfe0fd02f80ea88',
-    host: process.env.CONTENTSTACK_LIVE_PREVIEW_HOST || 'api.contentstack.io',
+    host:  'rest-preview.contentstack.com',
   };
 };
 
