@@ -11,28 +11,28 @@ export const initLivePreview = (config: {
 }) => {
   if (typeof window === 'undefined') return; // Only run on client-side
 
-  if (!config.enabled) {
+  if (config.enabled != true) {
     console.log('ℹ️  Live Preview is disabled');
     return;
   }
-
+  console.log ('Live preview ------->'+config.enabled);
   try {
     ContentstackLivePreview.init({
       enable: true,
       stackDetails: {
         apiKey: config.apiKey,
-        environment: config.environment,
+        environment: 'production',
         branch: 'main'
       },
       ssr: true, // Enable Server-Side Rendering mode
       mode: 'builder',
       editButton: {
         enable: true, // Show edit button on hoverable elements
-        includeByQueryParameter: true,
-        position: "bottom",
+        includeByQueryParameter: false,
+        position: "top-right",
       },
       editInVisualBuilderButton: {
-        enable: true
+        enable: false
         },
       stackSdk: {
         environment: config.environment,
@@ -47,7 +47,7 @@ export const initLivePreview = (config: {
       clientUrlParams: {
         protocol: typeof window !== 'undefined' ? window.location.protocol.replace(':', '') as 'http' | 'https' : 'https',
         host: typeof window !== 'undefined' ? window.location.hostname : 'localhost',
-        port: typeof window !== 'undefined' ? parseInt(window.location.port) || (window.location.protocol === 'https:' ? 443 : 80) : 3000,
+        port: 443,
       }
     });
 
@@ -60,7 +60,7 @@ export const initLivePreview = (config: {
 // Get Live Preview configuration (server-side only)
 export const getLivePreviewConfig = () => {
   return {
-    enabled: process.env.CONTENTSTACK_LIVE_PREVIEW_ENABLED === 'true',
+    enabled: true,
     apiKey: process.env.CONTENTSTACK_API_KEY || '',
     environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
     previewToken: process.env.CONTENTSTACK_LIVE_PREVIEW_TOKEN || '',
