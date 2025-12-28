@@ -1,8 +1,5 @@
 @import "tailwindcss";
 
-/* Live Preview Utils CSS - Edit buttons styling for Visual Builder */
-@import "@contentstack/live-preview-utils/dist/main.css";
-
 :root {
   --background: #fafafa;
   --foreground: #171717;

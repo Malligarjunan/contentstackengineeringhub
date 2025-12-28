@@ -43,3 +43,5 @@ next-env.d.ts
 .vscode/settings.json
 
 launch.json
+# Snyk Security Extension - AI Rules (auto-generated)
+.cursor/rules/snyk_rules.mdc

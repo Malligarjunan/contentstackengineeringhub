@@ -7,6 +7,7 @@ export const initLivePreview = (config: {
   environment: string;
   previewToken: string;
   host: string;
+  deliveryToken: string;
 }) => {
   if (typeof window === 'undefined') return; // Only run on client-side
 
@@ -31,10 +32,12 @@ export const initLivePreview = (config: {
         position: "bottom",
       },
       editInVisualBuilderButton: {
-        enable: false
+        enable: true
         },
       stackSdk: {
         environment: config.environment,
+        deliveryToken: config.deliveryToken,
+        apiKey: config.apiKey,  
         live_preview: {
           enable: true,
           preview_token: config.previewToken,
@@ -62,6 +65,7 @@ export const getLivePreviewConfig = () => {
     environment: process.env.NEXT_PUBLIC_CONTENTSTACK_ENVIRONMENT || 'production',
     previewToken: process.env.CONTENTSTACK_LIVE_PREVIEW_TOKEN || '',
     host: process.env.CONTENTSTACK_LIVE_PREVIEW_HOST || 'rest-preview.contentstack.com',
+    deliveryToken: process.env.CONTENTSTACK_DELIVERY_TOKEN || '',
   };
 };
 

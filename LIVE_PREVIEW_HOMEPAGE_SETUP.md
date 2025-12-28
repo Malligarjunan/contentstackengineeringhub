@@ -58,11 +58,7 @@ Added support for **add, delete, and reorder** operations on the products array:
 
 ### 4. Live Preview CSS ✅
 
-Added official Contentstack Live Preview CSS for edit button styling:
-
-```css
-@import "@contentstack/live-preview-utils/dist/main.css";
-```
+**Note**: Live Preview Utils SDK v4.x includes CSS automatically - no manual import needed!
 
 ## Live Preview Configuration
 

@@ -10,6 +10,7 @@ interface LivePreviewProviderProps {
     environment: string;
     previewToken: string;
     host: string;
+    deliveryToken: string;
   };
 }
 
