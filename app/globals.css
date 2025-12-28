@@ -5,6 +5,57 @@
   --foreground: #171717;
 }
 
+/* Live Preview Edit Buttons - Custom Styling */
+/* These styles make the edit buttons visible and clickable in Live Preview mode */
+.cslp-edit-button,
+[data-cslp-button] {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  background: #6c5ce7;
+  color: white;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+  transition: all 0.2s ease;
+  z-index: 9999;
+  border: none;
+  outline: none;
+}
+
+.cslp-edit-button:hover,
+[data-cslp-button]:hover {
+  background: #5a4bc7;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.4);
+}
+
+/* Edit button positioning */
+[data-cslp] {
+  position: relative;
+}
+
+[data-cslp]:hover::after {
+  content: 'Edit';
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 4px 8px;
+  background: #6c5ce7;
+  color: white;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+  z-index: 9999;
+  pointer-events: auto;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

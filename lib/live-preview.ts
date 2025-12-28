@@ -11,43 +11,31 @@ export const initLivePreview = (config: {
 }) => {
   if (typeof window === 'undefined') return; // Only run on client-side
 
-  if (config.enabled != true) {
+  if (!config.enabled) {
     console.log('ℹ️  Live Preview is disabled');
     return;
   }
-  console.log ('Live preview ------->'+config.enabled);
+  
   try {
     ContentstackLivePreview.init({
       enable: true,
       stackDetails: {
         apiKey: config.apiKey,
-        environment: 'production',
-        branch: 'main'
-      },
-      ssr: true, // Enable Server-Side Rendering mode
-      mode: 'builder',
-      editButton: {
-        enable: true, // Show edit button on hoverable elements
-        includeByQueryParameter: false,
-        position: "top-right",
-      },
-      editInVisualBuilderButton: {
-        enable: false
-        },
-      stackSdk: {
         environment: config.environment,
-        deliveryToken: config.deliveryToken,
-        apiKey: config.apiKey,  
-        live_preview: {
-          enable: true,
-          preview_token: config.previewToken,
-          host: config.host,
-        },
       },
+      ssr: true, // Server-Side Rendering mode - page refreshes on content changes
+      mode: 'builder', // Supports both Live Preview and Visual Builder
+      editButton: {
+        enable: true, // Show edit buttons on hover
+        includeByQueryParameter: true, // Allow ?cslp-buttons=true for testing
+        position: "top", // Position of edit buttons
+      },
+      // Note: stackSdk is NOT needed for SSR mode (ssr: true)
+      // It's only required for CSR mode (ssr: false)
       clientUrlParams: {
         protocol: typeof window !== 'undefined' ? window.location.protocol.replace(':', '') as 'http' | 'https' : 'https',
         host: typeof window !== 'undefined' ? window.location.hostname : 'localhost',
-        port: 443,
+        port: typeof window !== 'undefined' ? (parseInt(window.location.port) || (window.location.protocol === 'https:' ? 443 : 80)) : 3000,
       }
     });
 

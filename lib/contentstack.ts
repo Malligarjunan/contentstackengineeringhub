@@ -193,6 +193,10 @@ export async function getProductBySlug(slug: string, bypassCache: boolean = fals
     if (result && result.entries && result.entries.length > 0) {
       const timestamp = new Date().toISOString();
       console.log(`✅ [ISR] Fetched product detail "${slug}" from Contentstack at ${timestamp}`);
+      
+      // Note: Live Preview edit tags ($) are automatically included by Contentstack SDK
+      // when Live Preview is enabled in the stack configuration
+      
       const product = transformProduct(result.entries[0]);
       console.log(`📝 Product detail includes: intro=${!!product.intro}, repos=${product.repositories?.length || 0}, diagrams=${product.architectureDiagrams?.length || 0}`);
       return product;
@@ -553,6 +557,9 @@ export async function getHomepageContent(): Promise<any> {
     if (result && result.entries && result.entries.length > 0) {
       const entry = result.entries[0];
       console.log('✅ Fetched homepage content from Contentstack');
+      
+      // Note: Live Preview edit tags ($) are automatically included by Contentstack SDK
+      // when Live Preview is enabled in the stack configuration
       
       // Debug: Log all fields in the entry
       console.log('📋 Homepage entry fields:', Object.keys(entry));
