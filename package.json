@@ -23,11 +23,12 @@
     "verify-techstack": "node scripts/verify-techstack.js",
     "add-techstack-field": "node scripts/add-techstack-field-to-homepage.js",
     "update-homepage-entry-techstack": "node scripts/update-homepage-entry-techstack.js",
-    "list-content-types": "node scripts/list-content-types.js"
+    "list-content-types": "node scripts/list-content-types.js",
+    "validate-credentials": "node scripts/validate-credentials.js"
   },
   "dependencies": {
     "@contentstack/delivery-sdk": "^4.10.3",
-    "@contentstack/live-preview-utils": "^3.4.0",
+    "@contentstack/live-preview-utils": "^4.1.3",
     "@contentstack/management": "^1.26.0",
     "@contentstack/personalize-edge-sdk": "^1.0.19",
     "@faker-js/faker": "^7.6.0",
