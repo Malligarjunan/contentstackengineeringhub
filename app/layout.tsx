@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import LivePreviewProvider from "@/components/LivePreviewProvider";
 import { PersonalizeProvider } from "@/components/context/PersonalizeContext";
 import { getLivePreviewConfig } from "@/lib/live-preview";
+import NextTopLoader from 'nextjs-toploader';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -44,6 +45,18 @@ export default function RootLayout({
         />
       </head>
       <body className={`${inter.variable} font-sans antialiased bg-gray-50`}>
+        {/* Top Loading Bar for Page Transitions */}
+        <NextTopLoader
+          color="#6366f1"
+          initialPosition={0.08}
+          crawlSpeed={200}
+          height={3}
+          crawl={true}
+          showSpinner={false}
+          easing="ease"
+          speed={200}
+          shadow="0 0 10px #6366f1,0 0 5px #6366f1"
+        />
         <PersonalizeProvider>
           <LivePreviewProvider config={livePreviewConfig} />
           <Header />
