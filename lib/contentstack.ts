@@ -6,9 +6,16 @@ import { homepageContent as localHomepageContent } from '@/data/homepage';
 // Lazy initialization of Contentstack Stack
 let ContentstackStack: any = null;
 
-function getStack() {
+function getStack(searchParams?: { [key: string]: string | string[] | undefined }) {
   // Return existing instance if already initialized
-  if (ContentstackStack) return ContentstackStack;
+  
+  if (ContentstackStack) {
+    // Apply Live Preview query params if provided
+    if (searchParams) {
+      ContentstackStack.livePreviewQuery(searchParams);
+    }
+    return ContentstackStack;
+  }
 
   // Check if Contentstack is configured
   const isConfigured = 
@@ -45,6 +52,12 @@ function getStack() {
     }
 
     ContentstackStack = contentstack.stack(stackConfig);
+    
+    // Apply Live Preview query params if provided
+    if (searchParams) {
+      ContentstackStack.livePreviewQuery(searchParams);
+    }
+    
     console.log('✅ Contentstack SDK initialized successfully');
     return ContentstackStack;
   } catch (error) {
@@ -58,8 +71,8 @@ function getStack() {
  * This is a lightweight version that only includes essential fields for cards
  * Optimized for ISR - separate cache from detailed product pages
  */
-export async function getAllProducts(): Promise<Product[]> {
-  const stack = getStack();
+export async function getAllProducts(searchParams?: { [key: string]: string | string[] | undefined }): Promise<Product[]> {
+  const stack = getStack(searchParams);
   
   // Fallback to local data if Contentstack is not configured
   if (!stack) {
@@ -108,8 +121,8 @@ export async function getAllProducts(): Promise<Product[]> {
  * Use this for the products listing page (/products)
  * Separate from homepage to avoid cache conflicts
  */
-export async function getAllProductsDetailed(): Promise<Product[]> {
-  const stack = getStack();
+export async function getAllProductsDetailed(searchParams?: { [key: string]: string | string[] | undefined }): Promise<Product[]> {
+  const stack = getStack(searchParams);
   
   // Fallback to local data if Contentstack is not configured
   if (!stack) {
@@ -157,8 +170,12 @@ export async function getAllProductsDetailed(): Promise<Product[]> {
  * This is specifically for product detail pages with separate caching
  * Falls back to local data if Contentstack is not configured
  */
-export async function getProductBySlug(slug: string, bypassCache: boolean = false): Promise<Product | null> {
-  const stack = getStack();
+export async function getProductBySlug(
+  slug: string, 
+  searchParams?: { [key: string]: string | string[] | undefined },
+  bypassCache: boolean = false
+): Promise<Product | null> {
+  const stack = getStack(searchParams);
   
   // Fallback to local data if Contentstack is not configured
   if (!stack) {
@@ -215,8 +232,8 @@ export async function getProductBySlug(slug: string, bypassCache: boolean = fals
  * Get all product slugs for static page generation
  * Falls back to local data if Contentstack is not configured
  */
-export async function getAllProductSlugs(): Promise<string[]> {
-  const stack = getStack();
+export async function getAllProductSlugs(searchParams?: { [key: string]: string | string[] | undefined }): Promise<string[]> {
+  const stack = getStack(searchParams);
   
   // Fallback to local data if Contentstack is not configured
   if (!stack) {
@@ -365,34 +382,26 @@ function transformProduct(entry: any): Product {
   const fieldName = entry.introduction ? 'introduction' : 'intro';
   
   if (introField) {
-    console.log(`🔍 ${fieldName} field type for "${entry.title}":`, typeof introField);
     
     if (typeof introField === 'string') {
       // Direct HTML string
       introContent = introField;
-      console.log(`✅ Product "${entry.title}" ${fieldName} field is HTML string (${introContent.length} chars)`);
     } else if (typeof introField === 'object') {
       // Check different object formats
       if (introField.html) {
         // Object with html property
         introContent = introField.html;
-        console.log(`✅ Product "${entry.title}" ${fieldName} field has .html property (${introContent.length} chars)`);
       } else if (introField.children || Array.isArray(introField)) {
         // JSON RTE format - attempt basic conversion
-        console.log(`⚠️  ${fieldName} field is in JSON RTE format, attempting basic conversion`);
         try {
           // Basic JSON RTE to HTML conversion
           introContent = convertJsonRteToHtml(introField);
-          if (introContent) {
-            console.log(`✅ Converted JSON RTE to HTML (${introContent.length} chars)`);
-          }
         } catch (error) {
           console.error('❌ Error converting JSON RTE:', error);
           introContent = '';
         }
       } else {
         // Unknown object format - log it
-        console.log(`⚠️  ${fieldName} field object format:`, Object.keys(introField));
         // Try to stringify and use as-is if it looks like HTML
         const stringified = JSON.stringify(introField);
         if (stringified.includes('<') && stringified.includes('>')) {
@@ -400,13 +409,6 @@ function transformProduct(entry: any): Product {
         }
       }
     }
-  }
-  
-  // Final log
-  if (introContent && introContent.length > 0) {
-    console.log(`✅ Product "${entry.title}" ${fieldName} field ready: ${introContent.substring(0, 100)}...`);
-  } else {
-    console.log(`⚠️  Product "${entry.title}" has no intro/introduction field or conversion failed`);
   }
   
   return {
@@ -532,8 +534,8 @@ function transformHelpfulLinks(links: any[]): any[] {
  * Fetch homepage content from Contentstack
  * Falls back to local data if Contentstack is not configured
  */
-export async function getHomepageContent(): Promise<any> {
-  const stack = getStack();
+export async function getHomepageContent(searchParams: { [key: string]: string | string[] | undefined }): Promise<any> {
+  const stack = getStack(searchParams);
   
   // Fallback to local data if Contentstack is not configured
   if (!stack) {
@@ -562,8 +564,6 @@ export async function getHomepageContent(): Promise<any> {
       // when Live Preview is enabled in the stack configuration
       
       // Debug: Log all fields in the entry
-      console.log('📋 Homepage entry fields:', Object.keys(entry));
-      console.log('🔍 products field:', entry.products);
       
       // Transform release process group field
       let release_process = null;

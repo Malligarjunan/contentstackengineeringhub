@@ -10,14 +10,14 @@ import PersonalizedCTA from "@/components/PersonalizedCTA";
 // Force dynamic rendering - always fetch fresh content
 export const dynamic = 'force-dynamic';
 
-export default async function Home() {
+export default async function Home({searchParams}: {searchParams: { [key: string]: string | string[] | undefined }}) {
   // Fetch homepage content from Contentstack
   let homepageContent;
   let allProducts;
-
+  let resolvedSearchParams = await searchParams;
   try {
     [homepageContent, allProducts] = await Promise.all([
-      getHomepageContent(),
+      getHomepageContent(resolvedSearchParams),
       getAllProducts() // Fallback if no product references
     ]);
   } catch (error) {

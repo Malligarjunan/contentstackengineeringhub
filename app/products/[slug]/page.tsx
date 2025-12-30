@@ -11,6 +11,7 @@ interface ProductPageProps {
   params: Promise<{
     slug: string;
   }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
 // Enable ISR - pages regenerate in the background after this time period
@@ -27,26 +28,19 @@ export async function generateStaticParams() {
   }));
 }
 
-export default async function ProductPage({ params }: ProductPageProps) {
+export default async function ProductPage({ params, searchParams }: ProductPageProps) {
   const { slug } = await params;
+  const resolvedSearchParams = await searchParams;
   
-  // Fetch product data from Contentstack
-  // Live Preview mode is handled by LivePreviewProduct client component
-  const product = await getProductBySlug(slug);
+  // Fetch product data from Contentstack with Live Preview support
+  const product = await getProductBySlug(slug, resolvedSearchParams);
 
   if (!product) {
     notFound();
   }
-  
-  // Debug logging for intro field
-  console.log(`🔍 Product "${product.title}" intro field check:`, {
-    hasIntro: !!product.intro,
-    introLength: product.intro?.length || 0,
-    introPreview: product.intro?.substring(0, 200) || 'N/A'
-  });
 
   // Wrap content with Live Preview for real-time updates
-  return (
+  return( 
     <LivePreviewProduct>
       {/* Lytics Product Visit Tracking */}
       <LyticsProductTracker 

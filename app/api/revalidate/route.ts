@@ -21,8 +21,15 @@ export async function GET(request: NextRequest) {
   try {
     console.log('🔄 Starting revalidation for all product pages...');
     
-    // Fetch all product slugs from Contentstack
-    const slugs = await getAllProductSlugs();
+    // Extract search params from the request URL for Live Preview support
+    const { searchParams } = new URL(request.url);
+    const searchParamsObj: { [key: string]: string | string[] | undefined } = {};
+    searchParams.forEach((value, key) => {
+      searchParamsObj[key] = value;
+    });
+    
+    // Fetch all product slugs from Contentstack (with Live Preview support)
+    const slugs = await getAllProductSlugs(searchParamsObj);
     
     console.log(`📋 Found ${slugs.length} product slugs`);
     
