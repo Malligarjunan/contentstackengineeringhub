@@ -26,7 +26,7 @@ export const initLivePreview = (config: {
       ssr: true, // Server-Side Rendering mode - page refreshes on content changes
       mode: 'builder', // Supports both Live Preview and Visual Builder
       editButton: {
-        enable: true, // Show edit buttons on hover
+        enable: false, // Show edit buttons on hover
         includeByQueryParameter: true, // Allow ?cslp-buttons=true for testing
         position: "top", // Position of edit buttons
       },
