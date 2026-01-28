@@ -26,10 +26,11 @@ export const initLivePreview = (config: {
       ssr: true, // Server-Side Rendering mode - page refreshes on content changes
       mode: 'builder', // Supports both Live Preview and Visual Builder
       editButton: {
-        enable: false, // Show edit buttons on hover
+        enable: true, // Show edit buttons on hover
         includeByQueryParameter: true, // Allow ?cslp-buttons=true for testing
         position: "top", // Position of edit buttons
       },
+      editInVisualBuilderButton: {enable: false},
       // Note: stackSdk is NOT needed for SSR mode (ssr: true)
       // It's only required for CSR mode (ssr: false)
       clientUrlParams: {
